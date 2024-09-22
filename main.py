@@ -1,6 +1,7 @@
 import fitz
 import io
 from PIL import Image
+import base64
 import requests
 
 def pdf_convert(file):
@@ -33,14 +34,29 @@ def pdf_convert(file):
                 # Creates filename for image
                 image_filename = f"image_page{page_num}_{img_index}.{image_ext}"
 
-                # Appends image to image list
-                # image.save(image_filename)
-                images.append(image_filename)
+                # Creates buffer in memory
+                buffer = io.BytesIO()
+
+                # Saves image in memory
+                image.save(buffer, format=image.format or "PNG")
+
+                # Encodes to base64
+                image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+                # Appends base64-encoded image to image list
+                images.append(image_base64)
 
     return text, images
 
-def llava_description(image):
+def llava_description(image_base64):
+    
+    # Create payload for API request
+    payload = {
+        "model": "llava",
+        "prompt": "Explain this image in detail",
+        "images": [image_base64]
+    }
 
 text, images = pdf_convert('CRAM Challenge System Under Evaluation.pdf')
-print(text)
-print(images)
+#print(text)
+#print(images)
