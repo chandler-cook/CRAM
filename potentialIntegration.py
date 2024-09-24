@@ -4,6 +4,7 @@
 import fitz  # PyMuPDF
 import io
 import os
+import bitsandbytes as bnb
 from PIL import Image
 import base64
 import requests
