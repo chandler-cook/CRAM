@@ -118,5 +118,5 @@ def process_pdf_with_llava(pdf_path):
     print(f"Final output saved to '{output_file}'")
 
 # Replace 'your_file.pdf' with your actual PDF file path
-pdf_path = 'CRAM Challenge System Under Evaluation.pdf'
+pdf_path = 'systemOne.pdf'
 process_pdf_with_llava(pdf_path)
