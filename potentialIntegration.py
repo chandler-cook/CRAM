@@ -5,121 +5,116 @@ import base64
 import requests
 import torch
 from transformers import pipeline, BitsAndBytesConfig
+import camelot
 
-# Function to convert PDF to text and base64-encoded images
-def pdf_convert(file):
-    text = ""
-    images = []
+# Function to extract text from a PDF
+def extract_text_from_pdf(pdf_path):
+    document = fitz.open(pdf_path)
+    all_text = ""
+    
+    for page_num, page in enumerate(document, start=1):
+        # Extract text from the page using PyMuPDF
+        page_text = page.get_text("text")
+        all_text += f"\n\nPage {page_num} Text:\n{page_text}"
+    
+    document.close()
+    return all_text
 
-    with fitz.open(file) as doc:
-        for page_num, page in enumerate(doc, start=1):
-            # Extract text from the page
-            text += page.get_text()
+# Function to extract and save images from a PDF
+def extract_images_from_pdf(pdf_path, output_dir="extracted_images"):
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    document = fitz.open(pdf_path)
+    image_paths = []
+    
+    for page_num in range(len(document)):
+        page = document[page_num]
+        image_list = page.get_images(full=True)
+        
+        for img_index, img in enumerate(image_list):
+            xref = img[0]
+            base_image = document.extract_image(xref)
+            image_bytes = base_image["image"]
+            image_ext = base_image["ext"]
+            image_filename = f"image_page{page_num + 1}_{img_index}.{image_ext}"
+            image_path = os.path.join(output_dir, image_filename)
             
-            # Loop over images in the current page
-            for img_index, img in enumerate(page.get_images(full=True)):
-                # Extracts the image data using xref (cross-reference ID)
-                xref = img[0]
-                base_image = doc.extract_image(xref)
-                
-                # Extract image bytes and file extension
-                image_bytes = base_image["image"]
-                image_ext = base_image["ext"]
-                
-                # Use Pillow to open the image
-                image = Image.open(io.BytesIO(image_bytes))
-                
-                # Create a filename for the image
-                image_filename = f"image_page{page_num}_{img_index}.{image_ext}"
-                
-                # Create a buffer in memory
-                buffer = io.BytesIO()
-                
-                # Save the image in memory
-                image.save(buffer, format=image.format or "PNG")
-                
-                # Encode the image to base64
-                image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-                
-                # Append the base64-encoded image to the image list
-                images.append(image_base64)
+            with open(image_path, "wb") as image_file:
+                image_file.write(image_bytes)
+            image_paths.append(image_path)
+    
+    document.close()
+    return image_paths
 
-    return text, images
+# Function to extract tables from PDF using Camelot
+def extract_tables_from_pdf(pdf_path, output_format='text'):
+    tables = camelot.read_pdf(pdf_path, pages='all', flavor='stream')  # 'stream' works well for most tables
+    table_texts = []
+    
+    for i, table in enumerate(tables):
+        if output_format == 'text':
+            table_texts.append(f"Table {i + 1}:\n{table.df.to_string(index=False, header=False)}\n")
+        elif output_format == 'csv':
+            table.to_csv(f"table_{i + 1}.csv")
+    
+    return table_texts
 
-# Function to generate detailed descriptions using LLaVA model
-def llava_description(image_base64):
-    # Define the LLaVA endpoint or load model locally if configured
-    # Here, we'll assume a local LLaVA model setup using a pipeline
-    
-    # Create a payload for API request
-    payload = {
-        "model": "llava",
-        "prompt": "Explain this image in detail",
-        "images": [image_base64]
-    }
-    
-    # Example endpoint if using a web service (replace with your actual endpoint)
-    # response = requests.post("http://localhost:8000/llava", json=payload)
-    # return response.json()["description"]
-    
-    # If using LLaVA locally, configure and use the model directly
-    model_id = "llava-hf/llava-1.5-7b-hf"
-    quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16)
-    model = pipeline("image-to-text", model=model_id, model_kwargs={"quantization_config": quantization_config})
-    
-    # Decode base64 to PIL image
-    image_data = base64.b64decode(image_base64)
-    image = Image.open(io.BytesIO(image_data)).convert("RGB")
-    
-    # Generate detailed description
-    result = model({"image": image, "prompt": payload["prompt"]})
+# Function to generate detailed descriptions for each image using LLaVA
+def llava_description(image_path, model):
+    raw_image = Image.open(image_path).convert("RGB")
+    result = model({
+        "image": raw_image, 
+        "prompt": "Describe this image in detail."
+    })
     return result[0]
 
-# Process PDF and use LLaVA for image descriptions
+# LLaVA model setup
+def setup_llava_model():
+    quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16)
+    model_id = "llava-hf/llava-1.5-7b-hf"
+    model = pipeline("image-to-text", model=model_id, model_kwargs={"quantization_config": quantization_config})
+    return model
+
+# Main function to process the PDF and integrate text, tables, and LLaVA image descriptions
 def process_pdf_with_llava(pdf_path):
-    # Extract text and base64 images from the PDF
-    text, images = pdf_convert(pdf_path)
+    # Step 1: Extract text from the PDF
+    extracted_text = extract_text_from_pdf(pdf_path)
+    print("Text Extracted from PDF:")
+    print(extracted_text)
     
-    # Initialize list to hold image descriptions
+    # Step 2: Extract images from the PDF
+    image_paths = extract_images_from_pdf(pdf_path)
+    print("Images Extracted from PDF (Paths):")
+    print(image_paths)
+    
+    # Step 3: Extract tables from the PDF
+    extracted_tables = extract_tables_from_pdf(pdf_path)
+    print("Tables Extracted from PDF:")
+    print(extracted_tables)
+
+    # Step 4: Setup LLaVA model for image descriptions
+    model = setup_llava_model()
+
+    # Step 5: Generate detailed descriptions for each image using LLaVA
     image_descriptions = []
-    
-    # Generate LLaVA descriptions for each image
-    for img_base64 in images:
-        description = llava_description(img_base64)
+    for image_path in image_paths:
+        description = llava_description(image_path, model)
         image_descriptions.append(description)
     
-    # Combine text and image descriptions
-    final_text = text
+    # Combine text, table, and image descriptions into one final output
+    final_text = extracted_text
+    for idx, table in enumerate(extracted_tables):
+        final_text += f"\n\n[Table {idx + 1}]\n{table}\n"
     for idx, description in enumerate(image_descriptions):
         final_text += f"\n\n[Image {idx + 1}]:\n{description}\n"
     
-    # Save the final output to a file
-    with open("final_output_with_llava.txt", "w") as f:
+    # Save the final output to a text file
+    output_file = "final_output_with_text_images_tables.txt"
+    with open(output_file, "w") as f:
         f.write(final_text)
-    print(f"Final text saved to 'final_output_with_llava.txt'")
+    print(f"Final output saved to '{output_file}'")
 
-# Replace 'your_file.pdf' with the path to your PDF file
+# Replace 'your_file.pdf' with your actual PDF file path
 pdf_path = 'CRAM Challenge System Under Evaluation.pdf'
 process_pdf_with_llava(pdf_path)
-
-
-#Code Explanation:
-#pdf_convert() Function:
-
-#Extracts text and base64-encoded images from the PDF.
-#Each image is stored as a base64 string for easy transfer and usage with LLaVA.
-#llava_description() Function:
-
-#Takes a base64-encoded image string and processes it with the LLaVA model to generate a detailed description.
-#You can replace the commented API call with your LLaVA API endpoint or use the local model setup as shown.
-#process_pdf_with_llava() Function:
-
-#Combines the text extracted from the PDF with detailed descriptions generated by LLaVA for each image.
-#Saves the combined output to a text file. 
-
-#How to Use:
-#Local Setup: Make sure LLaVA is installed and configured as per the setup instructions. 
-#You can use an API endpoint if LLaVA is hosted as a web service or directly use the model locally as shown.
-
-#Run the Code: Replace 'CRAM Challenge System Under Evaluation.pdf' with the path to your PDF file and run the script.
-#Review Output: The output file final_output_with_llava.txt will contain the extracted text and detailed descriptions for each image.
