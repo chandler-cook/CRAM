@@ -2,6 +2,7 @@
 
 import fitz  # PyMuPDF
 import io
+import os
 from PIL import Image
 import base64
 import requests
