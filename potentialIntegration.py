@@ -1,4 +1,5 @@
-#pip install fitz pdf2image pillow camelot-py[cv] requests transformers torch
+#pip install fitz pdf2image pillow camelot-py[cv] requests transformers torch PyPDF2==2.10.0
+
 
 import fitz  # PyMuPDF
 import io
