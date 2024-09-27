@@ -21,15 +21,16 @@ print("My dataset features:", my_dataset.features)  # Print features of the data
 def preprocess_dataset(dataset):
     text_data = []
     for example in dataset:
-        text_data.append({"text": example['prompt'], "response": str(example['response'])})  # Rename prompt to text
-    
-    # Defining the features of the dataset with text and response
+        # Keep the response as an integer
+        text_data.append({"text": example['prompt'], "response": int(example['response'])})  # Convert response to int
+
+    # Define the features with correct types: text as string and response as int
     features = Features({
         "text": Value(dtype='string'),
-        "response": Value(dtype='string')  # Keep response as a string for now
+        "response": Value(dtype='int32')  # Keep response as an integer
     })
     
-    # Create and return a dataset from the preprocessed data
+    # Return dataset with correct feature types
     return Dataset.from_dict({
         "text": [item["text"] for item in text_data], 
         "response": [item["response"] for item in text_data]
@@ -48,6 +49,24 @@ model, tokenizer = FastLanguageModel.from_pretrained(
 
 # Preparing the model for inference
 model = FastLanguageModel.for_inference(model)
+
+# Tokenizing the dataset
+def tokenize_function(examples):
+    return tokenizer(examples["text"], padding="max_length", truncation=True, max_length=max_seq_length)
+
+# Apply tokenization
+tokenized_dataset = my_dataset.map(tokenize_function, batched=True)
+
+# Add labels (responses) back to the tokenized dataset
+def add_labels(examples):
+    examples["labels"] = examples["response"]  # Add response as labels for supervised learning
+    return examples
+
+# Add labels
+tokenized_dataset = tokenized_dataset.map(add_labels, batched=True)
+
+# Check the tokenized dataset structure
+print(tokenized_dataset[0])
 
 # Function to extract the score (integer) from the model's output text
 def extract_score(output_text):
@@ -84,13 +103,13 @@ model = FastLanguageModel.get_peft_model(
 # Define and configure the trainer
 trainer = SFTTrainer(
     model=model,
-    train_dataset=my_dataset,  # Use the my_dataset for training
+    train_dataset=tokenized_dataset,  # Use the tokenized dataset for training
     dataset_text_field="text",  # Field in dataset containing text
     max_seq_length=max_seq_length,  # Maximum sequence length
     tokenizer=tokenizer,
     args=TrainingArguments(
-        per_device_train_batch_size=2,  # Batch size per device
-        gradient_accumulation_steps=4,  # Accumulate gradients over multiple steps
+        per_device_train_batch_size=2,  # Batch size per device                 
+        gradient_accumulation_steps=4,  # Accumulate gradients over multiple steps          
         warmup_steps=10,  # Number of warmup steps
         max_steps=400,  # Total number of training steps                                 
         fp16=not torch.cuda.is_bf16_supported(),  # Use FP16 precision if supported
@@ -113,5 +132,5 @@ print(f"Generated integer score: {generated_score}")
 # Saving and pushing the trained model to Hugging Face Hub
 model.save_pretrained("lora_model")  # Save model weights
 model.save_pretrained_merged("outputs", tokenizer, save_method="merged_16bit")  # Save model with merged weights
-model.push_to_hub_merged("gradams/PhysicalSecurityScoring-merged", tokenizer, save_method="merged_16bit", token=os.environ.get(hf_token))  # Push model to hub with merged weights
-model.push_to_hub("gradams/PhysicalSecurityScoring", tokenizer, save_method="lora", token=os.environ.get(hf_token))  # Push model to hub with LoRA weights
+model.push_to_hub_merged("gradams/PhysicalSecurityScoring-merged", tokenizer, save_method="merged_16bit", token=os.getenv('HF_TOKEN'))  # Push model to hub with merged weights
+model.push_to_hub("gradams/PhysicalSecurityScoring", tokenizer, save_method="lora", token=os.getenv('HF_TOKEN'))  # Push model to hub with LoRA weights
