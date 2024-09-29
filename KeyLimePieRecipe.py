@@ -103,4 +103,4 @@ def process_pdf_with_blip(pdf_path):
 
 # Replace 'systemOne.pdf' with your actual PDF file path
 pdf_path = 'C:/Users/Mitchell/Documents/GitHub/CRAM/systemOne.pdf'
-process_pdf_with_blip2(pdf_path)
+process_pdf_with_blip(pdf_path)
