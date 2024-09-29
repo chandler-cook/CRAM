@@ -1,4 +1,5 @@
-#pip install fitz pdf2image pillow camelot-py[cv] requests transformers torch PyPDF2==2.10.0 torchvision torchaudio bitsandbytes --extra-index-url https://download.pytorch.org/whl/cu118
+#pip install fitz pdf2image pillow camelot-py[cv] requests transformers torch PyPDF2==2.10.0 torchvision torchaudio bitsandbytes --extra-index-url https://download.pytorch.org/whl/cu118 einops
+
 
 import fitz  # PyMuPDF
 import io
