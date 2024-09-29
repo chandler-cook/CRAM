@@ -9,13 +9,13 @@ import camelot
 # Define model path
 MODEL_PATH = "THUDM/cogvlm2-llama3-chat-19B"
 
-# Force CPU usage if CUDA is not working
-DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+# Setup device based on CUDA availability
+DEVICE = 'cpu'  # Change to 'cuda' if you're using a GPU without Triton issues
 TORCH_TYPE = torch.float32 if DEVICE == 'cpu' else torch.float16
 
-# Load tokenizer and model, set trust_remote_code=False to avoid Triton
-tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, trust_remote_code=False)
-model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, torch_dtype=TORCH_TYPE, trust_remote_code=False).to(DEVICE).eval()
+# Load tokenizer and model with trust_remote_code enabled but no Triton dependency
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, trust_remote_code=True)
+model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, torch_dtype=TORCH_TYPE, trust_remote_code=True).to(DEVICE).eval()
 
 # Function to extract text from a PDF
 def extract_text_from_pdf(pdf_path):
