@@ -1,21 +1,17 @@
 # pip install fitz pdf2image pillow camelot-py[cv] transformers torch PyPDF2==2.10.0 torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
 import torch
 from PIL import Image
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import BlipProcessor, BlipForConditionalGeneration
 import fitz  # PyMuPDF
 import os
 import camelot
 
-# Define model path
-MODEL_PATH = "THUDM/cogvlm2-llama3-chat-19B"
-
 # Setup device based on CUDA availability
-DEVICE = 'cpu'  # Change to 'cuda' if you're using a GPU without Triton issues
-TORCH_TYPE = torch.float32 if DEVICE == 'cpu' else torch.float16
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Load tokenizer and model with trust_remote_code enabled but no Triton dependency
-tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, trust_remote_code=True)
-model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, torch_dtype=TORCH_TYPE, trust_remote_code=True).to(DEVICE).eval()
+# Load BLIP-2 processor and model
+processor = BlipProcessor.from_pretrained("Salesforce/blip2-flan-t5-xl")
+model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip2-flan-t5-xl").to(device)
 
 # Function to extract text from a PDF
 def extract_text_from_pdf(pdf_path):
@@ -61,39 +57,16 @@ def extract_tables_from_pdf(pdf_path, output_format='text'):
             table.to_csv(f"table_{i + 1}.csv")
     return table_texts
 
-# Function to generate detailed descriptions for each image using CogVLM2
-def cogvlm2_description(image_path):
+# Function to generate detailed descriptions for each image using BLIP-2
+def blip2_description(image_path):
     raw_image = Image.open(image_path).convert("RGB")
-    input_by_model = model.build_conversation_input_ids(
-        tokenizer,
-        query="Describe this image in detail.",
-        history=[],
-        images=[raw_image],
-        template_version='chat'
-    )
+    inputs = processor(images=raw_image, return_tensors="pt").to(device)
+    out = model.generate(**inputs, max_length=512)
+    caption = processor.decode(out[0], skip_special_tokens=True)
+    return caption
 
-    inputs = {
-        'input_ids': input_by_model['input_ids'].unsqueeze(0).to(DEVICE),
-        'token_type_ids': input_by_model['token_type_ids'].unsqueeze(0).to(DEVICE),
-        'attention_mask': input_by_model['attention_mask'].unsqueeze(0).to(DEVICE),
-        'images': [[input_by_model['images'][0].to(DEVICE).to(TORCH_TYPE)]],
-    }
-
-    gen_kwargs = {
-        "max_new_tokens": 2048,
-        "pad_token_id": 128002,
-    }
-
-    with torch.no_grad():
-        outputs = model.generate(**inputs, **gen_kwargs)
-        outputs = outputs[:, inputs['input_ids'].shape[1]:]
-        response = tokenizer.decode(outputs[0])
-        response = response.split("<|end_of_text|>")[0]
-    
-    return response
-
-# Main function to process the PDF and integrate text, tables, and CogVLM2 image descriptions
-def process_pdf_with_cogvlm2(pdf_path):
+# Main function to process the PDF and integrate text, tables, and BLIP-2 image descriptions
+def process_pdf_with_blip2(pdf_path):
     # Step 1: Extract text from the PDF
     extracted_text = extract_text_from_pdf(pdf_path)
     print("Text Extracted from PDF:")
@@ -109,10 +82,10 @@ def process_pdf_with_cogvlm2(pdf_path):
     print("Tables Extracted from PDF:")
     print(extracted_tables)
 
-    # Step 4: Generate detailed descriptions for each image using CogVLM2
+    # Step 4: Generate detailed descriptions for each image using BLIP-2
     image_descriptions = []
     for image_path in image_paths:
-        description = cogvlm2_description(image_path)
+        description = blip2_description(image_path)
         image_descriptions.append(description)
     
     # Combine text, table, and image descriptions into one final output
@@ -123,7 +96,7 @@ def process_pdf_with_cogvlm2(pdf_path):
         final_text += f"\n\n[Image {idx + 1}]:\n{description}\n"
     
     # Save the final output to a text file
-    output_file = "final_output_with_text_images_tables_cogvlm2.txt"
+    output_file = "final_output_with_text_images_tables_blip2.txt"
     with open(output_file, "w") as f:
         f.write(final_text)
     print(f"Final output saved to '{output_file}'")
