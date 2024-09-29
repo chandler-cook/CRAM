@@ -117,5 +117,5 @@ def process_pdf_with_cogvlm2(pdf_path):
     print(f"Final output saved to '{output_file}'")
 
 # Replace 'systemOne.pdf' with your actual PDF file path
-pdf_path = 'C:\Users\Mitchell\Documents\GitHub\CRAM\systemOne.pdf'
+pdf_path = 'C:/Users/Mitchell/Documents/GitHub/CRAM/systemOne.pdf'
 process_pdf_with_cogvlm2(pdf_path)
