@@ -7,7 +7,7 @@ from PIL import Image
 import base64
 import requests
 import torch
-from transformers import AutoModelForImageClassification, AutoProcessor
+from transformers import pipeline
 import camelot
 
 # Function to extract text from a PDF
@@ -63,19 +63,18 @@ def extract_tables_from_pdf(pdf_path, output_format='text'):
     
     return table_texts
 
-# Function to generate detailed descriptions for each image using CogVLM2
-def cogvlm2_description(image_path, processor, model):
+# Use Hugging Face pipeline for generating detailed descriptions for each image
+def cogvlm2_description(image_path, pipe):
     raw_image = Image.open(image_path).convert("RGB")
-    inputs = processor(images=raw_image, return_tensors="pt").to("cuda" if torch.cuda.is_available() else "cpu")
-    outputs = model.generate(**inputs, num_beams=5, max_length=512, early_stopping=True)
-    return processor.decode(outputs[0], skip_special_tokens=True)
+    # Generate the description using the pipeline
+    description = pipe([{"role": "user", "content": "Describe this image in detail."}], images=[raw_image])
+    return description[0]["generated_text"]
 
-# CogVLM2 model setup
-def setup_cogvlm2_model():
-    model_name = "THUDM/cogvlm2"  # Ensure you are using the correct model
-    processor = AutoProcessor.from_pretrained(model_name)
-    model = AutoModelForImageClassification.from_pretrained(model_name).to("cuda" if torch.cuda.is_available() else "cpu")
-    return processor, model
+# Setup the Hugging Face pipeline with CogVLM2
+def setup_cogvlm2_pipeline():
+    # Define the pipeline with the correct model and trust_remote_code=True
+    pipe = pipeline("text-generation", model="THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
+    return pipe
 
 # Main function to process the PDF and integrate text, tables, and CogVLM2 image descriptions
 def process_pdf_with_cogvlm2(pdf_path):
@@ -94,13 +93,13 @@ def process_pdf_with_cogvlm2(pdf_path):
     print("Tables Extracted from PDF:")
     print(extracted_tables)
 
-    # Step 4: Setup CogVLM2 model for image descriptions
-    processor, model = setup_cogvlm2_model()
+    # Step 4: Setup CogVLM2 pipeline for image descriptions
+    pipe = setup_cogvlm2_pipeline()
 
     # Step 5: Generate detailed descriptions for each image using CogVLM2
     image_descriptions = []
     for image_path in image_paths:
-        description = cogvlm2_description(image_path, processor, model)
+        description = cogvlm2_description(image_path, pipe)
         image_descriptions.append(description)
     
     # Combine text, table, and image descriptions into one final output
