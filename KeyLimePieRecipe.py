@@ -9,9 +9,9 @@ import camelot
 # Setup device based on CUDA availability
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Load BLIP-2 processor and model
-processor = BlipProcessor.from_pretrained("Salesforce/blip2-flan-t5-xl")
-model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip2-flan-t5-xl").to(device)
+# Load BLIP processor and model (using BLIP-1 instead of BLIP-2)
+processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base").to(device)
 
 # Function to extract text from a PDF
 def extract_text_from_pdf(pdf_path):
@@ -57,16 +57,16 @@ def extract_tables_from_pdf(pdf_path, output_format='text'):
             table.to_csv(f"table_{i + 1}.csv")
     return table_texts
 
-# Function to generate detailed descriptions for each image using BLIP-2
-def blip2_description(image_path):
+# Function to generate detailed descriptions for each image using BLIP-1
+def blip_description(image_path):
     raw_image = Image.open(image_path).convert("RGB")
     inputs = processor(images=raw_image, return_tensors="pt").to(device)
     out = model.generate(**inputs, max_length=512)
     caption = processor.decode(out[0], skip_special_tokens=True)
     return caption
 
-# Main function to process the PDF and integrate text, tables, and BLIP-2 image descriptions
-def process_pdf_with_blip2(pdf_path):
+# Main function to process the PDF and integrate text, tables, and BLIP-1 image descriptions
+def process_pdf_with_blip(pdf_path):
     # Step 1: Extract text from the PDF
     extracted_text = extract_text_from_pdf(pdf_path)
     print("Text Extracted from PDF:")
@@ -82,10 +82,10 @@ def process_pdf_with_blip2(pdf_path):
     print("Tables Extracted from PDF:")
     print(extracted_tables)
 
-    # Step 4: Generate detailed descriptions for each image using BLIP-2
+    # Step 4: Generate detailed descriptions for each image using BLIP-1
     image_descriptions = []
     for image_path in image_paths:
-        description = blip2_description(image_path)
+        description = blip_description(image_path)
         image_descriptions.append(description)
     
     # Combine text, table, and image descriptions into one final output
@@ -96,7 +96,7 @@ def process_pdf_with_blip2(pdf_path):
         final_text += f"\n\n[Image {idx + 1}]:\n{description}\n"
     
     # Save the final output to a text file
-    output_file = "final_output_with_text_images_tables_blip2.txt"
+    output_file = "final_output_with_text_images_tables_blip.txt"
     with open(output_file, "w") as f:
         f.write(final_text)
     print(f"Final output saved to '{output_file}'")
