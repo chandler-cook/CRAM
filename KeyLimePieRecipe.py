@@ -1,15 +1,24 @@
-#pip install fitz pdf2image pillow camelot-py[cv] requests transformers torch PyPDF2==2.10.0 torchvision torchaudio bitsandbytes --extra-index-url https://download.pytorch.org/whl/cu118 einops triton
-
+# Install dependencies if necessary
+# pip install fitz pdf2image pillow camelot-py[cv] requests transformers torch PyPDF2==2.10.0 torchvision torchaudio bitsandbytes --extra-index-url https://download.pytorch.org/whl/cu118
 
 import fitz  # PyMuPDF
 import io
 import os
 from PIL import Image
-import base64
-import requests
 import torch
-from transformers import pipeline
+from transformers import AutoModelForCausalLM, AutoTokenizer
 import camelot
+
+# Define model path
+MODEL_PATH = "THUDM/cogvlm2-llama3-chat-19B"
+
+# Setup device based on CUDA availability
+DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+TORCH_TYPE = torch.bfloat16 if torch.cuda.is_available() and torch.cuda.get_device_capability()[0] >= 8 else torch.float16
+
+# Load tokenizer and model
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, trust_remote_code=True)
+model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, torch_dtype=TORCH_TYPE, trust_remote_code=True).to(DEVICE).eval()
 
 # Function to extract text from a PDF
 def extract_text_from_pdf(pdf_path):
@@ -64,18 +73,37 @@ def extract_tables_from_pdf(pdf_path, output_format='text'):
     
     return table_texts
 
-# Use Hugging Face pipeline for generating detailed descriptions for each image
-def cogvlm2_description(image_path, pipe):
+# Function to generate detailed descriptions for each image using CogVLM2
+def cogvlm2_description(image_path):
     raw_image = Image.open(image_path).convert("RGB")
-    # Generate the description using the pipeline
-    description = pipe([{"role": "user", "content": "Describe this image in detail."}], images=[raw_image])
-    return description[0]["generated_text"]
+    # Construct the prompt for the CogVLM2 model
+    input_by_model = model.build_conversation_input_ids(
+        tokenizer,
+        query="Describe this image in detail.",
+        history=[],
+        images=[raw_image],
+        template_version='chat'
+    )
 
-# Setup the Hugging Face pipeline with CogVLM2
-def setup_cogvlm2_pipeline():
-    # Define the pipeline with the correct model and trust_remote_code=True
-    pipe = pipeline("text-generation", model="THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
-    return pipe
+    inputs = {
+        'input_ids': input_by_model['input_ids'].unsqueeze(0).to(DEVICE),
+        'token_type_ids': input_by_model['token_type_ids'].unsqueeze(0).to(DEVICE),
+        'attention_mask': input_by_model['attention_mask'].unsqueeze(0).to(DEVICE),
+        'images': [[input_by_model['images'][0].to(DEVICE).to(TORCH_TYPE)]],
+    }
+
+    gen_kwargs = {
+        "max_new_tokens": 2048,
+        "pad_token_id": 128002,
+    }
+
+    with torch.no_grad():
+        outputs = model.generate(**inputs, **gen_kwargs)
+        outputs = outputs[:, inputs['input_ids'].shape[1]:]
+        response = tokenizer.decode(outputs[0])
+        response = response.split("<|end_of_text|>")[0]  # Remove the end-of-text token
+    
+    return response
 
 # Main function to process the PDF and integrate text, tables, and CogVLM2 image descriptions
 def process_pdf_with_cogvlm2(pdf_path):
@@ -94,13 +122,10 @@ def process_pdf_with_cogvlm2(pdf_path):
     print("Tables Extracted from PDF:")
     print(extracted_tables)
 
-    # Step 4: Setup CogVLM2 pipeline for image descriptions
-    pipe = setup_cogvlm2_pipeline()
-
-    # Step 5: Generate detailed descriptions for each image using CogVLM2
+    # Step 4: Generate detailed descriptions for each image using CogVLM2
     image_descriptions = []
     for image_path in image_paths:
-        description = cogvlm2_description(image_path, pipe)
+        description = cogvlm2_description(image_path)
         image_descriptions.append(description)
     
     # Combine text, table, and image descriptions into one final output
