@@ -1,20 +1,18 @@
-# Install dependencies if necessary
-# pip install fitz pdf2image pillow camelot-py[cv] requests transformers torch PyPDF2==2.10.0 torchvision torchaudio bitsandbytes --extra-index-url https://download.pytorch.org/whl/cu118
+# pip install fitz pdf2image pillow camelot-py[cv] transformers torch PyPDF2==2.10.0 torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
 
-import fitz  # PyMuPDF
-import io
-import os
-from PIL import Image
 import torch
+from PIL import Image
 from transformers import AutoModelForCausalLM, AutoTokenizer
+import fitz  # PyMuPDF
+import os
 import camelot
 
 # Define model path
 MODEL_PATH = "THUDM/cogvlm2-llama3-chat-19B"
 
-# Setup device based on CUDA availability
+# Setup device based on CUDA availability (no Triton dependency)
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-TORCH_TYPE = torch.bfloat16 if torch.cuda.is_available() and torch.cuda.get_device_capability()[0] >= 8 else torch.float16
+TORCH_TYPE = torch.float16 if torch.cuda.is_available() else torch.float32
 
 # Load tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, trust_remote_code=True)
@@ -24,12 +22,9 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, torch_dtype=TORCH_TYPE,
 def extract_text_from_pdf(pdf_path):
     document = fitz.open(pdf_path)
     all_text = ""
-    
     for page_num, page in enumerate(document, start=1):
-        # Extract text from the page using PyMuPDF
         page_text = page.get_text("text")
         all_text += f"\n\nPage {page_num} Text:\n{page_text}"
-    
     document.close()
     return all_text
 
@@ -40,11 +35,9 @@ def extract_images_from_pdf(pdf_path, output_dir="extracted_images"):
 
     document = fitz.open(pdf_path)
     image_paths = []
-    
     for page_num in range(len(document)):
         page = document[page_num]
         image_list = page.get_images(full=True)
-        
         for img_index, img in enumerate(image_list):
             xref = img[0]
             base_image = document.extract_image(xref)
@@ -52,31 +45,26 @@ def extract_images_from_pdf(pdf_path, output_dir="extracted_images"):
             image_ext = base_image["ext"]
             image_filename = f"image_page{page_num + 1}_{img_index}.{image_ext}"
             image_path = os.path.join(output_dir, image_filename)
-            
             with open(image_path, "wb") as image_file:
                 image_file.write(image_bytes)
             image_paths.append(image_path)
-    
     document.close()
     return image_paths
 
 # Function to extract tables from PDF using Camelot
 def extract_tables_from_pdf(pdf_path, output_format='text'):
-    tables = camelot.read_pdf(pdf_path, pages='all', flavor='stream')  # 'stream' works well for most tables
+    tables = camelot.read_pdf(pdf_path, pages='all', flavor='stream')
     table_texts = []
-    
     for i, table in enumerate(tables):
         if output_format == 'text':
             table_texts.append(f"Table {i + 1}:\n{table.df.to_string(index=False, header=False)}\n")
         elif output_format == 'csv':
             table.to_csv(f"table_{i + 1}.csv")
-    
     return table_texts
 
 # Function to generate detailed descriptions for each image using CogVLM2
 def cogvlm2_description(image_path):
     raw_image = Image.open(image_path).convert("RGB")
-    # Construct the prompt for the CogVLM2 model
     input_by_model = model.build_conversation_input_ids(
         tokenizer,
         query="Describe this image in detail.",
@@ -101,7 +89,7 @@ def cogvlm2_description(image_path):
         outputs = model.generate(**inputs, **gen_kwargs)
         outputs = outputs[:, inputs['input_ids'].shape[1]:]
         response = tokenizer.decode(outputs[0])
-        response = response.split("<|end_of_text|>")[0]  # Remove the end-of-text token
+        response = response.split("<|end_of_text|>")[0]
     
     return response
 
