@@ -1,136 +1,83 @@
-# Import necessary libraries
+import torch
 import os
-from unsloth import FastLanguageModel  # Import custom language model library
-import torch  # PyTorch for model and training operations
-from trl import SFTTrainer  # Trainer for supervised fine-tuning
-from transformers import TrainingArguments  # Arguments for model training
-from datasets import load_dataset, Dataset, Value, Features  # Dataset management
-import re  # For extracting integer score
+from transformers import Trainer, TrainingArguments, AutoModelForCausalLM, AutoTokenizer
+from concurrent.futures import ThreadPoolExecutor
+from multiprocessing import cpu_count
 
-# Retrieving Hugging Face token from environment variable
-hf_token = os.getenv('HF_TOKEN')  # Using environment variable as access token instead of hard coding
+# Get and print the number of available CPUs using multiprocessing.cpu_count()
+num_cpus = cpu_count()
+print(f"Number of available CPUs: {num_cpus}")
 
-# Defining maximum sequence length for the model
-max_seq_length = 2048
 
-# Loading the dataset from a local file with data to finetune the model
-my_dataset = load_dataset("json", data_files={"train": "my_dataset.jsonl"}, split="train")
-print("My dataset features:", my_dataset.features)  # Print features of the dataset
+# Load the model and tokenizer
+model_name = "mattshumer/Reflection-Llama-3.1-70B"
+model = AutoModelForCausalLM.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-# Function to preprocess the dataset
-def preprocess_dataset(dataset):
-    text_data = []
-    for example in dataset:
-        # Keep the response as an integer
-        text_data.append({"text": example['prompt'], "response": int(example['response'])})  # Convert response to int
+# If multiple GPUs are available, use DataParallel
+if torch.cuda.device_count() > 1:
+    print(f"Using {torch.cuda.device_count()} GPUs")
+    model = torch.nn.DataParallel(model)
 
-    # Define the features with correct types: text as string and response as int
-    features = Features({
-        "text": Value(dtype='string'),
-        "response": Value(dtype='int32')  # Keep response as an integer
-    })
-    
-    # Return dataset with correct feature types
-    return Dataset.from_dict({
-        "text": [item["text"] for item in text_data], 
-        "response": [item["response"] for item in text_data]
-    }, features=features)
-
-# Applying preprocessing to the dataset
-my_dataset = preprocess_dataset(my_dataset)
-
-# Loading the pre-trained Mistral model
-model, tokenizer = FastLanguageModel.from_pretrained(
-    model_name="unsloth/mistral-7b-bnb-4bit",  # Model name
-    max_seq_length=max_seq_length,  # Maximum sequence length
-    dtype=None,  # Data type for the model
-    load_in_4bit=True,  # Load the model in 4-bit precision
+# Define the training arguments
+training_args = TrainingArguments(
+    fp16=not torch.cuda.is_bf16_supported(),
+    bf16=torch.cuda.is_bf16_supported(),
+    logging_steps=1,
+    output_dir="outputs",
+    optim="adamw_8bit",
+    seed=3407,
+    per_device_train_batch_size=32,
+    gradient_accumulation_steps=4,
+    num_train_epochs=1,
+    dataloader_num_workers=num_cpus  # Utilizing available CPU cores for data loading
 )
 
-# Preparing the model for inference
-model = FastLanguageModel.for_inference(model)
-
-# Tokenizing the dataset
-def tokenize_function(examples):
-    return tokenizer(examples["text"], padding="max_length", truncation=True, max_length=max_seq_length)
-
-# Apply tokenization
-tokenized_dataset = my_dataset.map(tokenize_function, batched=True)
-
-# Add labels (responses) back to the tokenized dataset
-def add_labels(examples):
-    examples["labels"] = examples["response"]  # Add response as labels for supervised learning
-    return examples
-
-# Add labels
-tokenized_dataset = tokenized_dataset.map(add_labels, batched=True)
-
-# Check the tokenized dataset structure
-print(tokenized_dataset[0])
-
-# Function to extract the score (integer) from the model's output text
-def extract_score(output_text):
-    # Search for the first number in the output text
-    match = re.search(r'\d+', output_text)  # Find the first integer
-    if match:
-        return int(match.group(0))  # Return the integer as the score
-    return "Invalid score"  # Return an error if no integer is found
-
-# Function to generate integer score using the model
-def generate_integer_score(prompt):
-    inputs = tokenizer(prompt, return_tensors="pt").to("cuda:0")  # Tokenize input
-    outputs = model.generate(**inputs, max_new_tokens=3, num_return_sequences=1)  # Restrict generation length
-    output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    return extract_score(output_text)  # Post-process to ensure integer output
-
-# Performing model patching and applying Fast LoRA (Low-Rank Adaptation) weights
-model = FastLanguageModel.get_peft_model(
-    model,
-    r=16,  # Rank of the LoRA adapter
-    target_modules=["q_proj", "k_proj", "v_proj", "o_proj",  # Target modules for LoRA adaptation
-                    "gate_proj", "up_proj", "down_proj",
-                    "embed_tokens", "lm_head"],
-    lora_alpha=16,  # Scaling factor for LoRA
-    lora_dropout=0,  # Dropout rate for LoRA
-    bias="none",  # Bias setting for LoRA
-    use_gradient_checkpointing=True,  # Use gradient checkpointing to save memory
-    random_state=3407,  # Random seed
-    max_seq_length=max_seq_length,  # Maximum sequence length
-    use_rslora=False,  # Use RSLora if set to True
-    loftq_config=None,  # Configuration for LoFTQ (if any)
-)
-
-# Define and configure the trainer
-trainer = SFTTrainer(
+# Initialize the Trainer
+trainer = Trainer(
     model=model,
-    train_dataset=tokenized_dataset,  # Use the tokenized dataset for training
-    dataset_text_field="text",  # Field in dataset containing text
-    max_seq_length=max_seq_length,  # Maximum sequence length
-    tokenizer=tokenizer,
-    args=TrainingArguments(
-        per_device_train_batch_size=2,  # Batch size per device                 
-        gradient_accumulation_steps=4,  # Accumulate gradients over multiple steps          
-        warmup_steps=10,  # Number of warmup steps
-        max_steps=400,  # Total number of training steps                                 
-        fp16=not torch.cuda.is_bf16_supported(),  # Use FP16 precision if supported
-        bf16=torch.cuda.is_bf16_supported(),  # Use BF16 precision if supported
-        logging_steps=1,  # Log training metrics every step
-        output_dir="outputs",  # Directory to save training outputs
-        optim="adamw_8bit",  # Optimizer type
-        seed=3407,  # Random seed
-    ),
+    args=training_args,
+    train_dataset="my_dataset.jsonl"
 )
 
-# Training the model
-trainer.train()
+# Train the model using available processors
+def train_model():
+    trainer.train()
 
-# Test the model with an example prompt
-test_prompt = "Score this system: Doors are unlocked at all times"
-generated_score = generate_integer_score(test_prompt)
-print(f"Generated integer score: {generated_score}")
+# Test the model with multiple example prompts using multi-threading
+def generate_score_for_prompt(prompt):
+    input_ids = tokenizer(prompt, return_tensors="pt").input_ids
+    generated_output = model.generate(input_ids)
+    return int(generated_output)  # Assuming the output can be converted into an integer score
 
-# Saving and pushing the trained model to Hugging Face Hub
-model.save_pretrained("lora_model")  # Save model weights
-model.save_pretrained_merged("outputs", tokenizer, save_method="merged_16bit")  # Save model with merged weights
-model.push_to_hub_merged("gradams/PhysicalSecurityScoring-merged", tokenizer, save_method="merged_16bit", token=os.getenv('HF_TOKEN'))  # Push model to hub with merged weights
-model.push_to_hub("gradams/PhysicalSecurityScoring", tokenizer, save_method="lora", token=os.getenv('HF_TOKEN'))  # Push model to hub with LoRA weights
+# List of test prompts
+test_prompts = [
+    "Score this system: Doors are unlocked at all times",
+    "Score this system: All systems have administrator access by default",
+    "Score this system: Security patches are not applied regularly"
+]
+
+# Utilize ThreadPoolExecutor for concurrent inference
+with ThreadPoolExecutor(max_workers=num_threads) as executor:
+    scores = list(executor.map(generate_score_for_prompt, test_prompts))
+
+for prompt, score in zip(test_prompts, scores):
+    print(f"Prompt: {prompt}\nGenerated integer score: {score}\n")
+
+# Save and push the model to Hugging Face Hub
+model.module.save_pretrained("lora_model") if torch.cuda.device_count() > 1 else model.save_pretrained("lora_model")
+model.module.save_pretrained("outputs") if torch.cuda.device_count() > 1 else model.save_pretrained("outputs")
+
+if torch.cuda.device_count() > 1:
+    model.module.push_to_hub("gradams/PhysicalSecurityScoring")
+else:
+    model.push_to_hub("gradams/PhysicalSecurityScoring")
+
+# Optionally save merged weights if available
+if hasattr(model, 'save_pretrained_merged'):
+    if torch.cuda.device_count() > 1:
+        model.module.save_pretrained_merged("outputs", tokenizer, save_method="merged_16bit")
+        model.module.push_to_hub_merged("gradams/PhysicalSecurityScoring-merged", tokenizer, save_method="merged_16bit", token=os.getenv('HF_TOKEN'))
+    else:
+        model.save_pretrained_merged("outputs", tokenizer, save_method="merged_16bit")
+        model.push_to_hub_merged("gradams/PhysicalSecurityScoring-merged", tokenizer, save_method="merged_16bit", token=os.getenv('HF_TOKEN'))
