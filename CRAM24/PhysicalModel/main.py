@@ -2,12 +2,10 @@ import torch
 import os
 from transformers import Trainer, TrainingArguments, AutoModelForCausalLM, AutoTokenizer
 from concurrent.futures import ThreadPoolExecutor
-from multiprocessing import cpu_count
 
-# Get and print the number of available CPUs using multiprocessing.cpu_count()
-num_cpus = cpu_count()
-print(f"Number of available CPUs: {num_cpus}")
-
+# Get the number of CPUs allocated by Slurm (if available), or fall back to cpu_count()
+num_cpus = int(os.getenv('SLURM_CPUS_PER_TASK', os.cpu_count()))
+print(f"Number of available CPUs (from SLURM or fallback): {num_cpus}")
 
 # Load the model and tokenizer
 model_name = "mattshumer/Reflection-Llama-3.1-70B"
@@ -37,7 +35,7 @@ training_args = TrainingArguments(
 trainer = Trainer(
     model=model,
     args=training_args,
-    train_dataset="my_dataset.jsonl"
+    train_dataset="my_dataset.jsonl"  # Replace with your actual dataset
 )
 
 # Train the model using available processors
@@ -56,6 +54,9 @@ test_prompts = [
     "Score this system: All systems have administrator access by default",
     "Score this system: Security patches are not applied regularly"
 ]
+
+# Number of threads for parallel inference, using the same number of CPUs
+num_threads = num_cpus
 
 # Utilize ThreadPoolExecutor for concurrent inference
 with ThreadPoolExecutor(max_workers=num_threads) as executor:
