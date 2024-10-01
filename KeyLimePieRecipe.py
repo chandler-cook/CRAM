@@ -101,6 +101,6 @@ def process_pdf_with_llava(pdf_path):
         f.write(final_text)
     print(f"Final output saved to '{output_file}'")
 
-# Replace 'systemOne.pdf' with your actual PDF file path
+# Replace 'systemOne.pdf' with your actual PDF file path (or find a way to have the user submit a .pdf from the GUI and set the path for that)
 pdf_path = 'C:/Users/Mitchell/Documents/GitHub/CRAM/systemOne.pdf'
 process_pdf_with_llava(pdf_path)
