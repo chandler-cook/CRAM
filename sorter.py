@@ -1,10 +1,13 @@
 # Install required packages
 # pip install transformers torch
 
+import os
 from transformers import pipeline
+import torch
 
 # Initialize the Zero-Shot Classification model
-classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+device = 0 if torch.cuda.is_available() else -1  # 0 for GPU, -1 for CPU
+classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli", device=device)
 
 # Define the labels for classification
 labels = ["Software", "Hardware", "Physical"]
