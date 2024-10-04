@@ -1,9 +1,10 @@
 # Install required packages
-# pip install transformers torch
+# pip install transformers torch datasets
 
 import os
 from transformers import pipeline
 import torch
+from datasets import Dataset
 
 # Initialize the Zero-Shot Classification model
 device = 0 if torch.cuda.is_available() else -1  # 0 for GPU, -1 for CPU
@@ -20,6 +21,21 @@ def read_txt_file(file_path):
 # Classify text into categories and save into separate files
 def classify_and_save_text(file_path, output_dir="classified_output"):
     text_data = read_txt_file(file_path)
+    
+    # Filter out empty lines
+    text_data = [paragraph.strip() for paragraph in text_data if paragraph.strip()]
+
+    # Create a dataset object for more efficient processing
+    dataset = Dataset.from_dict({"text": text_data})
+
+    # Function to classify a single text
+    def classify_text(batch):
+        results = classifier(batch["text"], labels)
+        batch["classification"] = [result["labels"][0] for result in results]
+        return batch
+
+    # Apply the classification function to the dataset
+    classified_dataset = dataset.map(classify_text, batched=True, batch_size=8)
 
     # Create dictionaries to store classified text
     classified_text = {
@@ -28,17 +44,9 @@ def classify_and_save_text(file_path, output_dir="classified_output"):
         "Physical": []
     }
 
-    # Process each line or paragraph in the text
-    for paragraph in text_data:
-        if len(paragraph.strip()) == 0:
-            continue
-
-        # Get classification result for the paragraph
-        classification = classifier(paragraph, labels)
-
-        # Identify the highest scoring label
-        best_label = classification["labels"][0]
-        classified_text[best_label].append(paragraph)
+    # Distribute classified text into corresponding categories
+    for item in classified_dataset:
+        classified_text[item["classification"]].append(item["text"])
 
     # Write classified text to separate files
     for label, content in classified_text.items():
