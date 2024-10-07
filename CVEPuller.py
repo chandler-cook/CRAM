@@ -6,8 +6,8 @@ def extract_cve_lines(input_file, output_file):
         with open(input_file, 'r') as infile, open(output_file, 'w') as outfile:
             line = infile.readline()
             
-            # Use a regular expression to find all instances of 'CVE-' followed by any characters until ':'
-            matches = re.findall(r'(CVE-[^:]+):', line)
+            # Regular expression to match 'CVE-' followed by numbers and hyphens until a non-number/non-hyphen character
+            matches = re.findall(r'(CVE-\d+-\d+)[^\d-]', line)
             
             # Write each match to the output file
             for match in matches:
@@ -25,3 +25,4 @@ input_file_path = 'home/Documents/Github/classified_output/Software.txt' # Repla
 output_file_path = 'home/Documents/Github/classified_output/CVEOnly.txt'  # Replace with your output file path
 
 extract_cve_lines(input_file_path, output_file_path)
+
