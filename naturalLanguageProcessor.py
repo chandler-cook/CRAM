@@ -1,73 +1,67 @@
-# Import necessary libraries
 import os
-import re
 from transformers import pipeline
+import torch
 
-# Function to read text from a .txt file
+# Set device to use GPU (CUDA) if available
+device = 0 if torch.cuda.is_available() else -1  # GPU if available, otherwise CPU
+
+# Load the BART summarization model
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn", device=device)
+
+# Function to read the Physical.txt file
 def read_txt_file(file_path):
     with open(file_path, "r", encoding="utf-8") as file:
-        return file.read()  # read as a single string instead of line by line
+        return file.read()
 
-# Function to split the long text into smaller chunks based on punctuation
-def split_text_into_chunks(text, chunk_size=400):
-    sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)  # Split on period, question mark, etc.
+# Function to split text into chunks within the model's max token length
+def split_into_chunks(text, max_tokens=1024):
+    sentences = text.split(". ")
     chunks = []
-    current_chunk = ""
+    current_chunk = []
+    current_length = 0
     
     for sentence in sentences:
-        if len(current_chunk) + len(sentence) <= chunk_size:
-            current_chunk += sentence + " "
+        token_length = len(summarizer.tokenizer.tokenize(sentence))
+        if current_length + token_length > max_tokens:
+            chunks.append(". ".join(current_chunk) + ".")
+            current_chunk = [sentence]
+            current_length = token_length
         else:
-            chunks.append(current_chunk.strip())
-            current_chunk = sentence + " "
+            current_chunk.append(sentence)
+            current_length += token_length
     
-    if current_chunk:  # Add any remaining text in the final chunk
-        chunks.append(current_chunk.strip())
+    if current_chunk:
+        chunks.append(". ".join(current_chunk) + ".")
     
     return chunks
 
-# Function to clean up text using a summarization model
-def clean_up_text(text_data):
-    summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6", device=-1)
-    
-    cleaned_text = []
-    for chunk in text_data:
-        if len(chunk.strip()) > 0:
-            summarized = summarizer(chunk, max_length=50, min_length=30, do_sample=False)
-            cleaned_text.append(summarized[0]['summary_text'] + "\n")
-    
-    return cleaned_text
-
-# Function to clean and save physical file
+# Function to process and clean the Physical.txt file
 def process_and_clean_physical_file(file_path, output_dir="classified_output"):
-    # Read the entire text from the physical file
     text_data = read_txt_file(file_path)
-    
-    # Split the text into manageable chunks
-    text_chunks = split_text_into_chunks(text_data)
-    
-    # Clean up the text
-    cleaned_text = clean_up_text(text_chunks)
-    
-    # Create output directory if not exists
+
+    # Split text into smaller chunks
+    text_chunks = split_into_chunks(text_data)
+
+    # Clean and summarize each chunk
+    cleaned_text = []
+    for chunk in text_chunks:
+        summarized = summarizer(chunk, max_length=150, min_length=50, do_sample=False)
+        cleaned_text.append(summarized[0]["summary_text"])
+
+    # Save the cleaned text into a new file
+    output_file_path = os.path.join(output_dir, "Physical_cleaned.txt")
     os.makedirs(output_dir, exist_ok=True)
     
-    # Define output path for the cleaned physical file
-    output_file_path = os.path.join(output_dir, "Physical_cleaned.txt")
-    
-    # Write cleaned text to the output file
     with open(output_file_path, "w", encoding="utf-8") as output_file:
-        output_file.writelines(cleaned_text)
+        output_file.write("\n".join(cleaned_text))
     
-    print(f"Cleaned Physical file has been saved to: {output_file_path}")
+    print(f"Physical text has been cleaned and saved to {output_file_path}")
 
-# Main function to process the physical file
-def main():
-    # File path for the classified physical file
-    physical_file_path = os.path.join("classified_output", "Physical.txt")
-    
-    # Clean and save the physical file
-    process_and_clean_physical_file(physical_file_path)
+# Specify the file path for Physical.txt
+physical_file_path = os.path.join("classified_output", "Physical.txt")
+
+# Call the function to process and clean the Physical.txt file
+process_and_clean_physical_file(physical_file_path)
 
 # Run the main function
 if __name__ == "__main__":
