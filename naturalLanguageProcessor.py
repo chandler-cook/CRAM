@@ -54,5 +54,3 @@ for label, file_path in txt_file_paths.items():
 
 txt_file_path = "final_output_with_text_images_tables_cogvlm2.txt"  # Replace with your file path
 process_and_classify_text(txt_file_path)
-txt_file_path = "final_output_with_text_images_tables_cogvlm2.txt"  # Replace with your file path
-process_and_classify_text(txt_file_path)
