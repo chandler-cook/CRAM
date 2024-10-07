@@ -1,0 +1,23 @@
+"policy but are not detecting the new vulnerabilities on the information system.",""
+"The Information Technology (IT) staff have implemented user accounts processes and monitoring procedures",""
+"and have implemented Role Based Access Control (RBAC) with four defined roles:",""
+"•","System Administrator (SA) – The SA role has “root” level privileges to all IT equipment, cybersecurity"
+"","capability and tools, and all data stored on the workstations and laptops, servers, and SANS storage"
+"","locations to include the Archive and Archive Backup locations.  All IT staff are assigned the SA role"
+"","and the IT staff is responsible for performing all cybersecurity tasks and data management tasks."
+"•","Engineering and Production (EP) – The EP role has “owner” privileges to all software applications and"
+"","tools used during product and system development, configuration management, integration, production,"
+"","fielding, and sustainment.  This role also has access to all the engineering and production data for all the"
+"","company projects.  All the company engineering and production staff are assigned the EP role."
+"•","Test Engineering (TE) – The TE role has “owner” privileges to all the software applications used to test"
+"","the company products during development and integration as well as the production units.  The TE role"
+"","also  has  “owner”  privileges 
+to  all 
+test  plans, 
+test  procedures,  product  under 
+test  configuration"
+"","information, and test data.  All company test engineering staff are assigned the TE role."
+"•","Company Management (CMgmt) – The CMgmt role has “owner” privileges to all the company sensitive"
+"","information to include Human Resources records, Payroll records, Project Management records, Legal"
+"","records, and personnel managers records to include the company Vice President and President records."
+"","All company management staff are assigned the CMgmt role."
