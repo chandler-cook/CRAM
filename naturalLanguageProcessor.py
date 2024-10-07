@@ -1,68 +1,58 @@
 import os
-from transformers import pipeline
 import torch
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
-# Set device to use GPU (CUDA) if available
-device = 0 if torch.cuda.is_available() else -1  # GPU if available, otherwise CPU
+# Define the summarization model path
+MODEL_PATH = "facebook/bart-large-cnn"
 
-# Load the BART summarization model
-summarizer = pipeline("summarization", model="facebook/bart-large-cnn", device=device)
+# Setup device based on CUDA availability
+DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+TORCH_TYPE = torch.bfloat16 if torch.cuda.is_available() and torch.cuda.get_device_capability()[0] >= 8 else torch.float16
 
-# Function to read the Physical.txt file
+# Load the tokenizer and model
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
+model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_PATH, torch_dtype=TORCH_TYPE).to(DEVICE).eval()
+
+# Function to clean up and summarize the text
+def clean_up_text(text_data):
+    # Split text into chunks to avoid input size issues
+    text_chunks = [text_data[i:i+1024] for i in range(0, len(text_data), 1024)]
+    
+    summarized_text = ""
+    
+    for chunk in text_chunks:
+        inputs = tokenizer(chunk, return_tensors="pt", truncation=True, padding="longest", max_length=1024).to(DEVICE)
+        summary_ids = model.generate(inputs["input_ids"], max_length=150, min_length=30, length_penalty=2.0, num_beams=4, early_stopping=True)
+        summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+        summarized_text += summary + "\n"
+
+    return summarized_text
+
+# Function to read the text from a file
 def read_txt_file(file_path):
     with open(file_path, "r", encoding="utf-8") as file:
         return file.read()
 
-# Function to split text into chunks within the model's max token length
-def split_into_chunks(text, max_tokens=1024):
-    sentences = text.split(". ")
-    chunks = []
-    current_chunk = []
-    current_length = 0
-    
-    for sentence in sentences:
-        token_length = len(summarizer.tokenizer.tokenize(sentence))
-        if current_length + token_length > max_tokens:
-            chunks.append(". ".join(current_chunk) + ".")
-            current_chunk = [sentence]
-            current_length = token_length
-        else:
-            current_chunk.append(sentence)
-            current_length += token_length
-    
-    if current_chunk:
-        chunks.append(". ".join(current_chunk) + ".")
-    
-    return chunks
-
 # Function to process and clean the Physical.txt file
-def process_and_clean_physical_file(file_path, output_dir="classified_output"):
+def process_and_clean_physical_file(file_path, output_dir="cleaned_output"):
+    # Read the content of the file
     text_data = read_txt_file(file_path)
 
-    # Split text into smaller chunks
-    text_chunks = split_into_chunks(text_data)
+    # Clean and summarize the text
+    cleaned_text = clean_up_text(text_data)
 
-    # Clean and summarize each chunk
-    cleaned_text = []
-    for chunk in text_chunks:
-        summarized = summarizer(chunk, max_length=150, min_length=50, do_sample=False)
-        cleaned_text.append(summarized[0]["summary_text"])
-
-    # Save the cleaned text into a new file
-    output_file_path = os.path.join(output_dir, "Physical_cleaned.txt")
+    # Write the cleaned text to a new file
+    base_name = os.path.basename(file_path)
+    cleaned_file_path = os.path.join(output_dir, f"cleaned_{base_name}")
     os.makedirs(output_dir, exist_ok=True)
     
-    with open(output_file_path, "w", encoding="utf-8") as output_file:
-        output_file.write("\n".join(cleaned_text))
+    with open(cleaned_file_path, "w", encoding="utf-8") as file:
+        file.write(cleaned_text)
     
-    print(f"Physical text has been cleaned and saved to {output_file_path}")
+    print(f"Cleaned and summarized text has been saved to '{cleaned_file_path}'.")
 
-# Specify the file path for Physical.txt
+# Define the file path for Physical.txt
 physical_file_path = os.path.join("classified_output", "Physical.txt")
 
-# Call the function to process and clean the Physical.txt file
+# Run the process to clean and summarize the Physical.txt file
 process_and_clean_physical_file(physical_file_path)
-
-# Run the main function
-if __name__ == "__main__":
-    main()
