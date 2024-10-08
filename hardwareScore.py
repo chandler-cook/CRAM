@@ -47,14 +47,14 @@ def extract_and_score_hardware(file_path):
             sentiment = sentiment_result[0]['label']
             score = sentiment_result[0]['score']
 
-            # Assign risk score based on sentiment (negative = higher risk)
+            # Adjust risk score based on sentiment
             if sentiment == 'NEGATIVE':
-                risk_score = 100 * score
+                risk_score = 100 * score  # Negative sentiment is high risk, keep it strong
             elif sentiment == 'POSITIVE':
-                risk_score = 50 * (1 - score)  # Low risk, but inverted
+                risk_score = 80 * (1 - score)  # Lower the impact of positive sentiment on risk
             else:
-                risk_score = 70  # Default medium risk score for neutral/unknown sentiments
-            
+                risk_score = 70  # Keep neutral sentiment moderate-risk
+
             total_score += risk_score
             count += 1
 
@@ -73,8 +73,10 @@ def extract_and_score_hardware(file_path):
     else:
         total_score = 0
 
-    print(f"\nFinal Hardware Resiliency Score (average): {total_score:.2f}/100")
-    return total_score
+    # Apply a final scaling to make the score closer to the desired range
+    final_score = total_score * 0.75  # Adjust this scaling factor to calibrate scores
+    print(f"\nFinal Hardware Resiliency Score (average): {final_score:.2f}/100")
+    return final_score
 
 # File path to hardware.txt
 file_path = "hardware.txt"
