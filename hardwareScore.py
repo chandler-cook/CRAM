@@ -17,28 +17,24 @@ hardware_terms = [
     "Server Rack", "Boundary Defense", "Uninterruptible Power Supply", "Miscellaneous Components"
 ]
 
-# Cap for the score to avoid going beyond 100
+# Cap for the score to ensure it doesn't go below 0
 def cap_score(score):
-    return max(0, min(score, 100))
+    return max(0, score)
 
-# Calculate weighted score per hardware based on risks
-def calculate_risk_score(hardware):
-    # Adjusted base score per hardware type
-    base_risk_score = {
-        "server": 30, "router": 25, "firewall": 20, "switch": 25, "load balancer": 15,
-        "storage array": 20, "SAN": 20, "NAS": 20, "UPS": 15, "Cisco": 30, "Dell": 25, 
-        "PowerEdge": 30, "Ethernet": 20, "Patch Panel": 10, "Tripp Lite": 10, "Power Supply": 15,
-        "RHEL": 30, "Blade": 10, "Rack": 10
+# Subtract points based on vulnerabilities
+def calculate_risk_penalty(hardware):
+    # Penalty points per hardware type based on risk factor
+    risk_penalty = {
+        "server": 10, "router": 15, "firewall": 10, "switch": 15, "load balancer": 5,
+        "storage array": 10, "SAN": 8, "NAS": 10, "UPS": 7, "Cisco": 12, "Dell": 10, 
+        "PowerEdge": 12, "Ethernet": 7, "Patch Panel": 5, "Tripp Lite": 5, "Power Supply": 8,
+        "RHEL": 12, "Blade": 5, "Rack": 7
     }
     
-    # Multiply by a risk factor (e.g., based on importance or known vulnerabilities)
-    risk_factor = 1.5  # You can adjust this to make the model more or less sensitive
-    
-    # Apply a more conservative multiplier
-    risk_score = base_risk_score.get(hardware, 10) * risk_factor
-    return cap_score(risk_score)
+    # Return penalty points for the hardware, or a default value
+    return risk_penalty.get(hardware, 5)  # Default penalty of 5
 
-# Process the hardware and calculate total score
+# Process the hardware and calculate final score
 def process_hardware_file(file_path):
     try:
         with open(file_path, 'r') as infile:
@@ -50,21 +46,20 @@ def process_hardware_file(file_path):
 
             print(f"Extracted hardware terms (deduplicated): {deduped_hardware}")
 
-            # Calculate risk scores
-            total_score = 0
+            # Start with a perfect score of 100
+            total_score = 100
             risk_result = []
+
+            # Subtract penalties for each hardware term
             for hardware in deduped_hardware:
-                score = calculate_risk_score(hardware)
-                weighted_score = cap_score(score)  # Apply the score cap
-                risk_result.append({"hardware": hardware, "score": score, "weighted_score": weighted_score})
-                total_score += weighted_score
+                penalty = calculate_risk_penalty(hardware)
+                total_score = cap_score(total_score - penalty)  # Subtract the penalty
+                risk_result.append({"hardware": hardware, "penalty": penalty})
 
             print(f"Risk results: {risk_result}")
-            print(f"Total score before capping: {total_score}")
+            print(f"Total score after applying penalties: {total_score}")
 
-            # Cap total score at 100
-            final_score = cap_score(total_score)
-            return final_score
+            return total_score
     except FileNotFoundError:
         print(f"Error: File '{file_path}' not found.")
         return None
