@@ -94,7 +94,7 @@ def engage_with_ollama(user_input, base_prompt, doc_embeddings, doc_texts, ai_mo
     return None
 
 # Localrag function to read from file, process input, and return score. This is called in the main.py to interact with with the rest of the backend
-def localrag(file_path):
+def physical_model(file_path):
     user_input = read_file_content(file_path)
     base_prompt = "Score this system based on cyber resilience, and only give a numerical score. No text or explanation."
     
