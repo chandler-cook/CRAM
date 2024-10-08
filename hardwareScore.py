@@ -1,3 +1,4 @@
+# Adjust the scoring script to improve the score calculation
 import spacy
 from transformers import pipeline
 import re
@@ -7,78 +8,89 @@ nlp = spacy.load("en_core_web_sm")
 
 # Define a custom hardware dictionary
 hardware_terms = [
+    # Network Devices
     "server", "router", "firewall", "switch", "load balancer", "storage array",
     "backup system", "network appliance", "Dell", "Cisco", "HP", "IBM", "Juniper",
-    "Fortinet", "Arista", "Nexus", "Rack", "Blade", "SAN", "NAS", "UPS", "Power Supply"
+    "Fortinet", "Arista", "Nexus", "Rack", "Blade", "SAN", "NAS", "UPS", "Power Supply",
+    "Ethernet Switch", "Layer 2 Switch", "Layer 3 Switch", "Meraki", "PowerVault",
+    "Uninterruptible Power Supply (UPS)", "Cisco Firepower", "Patch Panel", "RHEL",
+    
+    # Specific Hardware Models
+    "PowerEdge R750", "PowerVault ME5024", "Cisco Catalyst 2960-X", "MS425-32",
+    "SMT3000RM2UC", "N052-048-1U", "Tripp Lite", "RedHat Enterprise Linux",
+    
+    # Additional Items
+    "Workstation", "Rugged Latitude Extreme Laptop", "Precision 5820", "Bulk Data Storage Rack",
+    "Server Rack", "Boundary Defense", "Uninterruptible Power Supply", "Miscellaneous Components",
+    
+    # Common Servers and Racks
+    "Server Rack", "Boundary Defense and System Administrator Rack", "Test Laptop",
+    "Engineering Workstation", "Server Rack SR1", "Server Rack SR2", "Server Rack SR3", 
+    "Server Rack SR4", "Server Rack SR5", "Server Rack SR6", "Server Rack SR7",
+    "Server Rack SR8", "Server Rack SR9", "Server Rack SR10", "Server Rack SR11",
+    "Server Rack SR12", "Patch Panel", "Rack Mounted Monitor", "Cybersecurity Capability and Tools"
 ]
 
-# Adjusting the weight based on hardware criticality
-hardware_weights = {
-    "server": 1.5,  # Servers are critical, higher weight
-    "switch": 1.1,  # Important, but slightly lower than server
-    "firewall": 1.4,  # Firewalls play a crucial security role
-    "router": 1.2,  # Routers are vital but slightly less than firewalls
-    "SAN": 1.1,  # Storage Area Networks are important
-    "UPS": 1.0,  # Power supply is important
-    "Rack": 0.8,  # Racks are infrastructural
-    "Cisco": 1.2,  # Cisco products
-    "Dell": 1.0,  # Dell, balanced
-    "Ethernet": 0.9,  # Lower priority than switches and routers
-    "HP": 1.0,  # Balanced weight for common hardware
-    "Power Supply": 1.1,  # Power supply units are important
-    "Blade": 1.0,  # Blades
-    "Arista": 1.0,  # Networking vendor, balanced
-    "Juniper": 1.2,  # Networking vendor, slightly higher weight
-}
+# Cap for the score to avoid going beyond 100
+def cap_score(score):
+    if score > 100:
+        return 100
+    elif score < 0:
+        return 0
+    return score
 
-# Function to extract hardware terms from text
-def extract_hardware_terms(text):
-    doc = nlp(text)
-    extracted_terms = []
-    for token in doc:
-        if token.text.lower() in hardware_terms:
-            extracted_terms.append(token.text)
-    return extracted_terms
+# Calculate weighted score per hardware based on risks
+def calculate_risk_score(hardware):
+    # Base score per hardware
+    base_risk_score = {
+        "server": 7, "router": 8, "firewall": 6, "switch": 7, "load balancer": 6,
+        "storage array": 5, "SAN": 7, "NAS": 6, "UPS": 6, "Cisco": 8, "Dell": 9, 
+        "PowerEdge": 8, "Ethernet": 6, "Patch Panel": 4, "Tripp Lite": 4, "Power Supply": 5,
+        "RHEL": 8, "Blade": 5, "Rack": 5
+    }
+    return base_risk_score.get(hardware, 5) * 10  # Adjust weight calculation for hardware vulnerability
 
-# Function to process hardware file and calculate risk score
+# Process the hardware and calculate total score
 def process_hardware_file(file_path):
-    with open(file_path, "r", encoding="utf-8") as file:
-        text = file.read()
+    try:
+        with open(file_path, 'r') as infile:
+            text = infile.read()
+            # Extract hardware terms from text using spaCy and custom terms
+            doc = nlp(text)
+            extracted_hardware = [ent.text for ent in doc.ents if ent.text in hardware_terms]
+            deduped_hardware = list(set(extracted_hardware))  # Remove duplicates
 
-    # Extract hardware terms from the text
-    extracted_terms = extract_hardware_terms(text)
-    deduplicated_hardware_terms = list(set(extracted_terms))  # Remove duplicates
-    print(f"\nExtracted hardware terms (deduplicated): {deduplicated_hardware_terms}\n")
+            print(f"Extracted hardware terms (deduplicated): {deduped_hardware}")
 
-    # Calculate risk score based on hardware terms
-    base_risk_score = 5
-    hardware_scores = []
+            # Calculate risk scores
+            total_score = 0
+            risk_result = []
+            for hardware in deduped_hardware:
+                score = calculate_risk_score(hardware)
+                weighted_score = cap_score(score)  # Apply the score cap here
+                risk_result.append({"hardware": hardware, "score": score, "weighted_score": weighted_score})
+                total_score += weighted_score
 
-    for term in deduplicated_hardware_terms:
-        score = hardware_weights.get(term.lower(), 1.0) * base_risk_score  # Use 1.0 if no specific weight is defined
-        weighted_score = score  # Removed multiplier to avoid exaggeration
-        hardware_scores.append({"hardware": term, "score": score, "weighted_score": weighted_score})
+            print(f"Risk results: {risk_result}")
+            print(f"Total score: {total_score}")
 
-    total_score = sum(item["weighted_score"] for item in hardware_scores)
-    
-    # Cap the final score at 100
-    capped_score = min(total_score, 100)
-    print(f"Risk results: {hardware_scores}\n")
-    print(f"Total score (capped at 100): {capped_score}")
-    
-    return capped_score
+            # Cap total score at 100
+            final_score = cap_score(total_score)
+            return final_score
+    except FileNotFoundError:
+        print(f"Error: File '{file_path}' not found.")
+        return None
 
-# Function to average hardware resiliency score over multiple iterations
+# Example of averaging score over iterations
 def average_hardware_score(file_path, iterations=1):
     total_score_sum = 0
     for i in range(iterations):
         print(f"\n--- Iteration {i + 1} ---")
         total_score_sum += process_hardware_file(file_path)
-    final_score = total_score_sum / iterations
-    print(f"\nFinal Hardware Resiliency Score (average): {final_score}/100")
 
-# Define the file path for the hardware file
-hardware_file_path = "/home/user/Documents/Github/classified_output/Hardware.txt"
+    average_score = total_score_sum / iterations if iterations > 0 else 0
+    print(f"\nFinal Hardware Resiliency Score (average): {cap_score(average_score)}/100")
 
-# Run the hardware scoring process
-average_hardware_score(hardware_file_path, iterations=1)
+# Example usage
+hardware_file_path = '/home/user/Documents/Github/classified_output/Hardware.txt'  # Replace with actual path
+average_hardware_score(hardware_file_path, iterations=1)  # Run once for the final score
