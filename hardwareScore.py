@@ -5,14 +5,32 @@ import re
 # Load the spaCy model to extract general entities
 nlp = spacy.load("en_core_web_sm")
 
-# Define a custom hardware dictionary with stricter weighting
 hardware_terms = [
-    "server", "router", "firewall", "switch", "load balancer", "storage array", 
-    "backup system", "network appliance", "Dell", "Cisco", "HP", "IBM", "Juniper", 
-    "Fortinet", "Arista", "Nexus", "Rack", "Blade", "SAN", "NAS", "UPS", "Power Supply"
+    # Network Devices
+    "server", "router", "firewall", "switch", "load balancer", "storage array",
+    "backup system", "network appliance", "Dell", "Cisco", "HP", "IBM", "Juniper",
+    "Fortinet", "Arista", "Nexus", "Rack", "Blade", "SAN", "NAS", "UPS", "Power Supply",
+    "Ethernet Switch", "Layer 2 Switch", "Layer 3 Switch", "Meraki", "PowerVault",
+    "Uninterruptible Power Supply (UPS)", "Cisco Firepower", "Patch Panel", "RHEL",
+    
+    # Specific Hardware Models
+    "PowerEdge R750", "PowerVault ME5024", "Cisco Catalyst 2960-X", "MS425-32",
+    "SMT3000RM2UC", "N052-048-1U", "Tripp Lite", "RedHat Enterprise Linux",
+    
+    # Additional Items
+    "Workstation", "Rugged Latitude Extreme Laptop", "Precision 5820", "Bulk Data Storage Rack",
+    "Server Rack", "Boundary Defense", "Uninterruptible Power Supply", "Miscellaneous Components",
+    
+    # Common Servers and Racks
+    "Server Rack", "Boundary Defense and System Administrator Rack", "Test Laptop",
+    "Engineering Workstation", "Server Rack SR1", "Server Rack SR2", "Server Rack SR3", 
+    "Server Rack SR4", "Server Rack SR5", "Server Rack SR6", "Server Rack SR7",
+    "Server Rack SR8", "Server Rack SR9", "Server Rack SR10", "Server Rack SR11",
+    "Server Rack SR12", "Patch Panel", "Rack Mounted Monitor", "Cybersecurity Capability and Tools"
 ]
 
-# Define an initial risk score based on real-world data and adjust scoring
+
+# Define risk scores for hardware types
 hardware_risk_scores = {
     "server": 90,
     "router": 80,
@@ -45,7 +63,13 @@ def calculate_risk_score(hardware_list):
         # If the hardware is recognized, add its risk score
         if hardware in hardware_risk_scores:
             total_score += hardware_risk_scores[hardware]
-    return total_score
+    
+    if total_score == 0:
+        return 0
+    
+    # Adjust max_score to reflect the number of matched hardware
+    max_score = len(hardware_list) * 100
+    return (total_score / max_score) * 100
 
 # Process the hardware.txt file and extract hardware components
 def process_hardware_file(file_path):
@@ -64,13 +88,12 @@ def process_hardware_file(file_path):
     hardware_mentions = list(set(hardware_mentions))
     print(f"Extracted hardware terms (deduplicated): {hardware_mentions}")
 
-    # Calculate the total risk score
-    total_score = calculate_risk_score(hardware_mentions)
+    if not hardware_mentions:
+        print("No hardware terms found in the document.")
+        return 0
 
-    # Normalize the score to a range out of 100
-    max_score_possible = len(hardware_terms) * 100
-    final_score = (total_score / max_score_possible) * 100
-
+    # Calculate the risk score based on the extracted terms
+    final_score = calculate_risk_score(hardware_mentions)
     return final_score
 
 # Average the hardware resiliency score across multiple iterations
