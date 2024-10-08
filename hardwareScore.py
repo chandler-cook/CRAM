@@ -1,6 +1,4 @@
-# Adjust the scoring script to improve the score calculation
 import spacy
-from transformers import pipeline
 import re
 
 # Load the spaCy model to extract general entities
@@ -8,47 +6,33 @@ nlp = spacy.load("en_core_web_sm")
 
 # Define a custom hardware dictionary
 hardware_terms = [
-    # Network Devices
     "server", "router", "firewall", "switch", "load balancer", "storage array",
     "backup system", "network appliance", "Dell", "Cisco", "HP", "IBM", "Juniper",
     "Fortinet", "Arista", "Nexus", "Rack", "Blade", "SAN", "NAS", "UPS", "Power Supply",
     "Ethernet Switch", "Layer 2 Switch", "Layer 3 Switch", "Meraki", "PowerVault",
     "Uninterruptible Power Supply (UPS)", "Cisco Firepower", "Patch Panel", "RHEL",
-    
-    # Specific Hardware Models
     "PowerEdge R750", "PowerVault ME5024", "Cisco Catalyst 2960-X", "MS425-32",
     "SMT3000RM2UC", "N052-048-1U", "Tripp Lite", "RedHat Enterprise Linux",
-    
-    # Additional Items
     "Workstation", "Rugged Latitude Extreme Laptop", "Precision 5820", "Bulk Data Storage Rack",
-    "Server Rack", "Boundary Defense", "Uninterruptible Power Supply", "Miscellaneous Components",
-    
-    # Common Servers and Racks
-    "Server Rack", "Boundary Defense and System Administrator Rack", "Test Laptop",
-    "Engineering Workstation", "Server Rack SR1", "Server Rack SR2", "Server Rack SR3", 
-    "Server Rack SR4", "Server Rack SR5", "Server Rack SR6", "Server Rack SR7",
-    "Server Rack SR8", "Server Rack SR9", "Server Rack SR10", "Server Rack SR11",
-    "Server Rack SR12", "Patch Panel", "Rack Mounted Monitor", "Cybersecurity Capability and Tools"
+    "Server Rack", "Boundary Defense", "Uninterruptible Power Supply", "Miscellaneous Components"
 ]
 
 # Cap for the score to avoid going beyond 100
 def cap_score(score):
-    if score > 100:
-        return 100
-    elif score < 0:
-        return 0
-    return score
+    return max(0, min(score, 100))
 
 # Calculate weighted score per hardware based on risks
 def calculate_risk_score(hardware):
-    # Base score per hardware
+    # Adjusted base score per hardware type
     base_risk_score = {
-        "server": 7, "router": 8, "firewall": 6, "switch": 7, "load balancer": 6,
-        "storage array": 5, "SAN": 7, "NAS": 6, "UPS": 6, "Cisco": 8, "Dell": 9, 
-        "PowerEdge": 8, "Ethernet": 6, "Patch Panel": 4, "Tripp Lite": 4, "Power Supply": 5,
-        "RHEL": 8, "Blade": 5, "Rack": 5
+        "server": 5, "router": 6, "firewall": 4, "switch": 5, "load balancer": 4,
+        "storage array": 3, "SAN": 5, "NAS": 4, "UPS": 4, "Cisco": 7, "Dell": 6, 
+        "PowerEdge": 7, "Ethernet": 4, "Patch Panel": 3, "Tripp Lite": 3, "Power Supply": 4,
+        "RHEL": 7, "Blade": 3, "Rack": 3
     }
-    return base_risk_score.get(hardware, 5) * 10  # Adjust weight calculation for hardware vulnerability
+    # Apply a more conservative multiplier
+    risk_score = base_risk_score.get(hardware, 3) * 7  # Adjust weight calculation
+    return cap_score(risk_score)
 
 # Process the hardware and calculate total score
 def process_hardware_file(file_path):
@@ -67,12 +51,12 @@ def process_hardware_file(file_path):
             risk_result = []
             for hardware in deduped_hardware:
                 score = calculate_risk_score(hardware)
-                weighted_score = cap_score(score)  # Apply the score cap here
+                weighted_score = cap_score(score)  # Apply the score cap
                 risk_result.append({"hardware": hardware, "score": score, "weighted_score": weighted_score})
                 total_score += weighted_score
 
             print(f"Risk results: {risk_result}")
-            print(f"Total score: {total_score}")
+            print(f"Total score before capping: {total_score}")
 
             # Cap total score at 100
             final_score = cap_score(total_score)
