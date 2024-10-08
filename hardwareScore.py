@@ -1,9 +1,11 @@
+
 import spacy
 from transformers import pipeline
 import re
 
 # Load the spaCy model to extract general entities
 nlp = spacy.load("en_core_web_sm")
+
 
 hardware_terms = [
     # Network Devices
@@ -29,86 +31,70 @@ hardware_terms = [
     "Server Rack SR12", "Patch Panel", "Rack Mounted Monitor", "Cybersecurity Capability and Tools"
 ]
 
-
-# Define risk scores for hardware types
-hardware_risk_scores = {
-    "server": 90,
-    "router": 80,
-    "firewall": 70,
-    "switch": 65,
-    "load balancer": 75,
-    "storage array": 60,
-    "backup system": 60,
-    "network appliance": 85,
-    "Dell": 90,
-    "Cisco": 95,
-    "HP": 88,
-    "IBM": 80,
-    "Juniper": 80,
-    "Fortinet": 75,
-    "Arista": 75,
-    "Nexus": 80,
-    "Rack": 50,
-    "Blade": 60,
-    "SAN": 70,
-    "NAS": 70,
-    "UPS": 50,
-    "Power Supply": 40
+# Adjusting the weight based on hardware criticality
+hardware_weights = {
+    "server": 1.5,  # Servers are critical, higher weight
+    "switch": 1.2,  # Important, but slightly lower than server
+    "firewall": 1.4,  # Firewalls play a crucial security role
+    "router": 1.3,  # Routers are vital but slightly less than firewalls
+    "SAN": 1.3,  # Storage Area Networks are essential
+    "UPS": 1.0,  # Power supply is important but foundational
+    "Rack": 0.8,  # Racks are infrastructural but not critical to security
+    "Cisco": 1.2,  # Cisco products, often high-priority
+    "Dell": 1.0,  # Dell, common but balanced
+    "Ethernet": 0.9,  # Lower priority than switches and routers
+    "HP": 1.0,  # Balanced weight for common hardware
+    "Power Supply": 1.1,  # Power supply units can impact overall stability
+    "Blade": 1.1,  # Blades typically run important services
+    "Arista": 1.0,  # Networking vendor like Cisco, balanced
+    "Juniper": 1.2,  # Networking vendor, slightly higher weight
 }
 
-# Adjust risk score calculation dynamically based on extracted hardware components
-def calculate_risk_score(hardware_list):
-    total_score = 0
-    for hardware in hardware_list:
-        # If the hardware is recognized, add its risk score
-        if hardware in hardware_risk_scores:
-            total_score += hardware_risk_scores[hardware]
-    
-    if total_score == 0:
-        return 0
-    
-    # Adjust max_score to reflect the number of matched hardware
-    max_score = len(hardware_list) * 100
-    return (total_score / max_score) * 100
-
-# Process the hardware.txt file and extract hardware components
-def process_hardware_file(file_path):
-    with open(file_path, "r") as file:
-        text = file.read()
-    
-    # Use spaCy to extract hardware-related terms
+# Function to extract hardware terms from text
+def extract_hardware_terms(text):
     doc = nlp(text)
-    hardware_mentions = []
-
+    extracted_terms = []
     for token in doc:
         if token.text.lower() in hardware_terms:
-            hardware_mentions.append(token.text)
+            extracted_terms.append(token.text)
+    return extracted_terms
 
-    # Deduplicate the hardware mentions
-    hardware_mentions = list(set(hardware_mentions))
-    print(f"Extracted hardware terms (deduplicated): {hardware_mentions}")
+# Function to process hardware file and calculate risk score
+def process_hardware_file(file_path):
+    with open(file_path, "r", encoding="utf-8") as file:
+        text = file.read()
 
-    if not hardware_mentions:
-        print("No hardware terms found in the document.")
-        return 0
+    # Extract hardware terms from the text
+    extracted_terms = extract_hardware_terms(text)
+    deduplicated_hardware_terms = list(set(extracted_terms))  # Remove duplicates
+    print(f"\nExtracted hardware terms (deduplicated): {deduplicated_hardware_terms}\n")
 
-    # Calculate the risk score based on the extracted terms
-    final_score = calculate_risk_score(hardware_mentions)
-    return final_score
+    # Calculate risk score based on hardware terms
+    base_risk_score = 5
+    hardware_scores = []
 
-# Average the hardware resiliency score across multiple iterations
+    for term in deduplicated_hardware_terms:
+        score = hardware_weights.get(term.lower(), 1.0) * base_risk_score  # Use 1.0 if no specific weight is defined
+        weighted_score = score * 10  # Adjust as needed
+        hardware_scores.append({"hardware": term, "score": score, "weighted_score": weighted_score})
+
+    total_score = sum(item["weighted_score"] for item in hardware_scores)
+    print(f"Risk results: {hardware_scores}\n")
+    print(f"Total score: {total_score}")
+    
+    return total_score
+
+# Function to average hardware resiliency score over multiple iterations
 def average_hardware_score(file_path, iterations=1):
     total_score_sum = 0
-
     for i in range(iterations):
-        print(f"\n--- Iteration {i+1} ---")
+        print(f"\n--- Iteration {i + 1} ---")
         total_score_sum += process_hardware_file(file_path)
+    final_score = total_score_sum / iterations
+    print(f"\nFinal Hardware Resiliency Score (average): {final_score}/100")
 
-    average_score = total_score_sum / iterations
-    return average_score
+# Define the file path for the hardware file
+hardware_file_path = "/home/user/Documents/Github/classified_output/Hardware.txt"
 
-# Main function to run the hardware score calculation
-if __name__ == "__main__":
-    hardware_file_path = "/home/user/Documents/Github/classified_output/Hardware.txt"
-    final_score = average_hardware_score(hardware_file_path, iterations=1)
-    print(f"\nFinal Hardware Resiliency Score: {final_score}/100")
+# Run the hardware scoring process
+average_hardware_score(hardware_file_path, iterations=1)
