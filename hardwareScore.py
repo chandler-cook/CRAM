@@ -1,85 +1,91 @@
-# Import necessary libraries
 import spacy
 from transformers import pipeline
 import re
 
-# Load the spaCy model for entity extraction and Hugging Face sentiment analysis pipeline
+# Load the spaCy model to extract general entities
 nlp = spacy.load("en_core_web_sm")
-sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
 
-# Define a custom hardware dictionary (expandable)
+# Define a custom hardware dictionary with stricter weighting
 hardware_terms = [
-    "server", "router", "firewall", "switch", "load balancer", "storage array",
-    "backup system", "network appliance", "Dell", "Cisco", "HP", "IBM", "Juniper",
+    "server", "router", "firewall", "switch", "load balancer", "storage array", 
+    "backup system", "network appliance", "Dell", "Cisco", "HP", "IBM", "Juniper", 
     "Fortinet", "Arista", "Nexus", "Rack", "Blade", "SAN", "NAS", "UPS", "Power Supply"
 ]
 
-# Function to extract hardware terms and evaluate their context using sentiment analysis
-def extract_and_score_hardware(file_path):
-    with open(file_path, 'r') as file:
+# Define an initial risk score based on real-world data and adjust scoring
+hardware_risk_scores = {
+    "server": 90,
+    "router": 80,
+    "firewall": 70,
+    "switch": 65,
+    "load balancer": 75,
+    "storage array": 60,
+    "backup system": 60,
+    "network appliance": 85,
+    "Dell": 90,
+    "Cisco": 95,
+    "HP": 88,
+    "IBM": 80,
+    "Juniper": 80,
+    "Fortinet": 75,
+    "Arista": 75,
+    "Nexus": 80,
+    "Rack": 50,
+    "Blade": 60,
+    "SAN": 70,
+    "NAS": 70,
+    "UPS": 50,
+    "Power Supply": 40
+}
+
+# Adjust risk score calculation dynamically based on extracted hardware components
+def calculate_risk_score(hardware_list):
+    total_score = 0
+    for hardware in hardware_list:
+        # If the hardware is recognized, add its risk score
+        if hardware in hardware_risk_scores:
+            total_score += hardware_risk_scores[hardware]
+    return total_score
+
+# Process the hardware.txt file and extract hardware components
+def process_hardware_file(file_path):
+    with open(file_path, "r") as file:
         text = file.read()
-
-    # Extracting sentences and terms
-    doc = nlp(text)
-    extracted_hardware = []
-    hardware_contexts = {}
-
-    for sent in doc.sents:
-        sentence_text = sent.text.strip()
-        for hardware in hardware_terms:
-            if hardware.lower() in sentence_text.lower():
-                extracted_hardware.append(hardware)
-                if hardware not in hardware_contexts:
-                    hardware_contexts[hardware] = []
-                hardware_contexts[hardware].append(sentence_text)
-
-    # Deduplicate the extracted hardware terms
-    extracted_hardware = list(set(extracted_hardware))
     
-    # Analyzing the sentiment around each hardware context
-    hardware_scores = {}
-    for hardware, contexts in hardware_contexts.items():
-        total_score = 0
-        count = 0
-        for context in contexts:
-            # Get sentiment for each sentence
-            sentiment_result = sentiment_analyzer(context)
-            sentiment = sentiment_result[0]['label']
-            score = sentiment_result[0]['score']
+    # Use spaCy to extract hardware-related terms
+    doc = nlp(text)
+    hardware_mentions = []
 
-            # Adjust risk score based on sentiment
-            if sentiment == 'NEGATIVE':
-                risk_score = 100 * score  # Negative sentiment is high risk, keep it strong
-            elif sentiment == 'POSITIVE':
-                risk_score = 50 * (1 - score)  # Lower the impact of positive sentiment
-            else:
-                risk_score = 70  # Neutral sentiment is moderate-risk
+    for token in doc:
+        if token.text.lower() in hardware_terms:
+            hardware_mentions.append(token.text)
 
-            total_score += risk_score
-            count += 1
+    # Deduplicate the hardware mentions
+    hardware_mentions = list(set(hardware_mentions))
+    print(f"Extracted hardware terms (deduplicated): {hardware_mentions}")
 
-        # Calculate average risk score for the hardware term
-        if count > 0:
-            hardware_scores[hardware] = total_score / count
+    # Calculate the total risk score
+    total_score = calculate_risk_score(hardware_mentions)
 
-    # Output the hardware and their risk scores
-    print("Extracted hardware and calculated risk scores:")
-    for hardware, score in hardware_scores.items():
-        print(f"{hardware}: {score:.2f}")
+    # Normalize the score to a range out of 100
+    max_score_possible = len(hardware_terms) * 100
+    final_score = (total_score / max_score_possible) * 100
 
-    # Calculate total score as an average
-    if len(hardware_scores) > 0:
-        total_score = sum(hardware_scores.values()) / len(hardware_scores)
-    else:
-        total_score = 0
-
-    # Adjust final score to avoid extreme highs or lows, no additional scaling
-    final_score = total_score  # Final score directly reflects adjusted calculations
-    print(f"\nFinal Hardware Resiliency Score (average): {final_score:.2f}/100")
     return final_score
 
-# File path to hardware.txt
-file_path = "hardware.txt"
+# Average the hardware resiliency score across multiple iterations
+def average_hardware_score(file_path, iterations=1):
+    total_score_sum = 0
 
-# Call the function to process the file and calculate hardware risk score
-extract_and_score_hardware(file_path)
+    for i in range(iterations):
+        print(f"\n--- Iteration {i+1} ---")
+        total_score_sum += process_hardware_file(file_path)
+
+    average_score = total_score_sum / iterations
+    return average_score
+
+# Main function to run the hardware score calculation
+if __name__ == "__main__":
+    hardware_file_path = "/home/user/Documents/Github/classified_output/Hardware.txt"
+    final_score = average_hardware_score(hardware_file_path, iterations=1)
+    print(f"\nFinal Hardware Resiliency Score: {final_score}/100")
