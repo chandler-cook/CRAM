@@ -3,6 +3,7 @@ from transformers import pipeline
 import re
 
 # Load the spaCy model to extract general entities
+print("Loading spaCy model...")
 nlp = spacy.load("en_core_web_sm")
 
 # Define a custom hardware dictionary
@@ -20,6 +21,7 @@ def extract_hardware_terms(text):
     for token in doc:
         if token.text in hardware_terms:
             extracted_hardware.append(token.text)
+    print(f"Extracted hardware terms: {extracted_hardware}")  # Debugging print
     return list(set(extracted_hardware))
 
 # Function to assign risk scores to hardware components
@@ -38,23 +40,28 @@ def assign_risk_scores(hardware_list):
         score = risk_scores.get(hardware, 5)  # Assign a default score of 5 if not found
         risk_result.append({"hardware": hardware, "score": score, "weighted_score": score * 10})
     
+    print(f"Risk results: {risk_result}")  # Debugging print
     return risk_result
 
 # Function to calculate total score
 def calculate_total_score(risk_result):
     total_score = sum(item["weighted_score"] for item in risk_result)
+    print(f"Total score: {total_score}")  # Debugging print
     return min(100, total_score)
 
 # Function to process the hardware file
 def process_hardware_file(file_path):
     try:
+        print(f"Processing hardware file: {file_path}")
         with open(file_path, 'r', encoding='utf-8') as file:
             text = file.read()
             print(f"Extracted text from {file_path}...")
 
             # Extract hardware terms
             extracted_hardware = extract_hardware_terms(text)
-            print(f"Extracted Hardware: {extracted_hardware}")
+            if not extracted_hardware:
+                print("No hardware terms found.")  # Debugging print
+                return 0
 
             # Assign risk scores
             risk_result = assign_risk_scores(extracted_hardware)
