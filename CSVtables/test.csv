@@ -1,0 +1,51 @@
+Endpoint Name,Criticality,CVEs
+Endpoint Node Name,Low
+System Administrator Terminal,Critical
+Virtualization Manager Server,Critical
+Virtualization Manager SAN Archive,Medium
+Cybersecurity Capability & Tools Server,Critical
+Cybersecurity Capability & Tools SAN Archive,Critical
+Cybersecurity Capability & Tools SAN Archive Backup,Critical
+Audit Log Server,Critical
+Audit Log SAN Archive,Critical
+"Server Rack, Server #1 (SR1)",Critical
+"Server Rack, Server #2 (SR2)",Critical
+"Server Rack, Server #3 (SR3)",Medium
+"Server Rack, Server #4 (SR4)",Critical
+"Server Rack, Server #5 (SR5)",Medium
+"Server Rack, Server #6 (SR6)",Medium
+"Server Rack, Server #7 (SR7)",Low
+"Server Rack, Server #8 (SR8)",Low
+"Server Rack, Server #9 (SR9)",Critical
+"Server Rack, Server #10 (SR10)",Medium
+"Server Rack, Server #11 (SR11)",Critical
+"Server Rack, Server #12 (SR12)",Medium
+Engineering & Production SAN 1,Critical
+"Endpoint Node Name 
+F1",Low
+"Engineering & Production SAN 
+Archive 1 X",Low
+Engineering & Production SAN Archive 1 Backup,Critical
+"Engineering & Production SAN 2 
+X",Low
+"Engineering & Production SAN 
+Archive 2 X",Low
+Engineering & Production SAN Archive 2 Backup,Critical
+Engineering & Production SAN 3,Critical
+Test SAN,Critical
+Test SAN Archive,Critical
+Test SAN Archive Backup,Medium
+Company Management SAN,Medium
+Company Management SAN Archive,Medium
+Company Management SAN Archive Backup,Medium
+"Engineering & Production 
+(Workstation 1) X",Critical
+Engineering & Production (Workstation 2),Critical
+Engineering & Production (Workstation 3),Critical
+Engineering & Production (Workstation 4),Critical
+Test Engineering (Laptop 1),Critical
+Test Engineering (Laptop 2),Medium
+Endpoint Node Name,Low
+Company Management (Workstation 5),Low
+Company Management (Workstation 6),Low
+,Low
