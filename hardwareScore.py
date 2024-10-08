@@ -1,7 +1,4 @@
-#pip install spacy transformers
-#python -m spacy download en_core_web_sm
-
-
+# Required Libraries
 import spacy
 from transformers import pipeline
 import re
@@ -9,70 +6,87 @@ import re
 # Load the spaCy model to extract general entities
 nlp = spacy.load("en_core_web_sm")
 
-# Define a custom hardware dictionary
+# Define a custom hardware dictionary (You can expand this)
 hardware_terms = [
     "server", "router", "firewall", "switch", "load balancer", "storage array",
     "backup system", "network appliance", "Dell", "Cisco", "HP", "IBM", "Juniper", 
-    "Fortinet", "Arista", "Nexus", "Rack", "Blade", "SAN", "NAS", "UPS", "Power Supply",
-    "Ethernet", "Wi-Fi", "wireless access point", "AP", "modem", "gateway", "firewall",
-    "CPU", "GPU", "motherboard", "PCIe", "SSD", "HDD"
+    "Fortinet", "Arista", "Nexus", "Rack", "Blade", "SAN", "NAS", "UPS", "Power Supply"
 ]
 
-# Load Hugging Face's zero-shot classification pipeline
-classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
-
-# Define the labels for classification
-labels = ["High Risk", "Medium Risk", "Low Risk"]
-
-# Function to extract hardware terms using regex and spaCy
-def extract_hardware_info(text):
+# Function to extract hardware terms
+def extract_hardware_terms(text):
     doc = nlp(text)
-    extracted_terms = set()
+    extracted_hardware = set()
 
-    # Use spaCy to extract named entities
-    for ent in doc.ents:
-        if ent.label_ in ["PRODUCT", "ORG", "FAC", "GPE"]:
-            extracted_terms.add(ent.text)
-
-    # Use custom dictionary matching for hardware terms
-    for term in hardware_terms:
-        pattern = re.compile(r"\b{}\b".format(re.escape(term)), re.IGNORECASE)
-        matches = pattern.findall(text)
-        extracted_terms.update(matches)
+    # Search for hardware terms in the text
+    for token in doc:
+        if token.text in hardware_terms:
+            extracted_hardware.add(token.text)
     
-    return list(extracted_terms)
+    return list(extracted_hardware)
 
-# Function to classify hardware risk
-def classify_hardware_risk(hardware_term):
-    hypothesis_template = f"This hardware is a {{}}."
-    results = classifier(hardware_term, [hypothesis_template.format(label) for label in labels])
-    return results
+# Dummy risk scoring dictionary (for simplicity, assume it's pre-defined)
+risk_scores = {
+    "server": 5,
+    "router": 7,
+    "firewall": 9,
+    "switch": 6,
+    "Dell": 4,
+    "Cisco": 8
+}
 
-# Main function to process the hardware file and assign risk scores
+# Function to assign risk scores to extracted hardware
+def assign_risk_scores(extracted_hardware):
+    risk_result = []
+    
+    # Assign scores from the dictionary
+    for hardware in extracted_hardware:
+        score = risk_scores.get(hardware, 1)  # Default score 1 if not found
+        risk_result.append({"hardware": hardware, "score": score})
+    
+    return risk_result
+
+# Function to find the highest risk hardware
+def find_highest_risk(risk_result):
+    if isinstance(risk_result, str):
+        # In case risk_result is a string, return a default value
+        return "No valid risk data"
+    
+    print(f"Risk Results: {risk_result}")  # Debugging output
+
+    try:
+        highest_risk = max(risk_result, key=lambda x: x.get('score', 0))
+        return highest_risk
+    except TypeError as e:
+        print(f"Error: {e}")
+        return None
+
+# Function to process the hardware file
 def process_hardware_file(file_path):
-    with open(file_path, "r") as file:
-        text = file.read()
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            text = file.read()
+            print(f"Extracted text from {file_path}...")
 
-    # Step 1: Extract hardware terms from the file using both spaCy and dictionary matching
-    hardware_terms = extract_hardware_info(text)
-    print(f"Extracted Hardware: {hardware_terms}")
+            # Extract hardware terms
+            extracted_hardware = extract_hardware_terms(text)
+            print(f"Extracted Hardware: {extracted_hardware}")
 
-    # Step 2: Classify risk for each hardware entity
-    hardware_risk_data = []
-    for hardware in hardware_terms:
-        risk_result = classify_hardware_risk(hardware)
-        highest_risk = max(risk_result, key=lambda x: x['score'])
-        
-        hardware_risk_data.append({
-            "Hardware": hardware,
-            "Risk_Category": highest_risk['label'],
-            "Confidence_Score": highest_risk['score']
-        })
+            # Assign risk scores
+            risk_result = assign_risk_scores(extracted_hardware)
 
-    # Print results
-    for item in hardware_risk_data:
-        print(f"Hardware: {item['Hardware']}, Risk Category: {item['Risk_Category']}, Confidence: {item['Confidence_Score']:.2f}")
+            # Find highest risk hardware
+            highest_risk = find_highest_risk(risk_result)
 
-# Example: Call the function with the path to your hardware.txt file
-file_path = "hardware.txt"
-process_hardware_file(file_path)
+            if highest_risk:
+                print(f"The highest risk hardware is: {highest_risk['hardware']} with a score of {highest_risk['score']}")
+            else:
+                print("No valid hardware risks found.")
+    except FileNotFoundError:
+        print(f"Error: The file at {file_path} was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+hardware_file_path = 'path_to_your_hardware.txt'  # Replace with your actual path
+process_hardware_file(hardware_file_path)
