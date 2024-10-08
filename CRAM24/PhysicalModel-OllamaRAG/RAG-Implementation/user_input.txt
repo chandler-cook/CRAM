@@ -1,0 +1,36 @@
+Flood Risk Mitigation:
+The company facility has been relocated to a non-floodplain area, ensuring it is no longer susceptible to flooding. In addition, flood defenses, such as levees and automated barriers, have been successfully installed.
+Sump pumps and flood monitoring systems, complete with automated alerts and backup power, are operational to prevent water damage.
+b. Enhanced Physical Security Measures:
+24/7 security is now in place, with rotating shifts ensuring full coverage, including weekends and holidays.
+An automated access control system, using smart cards and biometric systems, secures all entrances and exits. All doors are equipped with automatic locking mechanisms that activate upon closing. Alerts notify security if any door fails to shut properly.
+The production floor now uses biometric access control, replacing outdated key locks, and all access is logged for auditing purposes.
+The after-hours alarm system monitors all entry points and incorporates redundant monitoring (telephone and cellular networks) to ensure constant coverage.
+c. Securing the Equipment Room:
+The IT equipment room is secured with advanced biometric access control. The room is always locked when unattended, and doors automatically lock when closed.
+Equipment racks and the spares cabinet now have locking mechanisms installed to prevent unauthorized access.
+Surveillance cameras are operational in the IT equipment room, providing real-time monitoring and video records for auditing.
+d. Engineering and Production Room Access:
+The Engineering and Production room is now secured with key card access control. Visitors are escorted at all times, and access logs are maintained for anyone entering the room.
+e. Test and Evaluation Room:
+The test and evaluation room has its own key card access control system. It is secured independently from the Engineering and Production room and all access is logged.
+f. Management Office Security:
+The management suite, including individual offices, is equipped with locking mechanisms. A multi-factor authentication (MFA) access system secures the main office door, and all staff must use MFA for entry.
+g. Production Floor Access:
+A smart lock system, integrated with the company’s access control, secures the Production floor door. Access logs are kept for auditing purposes, and the key is always available in the event of emergencies.
+h. Proprietary Software Security:
+The proprietary software has been encrypted, and security audits are performed regularly. Staff have been trained on secure usage, and all software is patched regularly for security updates.
+i. IT Staff Training and Structure:
+Additional IT staff have been hired, and the overworked employee has been relieved of some duties. All IT staff now receive ongoing cybersecurity training and certifications.
+Immediate funding was allocated for critical security updates and improvements to the information system.
+j. Firewall and IPS Management:
+All Firewall and IPS rulesets have been updated, and an automatic review process ensures that the rulesets remain current. The system can now automatically detect and respond to intrusions.
+k. Hardware and Software Lifecycle Management:
+All end-of-life hardware and software components have been replaced. A lifecycle management policy is in place to ensure that systems are updated before reaching end-of-life.
+l. Patching Vulnerabilities:
+A workaround process has been implemented to allow patching without breaking compatibility with critical software. Vulnerabilities have been patched, and regular audits ensure that patches are applied as soon as they become available.
+m. Up-to-Date Vulnerability Scanning:
+The Nessus scanner is regularly updated with the latest plugins, ensuring that new vulnerabilities are detected and addressed promptly.
+n. Improved Access Control and Role-Based Access:
+The System Administrator (SA) role has been restricted to necessary personnel, and access levels have been reduced based on the principle of least privilege. Regular audits ensure the right personnel have the correct access.
+Multi-factor authentication (MFA) has been implemented for all privileged access roles, including SA, EP, TE, and CMgmt.
