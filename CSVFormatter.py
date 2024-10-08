@@ -184,6 +184,46 @@ def search_csvs_in_directory(directory, substring = 'CVE'):
     return matching_files
 
 
+def process_csv_CVE_list(csv_list):
+    """
+    Reads each CSV in the list and processes rows where the first column is empty and the last column contains 'CVE'.
+    Appends the value in the last column to the last column of the previous row, and deletes the row.
+
+    Parameters:
+    csv_list (list): List of CSV file paths to process.
+    """
+    for csv_file in csv_list:
+        try:
+            # Load the CSV file into a pandas DataFrame
+            df = pd.read_csv(csv_file)
+
+            # Iterate over the rows (index is required for modification)
+            rows_to_delete = []
+            for i in range(1, len(df)):  # Start from the second row (index 1)
+                first_col_empty = pd.isna(df.iloc[i, 0])  # Check if the first column is empty
+                last_col_value = df.iloc[i, -1]  # Get the value from the last column
+
+                if first_col_empty and isinstance(last_col_value, str) and 'CVE' in str(last_col_value):
+                    # Append the current last column value to the last column of the row above it
+                    df.iloc[i - 1, -1] += f", {str(last_col_value)}"
+                    
+                    # Mark the current row for deletion
+                    rows_to_delete.append(i)
+
+            # Drop the marked rows
+            df.drop(index=rows_to_delete, inplace=True)
+
+            # Reset index after deletion (optional, if desired)
+            df.reset_index(drop=True, inplace=True)
+
+            # Save the modified CSV back to the same file (or to a new file if needed)
+            df.to_csv(csv_file, index=False)
+            print(f"Processed and saved '{csv_file}' successfully.")
+        
+        except Exception as e:
+            print(f"Error processing file {csv_file}: {e}")
+
+
 # Specify the directory path
 directory_path = "C:\\Users\\JP\\Desktop\\Personal Projects\\CRAM Work"
 
@@ -198,9 +238,4 @@ check_csv_for_cve(directory_path)
     #add_first_column_and_assign_criticality(x, output_file)
 
 cveFiles = search_csvs_in_directory(directory_path)
-if cveFiles:
-    print(f"CSV files containing the substring CVE:")
-    for csv in cveFiles:
-        print(csv)
-else:
-    print(f"No CSV files found with the substring CVE.")
+process_csv_CVE_list(cveFiles)
