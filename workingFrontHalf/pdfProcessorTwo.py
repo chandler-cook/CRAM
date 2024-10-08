@@ -5,13 +5,11 @@ from PIL import Image
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import camelot
-import os
 from transformers import pipeline
-import torch
 from datasets import Dataset
-import os
 import re
 import pandas as pd
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 # Define model path
 MODEL_PATH = "THUDM/cogvlm2-llama3-chat-19B"
@@ -299,7 +297,7 @@ def process_all_csv_files(directory, output_file):
         print(f"Error processing directory {directory}: {e}")
 
 # Example usage
-csv_directory = 'home/user/documents/Github/CSVfromTables'  # Directory containing the CSV files
+csv_directory = '/home/user/Documents/Github/CSVfromTables/'  # Directory containing the CSV files
 output_file_path = 'CVEfromCSVOutput.txt'  # Output file to store extracted CVEs
 
 process_all_csv_files(csv_directory, output_file_path)
