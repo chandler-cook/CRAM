@@ -1,89 +1,83 @@
+# Import necessary libraries
 import spacy
 from transformers import pipeline
 import re
 
-# Load the spaCy model to extract general entities
-print("Loading spaCy model...")
+# Load the spaCy model for entity extraction and Hugging Face sentiment analysis pipeline
 nlp = spacy.load("en_core_web_sm")
+sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
 
-# Define a custom hardware dictionary
+# Define a custom hardware dictionary (expandable)
 hardware_terms = [
     "server", "router", "firewall", "switch", "load balancer", "storage array",
     "backup system", "network appliance", "Dell", "Cisco", "HP", "IBM", "Juniper",
-    "Fortinet", "Arista", "Nexus", "Rack", "Blade", "SAN", "NAS", "UPS", "Power Supply",
-    "Ethernet", "Wi-Fi", "Modem", "Gateway", "APC", "NetApp", "Lenovo", "Supermicro"
+    "Fortinet", "Arista", "Nexus", "Rack", "Blade", "SAN", "NAS", "UPS", "Power Supply"
 ]
 
-# Function to extract hardware terms from text
-def extract_hardware_terms(text):
+# Function to extract hardware terms and evaluate their context using sentiment analysis
+def extract_and_score_hardware(file_path):
+    with open(file_path, 'r') as file:
+        text = file.read()
+
+    # Extracting sentences and terms
     doc = nlp(text)
     extracted_hardware = []
-    for token in doc:
-        if token.text in hardware_terms:
-            extracted_hardware.append(token.text)
-    
-    # Remove duplicates
+    hardware_contexts = {}
+
+    for sent in doc.sents:
+        sentence_text = sent.text.strip()
+        for hardware in hardware_terms:
+            if hardware.lower() in sentence_text.lower():
+                extracted_hardware.append(hardware)
+                if hardware not in hardware_contexts:
+                    hardware_contexts[hardware] = []
+                hardware_contexts[hardware].append(sentence_text)
+
+    # Deduplicate the extracted hardware terms
     extracted_hardware = list(set(extracted_hardware))
-    print(f"Extracted hardware terms (deduplicated): {extracted_hardware}")  # Debugging print
-    return extracted_hardware
-
-# Function to assign risk scores to hardware components
-def assign_risk_scores(hardware_list):
-    risk_scores = {
-        "server": 10, "router": 8, "firewall": 9, "switch": 7, "load balancer": 6,
-        "storage array": 8, "backup system": 9, "network appliance": 7, "Dell": 6,
-        "Cisco": 9, "HP": 6, "IBM": 6, "Juniper": 8, "Fortinet": 9, "Arista": 7,
-        "Nexus": 7, "Rack": 5, "Blade": 6, "SAN": 8, "NAS": 7, "UPS": 6,
-        "Power Supply": 5, "Ethernet": 6, "Wi-Fi": 5, "Modem": 4, "Gateway": 4,
-        "APC": 5, "NetApp": 8, "Lenovo": 6, "Supermicro": 7
-    }
     
-    risk_result = []
-    for hardware in hardware_list:
-        score = risk_scores.get(hardware, 5)  # Assign a default score of 5 if not found
-        risk_result.append({"hardware": hardware, "score": score, "weighted_score": score * 10})
-    
-    print(f"Risk results: {risk_result}")  # Debugging print
-    return risk_result
+    # Analyzing the sentiment around each hardware context
+    hardware_scores = {}
+    for hardware, contexts in hardware_contexts.items():
+        total_score = 0
+        count = 0
+        for context in contexts:
+            # Get sentiment for each sentence
+            sentiment_result = sentiment_analyzer(context)
+            sentiment = sentiment_result[0]['label']
+            score = sentiment_result[0]['score']
 
-# Function to calculate total score
-def calculate_total_score(risk_result):
-    total_score = sum(item["weighted_score"] for item in risk_result)
-    print(f"Total score: {total_score}")  # Debugging print
-    return min(100, total_score)
+            # Assign risk score based on sentiment (negative = higher risk)
+            if sentiment == 'NEGATIVE':
+                risk_score = 100 * score
+            elif sentiment == 'POSITIVE':
+                risk_score = 50 * (1 - score)  # Low risk, but inverted
+            else:
+                risk_score = 70  # Default medium risk score for neutral/unknown sentiments
+            
+            total_score += risk_score
+            count += 1
 
-# Function to process the hardware file
-def process_hardware_file(file_path):
-    try:
-        print(f"Processing hardware file: {file_path}")
-        with open(file_path, 'r', encoding='utf-8') as file:
-            text = file.read()
-            print(f"Extracted text from {file_path}...")
+        # Calculate average risk score for the hardware term
+        if count > 0:
+            hardware_scores[hardware] = total_score / count
 
-            # Extract hardware terms
-            extracted_hardware = extract_hardware_terms(text)
-            if not extracted_hardware:
-                print("No hardware terms found.")  # Debugging print
-                return 0
+    # Output the hardware and their risk scores
+    print("Extracted hardware and calculated risk scores:")
+    for hardware, score in hardware_scores.items():
+        print(f"{hardware}: {score:.2f}")
 
-            # Assign risk scores
-            risk_result = assign_risk_scores(extracted_hardware)
+    # Calculate total score as an average
+    if len(hardware_scores) > 0:
+        total_score = sum(hardware_scores.values()) / len(hardware_scores)
+    else:
+        total_score = 0
 
-            # Calculate total score
-            total_score = calculate_total_score(risk_result)
+    print(f"\nFinal Hardware Resiliency Score (average): {total_score:.2f}/100")
+    return total_score
 
-            return total_score
+# File path to hardware.txt
+file_path = "hardware.txt"
 
-    except FileNotFoundError:
-        print(f"Error: The file at {file_path} was not found.")
-        return 0  # Return 0 if file not found
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return 0  # Return 0 if an error occurs
-
-# Specify the file path for Hardware.txt
-hardware_file_path = "/home/user/Documents/Github/classified_output/Hardware.txt"  # Replace with correct path
-
-# Run the hardware score calculation for just one iteration
-final_score = process_hardware_file(hardware_file_path)
-print(f"\nFinal Hardware Score: {final_score}/100")
+# Call the function to process the file and calculate hardware risk score
+extract_and_score_hardware(file_path)
