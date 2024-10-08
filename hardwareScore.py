@@ -21,8 +21,11 @@ def extract_hardware_terms(text):
     for token in doc:
         if token.text in hardware_terms:
             extracted_hardware.append(token.text)
-    print(f"Extracted hardware terms: {extracted_hardware}")  # Debugging print
-    return list(set(extracted_hardware))
+    
+    # Remove duplicates
+    extracted_hardware = list(set(extracted_hardware))
+    print(f"Extracted hardware terms (deduplicated): {extracted_hardware}")  # Debugging print
+    return extracted_hardware
 
 # Function to assign risk scores to hardware components
 def assign_risk_scores(hardware_list):
@@ -69,12 +72,6 @@ def process_hardware_file(file_path):
             # Calculate total score
             total_score = calculate_total_score(risk_result)
 
-            # Print individual hardware scores and the total score
-            for hardware in risk_result:
-                print(f"{hardware['hardware']}: {hardware['weighted_score']}")
-
-            print(f"\nTotal Hardware Score: {total_score}/100")
-
             return total_score
 
     except FileNotFoundError:
@@ -88,7 +85,6 @@ def process_hardware_file(file_path):
 def average_hardware_score(file_path, iterations=12):
     total_score_sum = 0
     for i in range(iterations):
-        print(f"\n--- Iteration {i+1} ---")
         total_score_sum += process_hardware_file(file_path)
     
     average_score = total_score_sum / iterations
