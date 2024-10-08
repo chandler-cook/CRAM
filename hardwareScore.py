@@ -25,13 +25,17 @@ def cap_score(score):
 def calculate_risk_score(hardware):
     # Adjusted base score per hardware type
     base_risk_score = {
-        "server": 5, "router": 6, "firewall": 4, "switch": 5, "load balancer": 4,
-        "storage array": 3, "SAN": 5, "NAS": 4, "UPS": 4, "Cisco": 7, "Dell": 6, 
-        "PowerEdge": 7, "Ethernet": 4, "Patch Panel": 3, "Tripp Lite": 3, "Power Supply": 4,
-        "RHEL": 7, "Blade": 3, "Rack": 3
+        "server": 30, "router": 25, "firewall": 20, "switch": 25, "load balancer": 15,
+        "storage array": 20, "SAN": 20, "NAS": 20, "UPS": 15, "Cisco": 30, "Dell": 25, 
+        "PowerEdge": 30, "Ethernet": 20, "Patch Panel": 10, "Tripp Lite": 10, "Power Supply": 15,
+        "RHEL": 30, "Blade": 10, "Rack": 10
     }
+    
+    # Multiply by a risk factor (e.g., based on importance or known vulnerabilities)
+    risk_factor = 1.5  # You can adjust this to make the model more or less sensitive
+    
     # Apply a more conservative multiplier
-    risk_score = base_risk_score.get(hardware, 3) * 7  # Adjust weight calculation
+    risk_score = base_risk_score.get(hardware, 10) * risk_factor
     return cap_score(risk_score)
 
 # Process the hardware and calculate total score
