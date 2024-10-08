@@ -81,18 +81,9 @@ def process_hardware_file(file_path):
         print(f"An error occurred: {e}")
         return 0  # Return 0 if an error occurs
 
-# Function to calculate average score over multiple iterations
-def average_hardware_score(file_path, iterations=12):
-    total_score_sum = 0
-    for i in range(iterations):
-        total_score_sum += process_hardware_file(file_path)
-    
-    average_score = total_score_sum / iterations
-    print(f"\nAverage Hardware Score after {iterations} iterations: {average_score}/100")
-    return average_score
-
 # Specify the file path for Hardware.txt
 hardware_file_path = "/home/user/Documents/Github/classified_output/Hardware.txt"  # Replace with correct path
 
-# Run the average hardware score calculation
-average_hardware_score(hardware_file_path, iterations=12)
+# Run the hardware score calculation for just one iteration
+final_score = process_hardware_file(hardware_file_path)
+print(f"\nFinal Hardware Score: {final_score}/100")
