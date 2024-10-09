@@ -1,4 +1,4 @@
-from physcial_model import physical_model
+from physical_model import physical_model
 
 if __name__ == "__main__":
     # Directly set the file path
