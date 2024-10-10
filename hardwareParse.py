@@ -2,7 +2,7 @@ import os
 import csv
 
 # Folder where CSV files are located
-csv_folder = 'CSVfromTables'
+csv_folder = '/home/user/Documents/Github/CSVfromTables'
 
 # Output file where the extracted hardware information will be saved
 output_file = 'extracted_hardware_models.txt'
@@ -36,7 +36,6 @@ def extract_hardware_from_csvs(csv_folder, output_file):
                 file_path = os.path.join(csv_folder, file)
                 
                 try:
-                    outfile.write(f"Extracting from {file}\n")
                     with open(file_path, 'r') as csvfile:
                         reader = csv.reader(csvfile)
                         
