@@ -1,38 +1,58 @@
 import os
-import pandas as pd
+import csv
 
-# Define the whitelist of popular brands and your specific brands
+# Folder where CSV files are located
+csv_folder = 'CSVfromTables'
+
+# Output file where the extracted hardware information will be saved
+output_file = 'extracted_hardware_models.txt'
+
+# List of whitelisted brands
 whitelisted_brands = [
-    "Cisco", "Dell", "Tripp Lite", "APC", "Miscellaneous", "HP", "Lenovo", "IBM", "ASUS",
-    "Apple", "Acer", "Intel", "Netgear", "Ubiquiti", "Juniper", "Samsung", "Gator"
+    "Cisco", "Dell", "Tripp Lite", "APC", "Miscellaneous", 
+    "HP", "Lenovo", "IBM", "ASUS", "Apple", "Acer", 
+    "Intel", "Netgear", "Ubiquiti", "Juniper", "Samsung", "Gator"
 ]
 
-def extract_hardware_models_from_csv(folder_path, output_file):
+# Function to check if a row contains valid hardware data
+def is_valid_hardware_row(row):
+    # Check if the row has at least two columns (Make and Model)
+    if len(row) < 2:
+        return False
+    # Ensure that neither Make nor Model are empty or just miscellaneous
+    make = row[0].strip()
+    model = row[1].strip()
+    
+    # Check if the make is in the whitelisted brands
+    if make and model and any(brand.lower() in make.lower() for brand in whitelisted_brands):
+        return True
+    return False
+
+def extract_hardware_from_csvs(csv_folder, output_file):
     with open(output_file, 'w') as outfile:
-        for file_name in os.listdir(folder_path):
-            if file_name.endswith(".csv"):
-                print(f"Extracting from {file_name}")
-                file_path = os.path.join(folder_path, file_name)
-                df = pd.read_csv(file_path)
+        # Loop through each file in the CSV folder
+        for file in os.listdir(csv_folder):
+            if file.endswith('.csv'):
+                file_path = os.path.join(csv_folder, file)
+                
+                try:
+                    outfile.write(f"Extracting from {file}\n")
+                    with open(file_path, 'r') as csvfile:
+                        reader = csv.reader(csvfile)
+                        
+                        # Loop through each row in the CSV file
+                        for row in reader:
+                            # Extract Make and Model from the relevant columns
+                            if is_valid_hardware_row(row):
+                                make = row[0].strip()
+                                model = row[1].strip()
+                                outfile.write(f"Make: {make}\n")
+                                outfile.write(f"Model No.: {model}\n\n")
+                
+                except Exception as e:
+                    outfile.write(f"Error processing file {file}: {str(e)}\n")
 
-                # Ensure necessary columns are present
-                if 'Make' in df.columns and 'Model No.' in df.columns:
-                    # Filter for rows where 'Make' is in the whitelist
-                    filtered_df = df[df['Make'].isin(whitelisted_brands)]
-                    
-                    # Write the filtered makes and models to the output file
-                    for _, row in filtered_df.iterrows():
-                        make = row['Make']
-                        model = row['Model No.']
-                        outfile.write(f"Make: {make}, Model No.: {model}\n")
-                else:
-                    print(f"Relevant columns not found in {file_name}")
+    print(f"Hardware models have been extracted to {output_file}")
 
-    print(f"Extraction completed. Results saved to {output_file}")
-
-# Define the folder containing the CSV files and the output file
-csv_folder_path = "CSVfromTables"  # Update this path if needed
-output_txt_file = "extracted_hardware_models.txt"
-
-# Run the extraction process
-extract_hardware_models_from_csv(csv_folder_path, output_txt_file)
+# Call the function to start processing
+extract_hardware_from_csvs(csv_folder, output_file)
