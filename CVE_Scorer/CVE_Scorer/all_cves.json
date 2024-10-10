@@ -1,0 +1,2321 @@
+{
+    "metadata": {
+        "generator": "CVE Prioritizer",
+        "generation_date": "2024-10-10T06:18:05.796454",
+        "total_cves": 74,
+        "cvss_threshold": 6.0,
+        "epss_threshold": 0.2
+    },
+    "cves": [
+        {
+            "cve_id": "CVE-2016-6473",
+            "priority": "P2",
+            "epss": 0.00055,
+            "cvss_base_score": 6.5,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:ios:15.0\\(2\\)se8:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "description": "A vulnerability in Cisco IOS on Catalyst Switches and Nexus 9300 Series Switches could allow an unauthenticated, adjacent attacker to cause a Layer 2 network storm. More Information: CSCuu69332, CSCux07028. Known Affected Releases: 15.2(3)E. Known Fixed Releases: 12.2(50)SE4 12.2(50)SE5 12.2(50)SQ5 12.2(50)SQ6 12.2(50)SQ7 12.2(52)EY4 12.2(52)SE1 12.2(53)EX 12.2(53)SE 12.2(53)SE1 12.2(53)SE2 12.2(53)SG10 12.2(53)SG11 12.2(53)SG2 12.2(53)SG9 12.2(54)SG1 12.2(55)EX3 12.2(55)SE 12.2(55)SE1 12.2(55)SE10 12.2(55)SE2 12.2(55)SE3 12.2(55)SE4 12.2(55)SE5 12.2(55)SE6 12.2(55)SE7 12.2(55)SE8 12.2(55)SE9 12.2(58)EZ 12.2(58)SE1 12.2(58)SE2 12.2(60)EZ 12.2(60)EZ1 12.2(60)EZ2 12.2(60)EZ3 12.2(60)EZ4 12.2(60)EZ5 12.2(60)EZ6 12.2(60)EZ7 12.2(60)EZ8 15.0(1)EY2 15.0(1)SE 15.0(1)SE2 15.0(1)SE3 15.0(2)EA 15.0(2)EB 15.0(2)EC 15.0(2)ED 15.0(2)EH 15.0(2)EJ 15.0(2)EJ1 15.0(2)EK1 15.0(2)EX 15.0(2)EX1 15.0(2)EX3 15.0(2)EX4 15.0(2)EX5 15.0(2)EY 15.0(2)EY1 15.0(2)EY2 15.0(2)EZ 15.0(2)SE 15.0(2)SE1 15.0(2)SE2 15.0(2)SE3 15.0(2)SE4 15.0(2)SE5 15.0(2)SE6 15.0(2)SE7 15.0(2)SE9 15.0(2)SG10 15.0(2)SG3 15.0(2)SG6 15.0(2)SG7 15.0(2)SG8 15.0(2)SG9 15.0(2a)EX5 15.1(2)SG 15.1(2)SG1 15.1(2)SG2 15.1(2)SG3 15.1(2)SG4 15.1(2)SG5 15.1(2)SG6 15.2(1)E 15.2(1)E1 15.2(1)E2 15.2(1)E3 15.2(1)EY 15.2(2)E 15.2(2)E3 15.2(2b)E.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/94815",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20161207-ios",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Mitigation",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2017-6606",
+            "priority": "P2",
+            "epss": 0.0013,
+            "cvss_base_score": 6.4,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:ios_xe:3.1.0s:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:P/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in a startup script of Cisco IOS XE Software could allow an unauthenticated attacker with physical access to the targeted system to execute arbitrary commands on the underlying operating system with the privileges of the root user. More Information: CSCuz06639 CSCuz42122. Known Affected Releases: 15.6(1.1)S 16.1.2 16.2.0 15.2(1)E. Known Fixed Releases: Denali-16.1.3 16.2(1.8) 16.1(2.61) 15.6(2)SP 15.6(2)S1 15.6(1)S2 15.5(3)S3a 15.5(3)S3 15.5(2)S4 15.5(1)S4 15.4(3)S6a 15.4(3)S6 15.3(3)S8a 15.3(3)S8 15.2(5)E 15.2(4)E3 15.2(3)E5 15.0(2)SQD3 15.0(1.9.2)SQD3 3.9(0)E.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/97434",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1038190",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20170405-iosxe",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2017-3803",
+            "priority": "P2",
+            "epss": 0.00112,
+            "cvss_base_score": 4.7,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:ios:15.2\\(2\\)e3:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+            "description": "A vulnerability in the Cisco IOS Software forwarding queue of Cisco 2960X and 3750X switches could allow an unauthenticated, adjacent attacker to cause a memory leak in the software forwarding queue that would eventually lead to a partial denial of service (DoS) condition. More Information: CSCva72252. Known Affected Releases: 15.2(2)E3 15.2(4)E1. Known Fixed Releases: 15.2(2)E6 15.2(4)E3 15.2(5)E1 15.2(5.3.28i)E1 15.2(6.0.49i)E 3.9(1)E.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/95632",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1037657",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20170118-catalyst",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Mitigation",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2016-1425",
+            "priority": "P2",
+            "epss": 0.00435,
+            "cvss_base_score": 6.5,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:ios:15.0\\(2\\)sg5:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "description": "Cisco IOS 15.0(2)SG5, 15.1(2)SG3, 15.2(1)E, 15.3(3)S, and 15.4(1.13)S allows remote attackers to cause a denial of service (device crash) via a crafted LLDP packet, aka Bug ID CSCun66735.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/91545",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1036129",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20160616-ios1",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2012-2697",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 4.9,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:5:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:L/Au:N/C:N/I:N/A:C",
+            "description": "Unspecified vulnerability in autofs, as used in Red Hat Enterprise Linux (RHEL) 5, allows local users to cause a denial of service (autofs crash and delayed mounts) or prevent \"mount expiration\" via unspecified vectors related to \"using an LDAP-based automount map.\"",
+            "references": [
+                {
+                    "url": "http://kb.juniper.net/InfoCenter/index?page=content&id=JSA10705",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-0132.html",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "http://www.osvdb.org/89878",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.securityfocus.com/bid/57183",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=831772",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2012-3440",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 5.6,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:todd_miller:sudo:1.7.2:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:H/Au:N/C:N/I:C/A:C",
+            "description": "A certain Red Hat script for sudo 1.7.2 on Red Hat Enterprise Linux (RHEL) 5 allows local users to overwrite arbitrary files via a symlink attack on the /var/tmp/nsswitch.conf.bak temporary file.",
+            "references": [
+                {
+                    "url": "http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.securityfocus.com/bid/54868",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=844442",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Exploit"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-1935",
+            "priority": "P2",
+            "epss": 0.00124,
+            "cvss_base_score": 5.7,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:A/AC:M/Au:N/C:N/I:N/A:C",
+            "description": "A certain Red Hat patch to the KVM subsystem in the kernel package before 2.6.32-358.11.1.el6 on Red Hat Enterprise Linux (RHEL) 6 does not properly implement the PV EOI feature, which allows guest OS users to cause a denial of service (host OS crash) by leveraging a time window during which interrupts are disabled but copy_to_user function calls are possible.",
+            "references": [
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-0911.html",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=949981",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://rhn.redhat.com/errata/RHSA-2013-0907.html",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-2224",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 6.9,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "A certain Red Hat patch for the Linux kernel 2.6.32 on Red Hat Enterprise Linux (RHEL) 6 allows local users to cause a denial of service (invalid free operation and system crash) or possibly gain privileges via a sendmsg system call with the IP_RETOPTS option, as demonstrated by hemlock.c.  NOTE: this vulnerability exists because of an incorrect fix for CVE-2012-3552.",
+            "references": [
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1166.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1173.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1450.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2013/06/30/7",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=979936",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-2188",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 4.7,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:M/Au:N/C:N/I:N/A:C",
+            "description": "A certain Red Hat patch to the do_filp_open function in fs/namei.c in the kernel package before 2.6.32-358.11.1.el6 on Red Hat Enterprise Linux (RHEL) 6 does not properly handle failure to obtain write permissions, which allows local users to cause a denial of service (system crash) by leveraging access to a filesystem that is mounted read-only.",
+            "references": [
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=975406",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2017-8543",
+            "priority": "P1+",
+            "epss": 0.45986,
+            "cvss_base_score": 9.8,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "CRITICAL",
+            "kev": "TRUE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:microsoft:windows_10:-:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "description": "Microsoft Windows XP SP3, Windows XP x64 XP2, Windows Server 2003 SP2, Windows Vista, Windows 7 SP1, Windows Server 2008 SP2 and R2 SP1, Windows 8, Windows 8.1 and Windows RT 8.1, Windows Server 2012 and R2, Windows 10 Gold, 1511, 1607, and 1703, and Windows Server 2016 allow an attacker to take control of the affected system when Windows Search fails to handle objects in memory, aka \"Windows Search Remote Code Execution Vulnerability\".",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/98824",
+                    "source": "secure@microsoft.com",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1038667",
+                    "source": "secure@microsoft.com",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2017-8543",
+                    "source": "secure@microsoft.com",
+                    "tags": [
+                        "Mitigation",
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2014-0301",
+            "priority": "P1",
+            "epss": 0.28158,
+            "cvss_base_score": 9.3,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:microsoft:windows_7:-:sp1:*:*:*:*:*:*",
+            "vector": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "Double free vulnerability in qedit.dll in DirectShow in Microsoft Windows XP SP2 and SP3, Windows Server 2003 SP2, Windows Vista SP2, Windows Server 2008 SP2 and R2 SP1, Windows 7 SP1, Windows 8, Windows 8.1, and Windows Server 2012 Gold and R2 allows remote attackers to execute arbitrary code via a crafted JPEG image, aka \"DirectShow Memory Corruption Vulnerability.\"",
+            "references": [
+                {
+                    "url": "https://docs.microsoft.com/en-us/security-updates/securitybulletins/2014/ms14-013",
+                    "source": "secure@microsoft.com",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2014-0323",
+            "priority": "P2",
+            "epss": 0.00045,
+            "cvss_base_score": 6.6,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:microsoft:windows_7:-:sp1:*:*:*:*:*:*",
+            "vector": "AV:L/AC:L/Au:N/C:C/I:N/A:C",
+            "description": "win32k.sys in the kernel-mode drivers in Microsoft Windows XP SP2 and SP3, Windows Server 2003 SP2, Windows Vista SP2, Windows Server 2008 SP2 and R2 SP1, Windows 7 SP1, Windows 8, Windows 8.1, Windows Server 2012 Gold and R2, and Windows RT Gold and 8.1 allows local users to obtain sensitive information from kernel memory or cause a denial of service (system hang) via a crafted application, aka \"Win32k Information Disclosure Vulnerability.\"",
+            "references": [
+                {
+                    "url": "https://docs.microsoft.com/en-us/security-updates/securitybulletins/2014/ms14-015",
+                    "source": "secure@microsoft.com",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2014-0315",
+            "priority": "P1",
+            "epss": 0.96733,
+            "cvss_base_score": 6.9,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:microsoft:windows_7:-:sp1:*:*:*:*:*:*",
+            "vector": "AV:L/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "Untrusted search path vulnerability in Microsoft Windows XP SP2 and SP3, Windows Server 2003 SP2, Windows Vista SP2, Windows Server 2008 SP2 and R2 SP1, Windows 7 SP1, Windows 8, Windows 8.1, Windows Server 2012 Gold and R2, and Windows RT Gold and 8.1 allows local users to gain privileges via a Trojan horse cmd.exe file in the current working directory, as demonstrated by a directory that contains a .bat or .cmd file, aka \"Windows File Handling Vulnerability.\"",
+            "references": [
+                {
+                    "url": "http://blogs.technet.com/b/srd/archive/2014/04/08/ms14-019-fixing-a-binary-hijacking-via-cmd-or-bat-file.aspx",
+                    "source": "secure@microsoft.com",
+                    "tags": [
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "http://seclists.org/fulldisclosure/2020/Jul/33",
+                    "source": "secure@microsoft.com"
+                },
+                {
+                    "url": "https://docs.microsoft.com/en-us/security-updates/securitybulletins/2014/ms14-019",
+                    "source": "secure@microsoft.com",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-5058",
+            "priority": "P2",
+            "epss": 0.00085,
+            "cvss_base_score": 6.9,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:microsoft:windows_7:-:sp1:*:*:*:*:*:*",
+            "vector": "AV:L/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "Integer overflow in the kernel-mode drivers in Microsoft Windows XP SP2 and SP3, Windows Server 2003 SP2, Windows Vista SP2, Windows Server 2008 SP2 and R2 SP1, Windows 7 SP1, Windows 8, Windows 8.1, and Windows Server 2012 Gold and R2 allows local users to gain privileges via a crafted application, aka \"Win32k Integer Overflow Vulnerability.\"",
+            "references": [
+                {
+                    "url": "https://docs.microsoft.com/en-us/security-updates/securitybulletins/2013/ms13-101",
+                    "source": "secure@microsoft.com",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-5056",
+            "priority": "P1",
+            "epss": 0.93746,
+            "cvss_base_score": 9.3,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:microsoft:windows_7:-:sp1:*:*:*:*:*:*",
+            "vector": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "Use-after-free vulnerability in the Scripting Runtime Object Library in Microsoft Windows XP SP2 and SP3, Windows Server 2003 SP2, Windows Vista SP2, Windows Server 2008 SP2 and R2 SP1, Windows 7 SP1, Windows 8, Windows 8.1, Windows Server 2012 Gold and R2, and Windows RT Gold and 8.1 allows remote attackers to execute arbitrary code or cause a denial of service (memory corruption) via a crafted web site that is visited with Internet Explorer, aka \"Use-After-Free Vulnerability in Microsoft Scripting Runtime Object Library.\"",
+            "references": [
+                {
+                    "url": "https://docs.microsoft.com/en-us/security-updates/securitybulletins/2013/ms13-099",
+                    "source": "secure@microsoft.com",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2012-2697",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 4.9,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:5:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:L/Au:N/C:N/I:N/A:C",
+            "description": "Unspecified vulnerability in autofs, as used in Red Hat Enterprise Linux (RHEL) 5, allows local users to cause a denial of service (autofs crash and delayed mounts) or prevent \"mount expiration\" via unspecified vectors related to \"using an LDAP-based automount map.\"",
+            "references": [
+                {
+                    "url": "http://kb.juniper.net/InfoCenter/index?page=content&id=JSA10705",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-0132.html",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "http://www.osvdb.org/89878",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.securityfocus.com/bid/57183",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=831772",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2012-3440",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 5.6,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:todd_miller:sudo:1.7.2:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:H/Au:N/C:N/I:C/A:C",
+            "description": "A certain Red Hat script for sudo 1.7.2 on Red Hat Enterprise Linux (RHEL) 5 allows local users to overwrite arbitrary files via a symlink attack on the /var/tmp/nsswitch.conf.bak temporary file.",
+            "references": [
+                {
+                    "url": "http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.securityfocus.com/bid/54868",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=844442",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Exploit"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2014-7994",
+            "priority": "P2",
+            "epss": 0.00196,
+            "cvss_base_score": 5.4,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:cisco:meraki_mr_firmware:*:*:*:*:*:*:*:*",
+            "vector": "AV:A/AC:M/Au:N/C:P/I:P/A:P",
+            "description": "Cisco-Meraki MS, MR, and MX devices with firmware before 2014-09-24 allow remote attackers to execute arbitrary commands by leveraging knowledge of a cross-device secret and a per-device secret, and sending a request to an unspecified HTTP handler on the local network, aka Cisco-Meraki defect ID 00301991.",
+            "references": [
+                {
+                    "url": "http://tools.cisco.com/security/center/viewAlert.x?alertId=36798",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://dashboard.meraki.com/firmware_security",
+                    "source": "ykramarz@cisco.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2014-7995",
+            "priority": "P2",
+            "epss": 0.00044,
+            "cvss_base_score": 7.2,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:cisco:meraki_mx_firmware:*:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:L/Au:N/C:C/I:C/A:C",
+            "description": "Cisco-Meraki MS, MR, and MX devices with firmware before 2014-09-24 allow physically proximate attackers to obtain shell access by opening a device's case and connecting a cable to a serial port, aka Cisco-Meraki defect ID 00302077.",
+            "references": [
+                {
+                    "url": "http://tools.cisco.com/security/center/viewAlert.x?alertId=36799",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://dashboard.meraki.com/firmware_security",
+                    "source": "ykramarz@cisco.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2016-6473",
+            "priority": "P2",
+            "epss": 0.00055,
+            "cvss_base_score": 6.5,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:ios:15.0\\(2\\)se8:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "description": "A vulnerability in Cisco IOS on Catalyst Switches and Nexus 9300 Series Switches could allow an unauthenticated, adjacent attacker to cause a Layer 2 network storm. More Information: CSCuu69332, CSCux07028. Known Affected Releases: 15.2(3)E. Known Fixed Releases: 12.2(50)SE4 12.2(50)SE5 12.2(50)SQ5 12.2(50)SQ6 12.2(50)SQ7 12.2(52)EY4 12.2(52)SE1 12.2(53)EX 12.2(53)SE 12.2(53)SE1 12.2(53)SE2 12.2(53)SG10 12.2(53)SG11 12.2(53)SG2 12.2(53)SG9 12.2(54)SG1 12.2(55)EX3 12.2(55)SE 12.2(55)SE1 12.2(55)SE10 12.2(55)SE2 12.2(55)SE3 12.2(55)SE4 12.2(55)SE5 12.2(55)SE6 12.2(55)SE7 12.2(55)SE8 12.2(55)SE9 12.2(58)EZ 12.2(58)SE1 12.2(58)SE2 12.2(60)EZ 12.2(60)EZ1 12.2(60)EZ2 12.2(60)EZ3 12.2(60)EZ4 12.2(60)EZ5 12.2(60)EZ6 12.2(60)EZ7 12.2(60)EZ8 15.0(1)EY2 15.0(1)SE 15.0(1)SE2 15.0(1)SE3 15.0(2)EA 15.0(2)EB 15.0(2)EC 15.0(2)ED 15.0(2)EH 15.0(2)EJ 15.0(2)EJ1 15.0(2)EK1 15.0(2)EX 15.0(2)EX1 15.0(2)EX3 15.0(2)EX4 15.0(2)EX5 15.0(2)EY 15.0(2)EY1 15.0(2)EY2 15.0(2)EZ 15.0(2)SE 15.0(2)SE1 15.0(2)SE2 15.0(2)SE3 15.0(2)SE4 15.0(2)SE5 15.0(2)SE6 15.0(2)SE7 15.0(2)SE9 15.0(2)SG10 15.0(2)SG3 15.0(2)SG6 15.0(2)SG7 15.0(2)SG8 15.0(2)SG9 15.0(2a)EX5 15.1(2)SG 15.1(2)SG1 15.1(2)SG2 15.1(2)SG3 15.1(2)SG4 15.1(2)SG5 15.1(2)SG6 15.2(1)E 15.2(1)E1 15.2(1)E2 15.2(1)E3 15.2(1)EY 15.2(2)E 15.2(2)E3 15.2(2b)E.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/94815",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20161207-ios",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Mitigation",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2017-6606",
+            "priority": "P2",
+            "epss": 0.0013,
+            "cvss_base_score": 6.4,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:ios_xe:3.1.0s:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:P/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in a startup script of Cisco IOS XE Software could allow an unauthenticated attacker with physical access to the targeted system to execute arbitrary commands on the underlying operating system with the privileges of the root user. More Information: CSCuz06639 CSCuz42122. Known Affected Releases: 15.6(1.1)S 16.1.2 16.2.0 15.2(1)E. Known Fixed Releases: Denali-16.1.3 16.2(1.8) 16.1(2.61) 15.6(2)SP 15.6(2)S1 15.6(1)S2 15.5(3)S3a 15.5(3)S3 15.5(2)S4 15.5(1)S4 15.4(3)S6a 15.4(3)S6 15.3(3)S8a 15.3(3)S8 15.2(5)E 15.2(4)E3 15.2(3)E5 15.0(2)SQD3 15.0(1.9.2)SQD3 3.9(0)E.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/97434",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1038190",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20170405-iosxe",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2017-3803",
+            "priority": "P2",
+            "epss": 0.00112,
+            "cvss_base_score": 4.7,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:ios:15.2\\(2\\)e3:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+            "description": "A vulnerability in the Cisco IOS Software forwarding queue of Cisco 2960X and 3750X switches could allow an unauthenticated, adjacent attacker to cause a memory leak in the software forwarding queue that would eventually lead to a partial denial of service (DoS) condition. More Information: CSCva72252. Known Affected Releases: 15.2(2)E3 15.2(4)E1. Known Fixed Releases: 15.2(2)E6 15.2(4)E3 15.2(5)E1 15.2(5.3.28i)E1 15.2(6.0.49i)E 3.9(1)E.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/95632",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1037657",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20170118-catalyst",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Mitigation",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2016-1425",
+            "priority": "P2",
+            "epss": 0.00435,
+            "cvss_base_score": 6.5,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:ios:15.0\\(2\\)sg5:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "description": "Cisco IOS 15.0(2)SG5, 15.1(2)SG3, 15.2(1)E, 15.3(3)S, and 15.4(1.13)S allows remote attackers to cause a denial of service (device crash) via a crafted LLDP packet, aka Bug ID CSCun66735.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/91545",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1036129",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20160616-ios1",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2012-2697",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 4.9,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:5:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:L/Au:N/C:N/I:N/A:C",
+            "description": "Unspecified vulnerability in autofs, as used in Red Hat Enterprise Linux (RHEL) 5, allows local users to cause a denial of service (autofs crash and delayed mounts) or prevent \"mount expiration\" via unspecified vectors related to \"using an LDAP-based automount map.\"",
+            "references": [
+                {
+                    "url": "http://kb.juniper.net/InfoCenter/index?page=content&id=JSA10705",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-0132.html",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "http://www.osvdb.org/89878",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.securityfocus.com/bid/57183",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=831772",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2012-3440",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 5.6,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:todd_miller:sudo:1.7.2:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:H/Au:N/C:N/I:C/A:C",
+            "description": "A certain Red Hat script for sudo 1.7.2 on Red Hat Enterprise Linux (RHEL) 5 allows local users to overwrite arbitrary files via a symlink attack on the /var/tmp/nsswitch.conf.bak temporary file.",
+            "references": [
+                {
+                    "url": "http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.securityfocus.com/bid/54868",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=844442",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Exploit"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2020-7337",
+            "priority": "P2",
+            "epss": 0.00044,
+            "cvss_base_score": 6.7,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:mcafee:virusscan_enterprise:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
+            "description": "Incorrect Permission Assignment for Critical Resource vulnerability in McAfee VirusScan Enterprise (VSE) prior to 8.8 Patch 16 allows local administrators to bypass local security protection through VSE not correctly integrating with Windows Defender Application Control via careful manipulation of the Code Integrity checks.",
+            "references": [
+                {
+                    "url": "https://kc.mcafee.com/corporate/index?page=content&id=SB10338",
+                    "source": "trellixpsirt@trellix.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2009-5118",
+            "priority": "P2",
+            "epss": 0.00067,
+            "cvss_base_score": 9.3,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:mcafee:virusscan_enterprise:*:*:*:*:*:*:*:*",
+            "vector": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "Untrusted search path vulnerability in McAfee VirusScan Enterprise before 8.7i allows local users to gain privileges via a Trojan horse DLL in an unspecified directory, as demonstrated by scanning a document located on a remote share.",
+            "references": [
+                {
+                    "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/78448",
+                    "source": "cve@mitre.org"
+                },
+                {
+                    "url": "https://kc.mcafee.com/corporate/index?page=content&id=SB10013",
+                    "source": "cve@mitre.org",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2007-2152",
+            "priority": "P1",
+            "epss": 0.78188,
+            "cvss_base_score": 7.9,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:mcafee:virusscan_enterprise:*:p11:*:*:*:*:*:*",
+            "vector": "AV:A/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "Buffer overflow in the On-Access Scanner in McAfee VirusScan Enterprise before 8.0i Patch 12 allows user-assisted remote attackers to execute arbitrary code via a long filename containing multi-byte (Unicode) characters.",
+            "references": [
+                {
+                    "url": "http://labs.idefense.com/intelligence/vulnerabilities/display.php?id=515",
+                    "source": "cve@mitre.org",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "http://secunia.com/advisories/24914",
+                    "source": "cve@mitre.org",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "http://www.kb.cert.org/vuls/id/324929",
+                    "source": "cve@mitre.org",
+                    "tags": [
+                        "US Government Resource"
+                    ]
+                },
+                {
+                    "url": "http://www.securityfocus.com/bid/23543",
+                    "source": "cve@mitre.org"
+                },
+                {
+                    "url": "http://www.securitytracker.com/id?1017928",
+                    "source": "cve@mitre.org",
+                    "tags": [
+                        "Patch"
+                    ]
+                },
+                {
+                    "url": "http://www.vupen.com/english/advisories/2007/1435",
+                    "source": "cve@mitre.org"
+                },
+                {
+                    "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/33732",
+                    "source": "cve@mitre.org"
+                },
+                {
+                    "url": "https://knowledge.mcafee.com/SupportSite/dynamickc.do?externalId=612750&command=show&forward=nonthreadedKC",
+                    "source": "cve@mitre.org",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-0101",
+            "priority": "P2",
+            "epss": 0.00104,
+            "cvss_base_score": 8.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:tenable:nessus:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "description": "A privilege escalation vulnerability was identified in Nessus versions 8.10.1 through 8.15.8 and 10.0.0 through 10.4.1. An authenticated attacker could potentially execute a specially crafted file to obtain root or NT AUTHORITY / SYSTEM privileges on the Nessus host.",
+            "references": [
+                {
+                    "url": "https://www.tenable.com/security/tns-2023-01",
+                    "source": "vulnreport@tenable.com",
+                    "tags": [
+                        "Patch",
+                        "Release Notes",
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.tenable.com/security/tns-2023-02",
+                    "source": "vulnreport@tenable.com",
+                    "tags": [
+                        "Patch",
+                        "Release Notes",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2021-20135",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 6.7,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:tenable:nessus:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
+            "description": "Nessus versions 8.15.2 and earlier were found to contain a local privilege escalation vulnerability which could allow an authenticated, local administrator to run specific executables on the Nessus Agent host. Tenable has included a fix for this issue in Nessus 10.0.0. The installation files can be obtained from the Tenable Downloads Portal (https://www.tenable.com/downloads/nessus).",
+            "references": [
+                {
+                    "url": "https://www.tenable.com/security/tns-2021-18",
+                    "source": "vulnreport@tenable.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2020-5765",
+            "priority": "P2",
+            "epss": 0.00065,
+            "cvss_base_score": 5.4,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:tenable:nessus:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+            "description": "Nessus 8.10.0 and earlier were found to contain a Stored XSS vulnerability due to improper validation of input during scan configuration. An authenticated, remote attacker could potentially exploit this vulnerability to execute arbitrary code in a user's session. Tenable has implemented additional input validation mechanisms to correct this issue in Nessus 8.11.0.",
+            "references": [
+                {
+                    "url": "https://www.tenable.com/security/tns-2020-05",
+                    "source": "vulnreport@tenable.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2024-23675",
+            "priority": "P2",
+            "epss": 0.00046,
+            "cvss_base_score": 6.5,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:splunk:cloud:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N",
+            "description": "In Splunk Enterprise versions below 9.0.8 and 9.1.3, Splunk app key value store (KV Store) improperly handles permissions for users that use the REST application programming interface (API). This can potentially result in the deletion of KV Store collections.",
+            "references": [
+                {
+                    "url": "https://advisory.splunk.com/advisories/SVD-2024-0105",
+                    "source": "prodsec@splunk.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://research.splunk.com/application/8f0e8380-a835-4f2b-b749-9ce119364df0/",
+                    "source": "prodsec@splunk.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2024-23676",
+            "priority": "P2",
+            "epss": 0.00045,
+            "cvss_base_score": 3.5,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "LOW",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:splunk:cloud:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:N/A:N",
+            "description": "In Splunk versions below 9.0.8 and 9.1.3, the \u201cmrollup\u201d SPL command lets a low-privileged user view metrics on an index that they do not have permission to view. This vulnerability requires user interaction from a high-privileged user to exploit.",
+            "references": [
+                {
+                    "url": "https://advisory.splunk.com/advisories/SVD-2024-0106",
+                    "source": "prodsec@splunk.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://research.splunk.com/application/ee69374a-d27e-4136-adac-956a96ff60fd/",
+                    "source": "prodsec@splunk.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-40593",
+            "priority": "P2",
+            "epss": 0.00088,
+            "cvss_base_score": 7.5,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:splunk:splunk:*:*:*:*:enterprise:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "description": "In Splunk Enterprise versions lower than 9.0.6 and 8.2.12, a malicious actor can send a malformed security assertion markup language (SAML) request to the `/saml/acs` REST endpoint which can cause a denial of service through a crash or hang of the Splunk daemon.",
+            "references": [
+                {
+                    "url": "https://advisory.splunk.com/advisories/SVD-2023-0802",
+                    "source": "prodsec@splunk.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://research.splunk.com/application/8e8a86d5-f323-4567-95be-8e817e2baee6/",
+                    "source": "prodsec@splunk.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-40592",
+            "priority": "P2",
+            "epss": 0.00075,
+            "cvss_base_score": 6.1,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:splunk:splunk:*:*:*:*:enterprise:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+            "description": "In Splunk Enterprise versions below 9.1.1, 9.0.6, and 8.2.12, an attacker can craft a special web request that can result in reflected cross-site scripting (XSS) on the \u201c/app/search/table\u201d web endpoint. Exploitation of this vulnerability can lead to the execution of arbitrary commands on the Splunk platform instance.",
+            "references": [
+                {
+                    "url": "https://advisory.splunk.com/advisories/SVD-2023-0801",
+                    "source": "prodsec@splunk.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://research.splunk.com/application/182f9080-4137-4629-94ac-cb1083ac981a/",
+                    "source": "prodsec@splunk.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-1935",
+            "priority": "P2",
+            "epss": 0.00124,
+            "cvss_base_score": 5.7,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:A/AC:M/Au:N/C:N/I:N/A:C",
+            "description": "A certain Red Hat patch to the KVM subsystem in the kernel package before 2.6.32-358.11.1.el6 on Red Hat Enterprise Linux (RHEL) 6 does not properly implement the PV EOI feature, which allows guest OS users to cause a denial of service (host OS crash) by leveraging a time window during which interrupts are disabled but copy_to_user function calls are possible.",
+            "references": [
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-0911.html",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=949981",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://rhn.redhat.com/errata/RHSA-2013-0907.html",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-2224",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 6.9,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "A certain Red Hat patch for the Linux kernel 2.6.32 on Red Hat Enterprise Linux (RHEL) 6 allows local users to cause a denial of service (invalid free operation and system crash) or possibly gain privileges via a sendmsg system call with the IP_RETOPTS option, as demonstrated by hemlock.c.  NOTE: this vulnerability exists because of an incorrect fix for CVE-2012-3552.",
+            "references": [
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1166.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1173.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1450.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2013/06/30/7",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=979936",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-2188",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 4.7,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:M/Au:N/C:N/I:N/A:C",
+            "description": "A certain Red Hat patch to the do_filp_open function in fs/namei.c in the kernel package before 2.6.32-358.11.1.el6 on Red Hat Enterprise Linux (RHEL) 6 does not properly handle failure to obtain write permissions, which allows local users to cause a denial of service (system crash) by leveraging access to a filesystem that is mounted read-only.",
+            "references": [
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=975406",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-20269",
+            "priority": "P1+",
+            "epss": 0.04108,
+            "cvss_base_score": 9.1,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "CRITICAL",
+            "kev": "TRUE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:adaptive_security_appliance_software:6.2.3:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "description": "A vulnerability in the remote access VPN feature of Cisco Adaptive Security Appliance (ASA) Software and Cisco Firepower Threat Defense (FTD) Software could allow an unauthenticated, remote attacker to conduct a brute force attack in an attempt to identify valid username and password combinations or an authenticated, remote attacker to establish a clientless SSL VPN session with an unauthorized user.\r\n\r This vulnerability is due to improper separation of authentication, authorization, and accounting (AAA) between the remote access VPN feature and the HTTPS management and site-to-site VPN features. An attacker could exploit this vulnerability by specifying a default connection profile/tunnel group while conducting a brute force attack or while establishing a clientless SSL VPN session using valid credentials. A successful exploit could allow the attacker to achieve one or both of the following:\r\n\r \r Identify valid credentials that could then be used to establish an unauthorized remote access VPN session.\r Establish a clientless SSL VPN session (only when running Cisco ASA Software Release 9.16 or earlier).\r \r Notes:\r\n\r \r Establishing a client-based remote access VPN tunnel is not possible as these default connection profiles/tunnel groups do not and cannot have an IP address pool configured.\r This vulnerability does not allow an attacker to bypass authentication. To successfully establish a remote access VPN session, valid credentials are required, including a valid second factor if multi-factor authentication (MFA) is configured.\r \r Cisco will release software updates that address this vulnerability. There are workarounds that address this vulnerability.",
+            "references": [
+                {
+                    "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-ravpn-auth-8LyfCkeC",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-20256",
+            "priority": "P2",
+            "epss": 0.00068,
+            "cvss_base_score": 5.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:adaptive_security_appliance_software:9.8.4.22:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:L/A:N",
+            "description": "Multiple vulnerabilities in the per-user-override feature of Cisco Adaptive Security Appliance (ASA) Software and Cisco Firepower Threat Defense (FTD) Software could allow an unauthenticated, remote attacker to bypass a configured access control list (ACL) and allow traffic that should be denied to flow through an affected device. These vulnerabilities are due to a logic error that could occur when the affected software constructs and applies per-user-override rules. An attacker could exploit these vulnerabilities by connecting to a network through an affected device that has a vulnerable configuration. A successful exploit could allow the attacker to bypass the interface ACL and access resources that would should be protected.",
+            "references": [
+                {
+                    "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-ac-acl-bypass-bwd7q6Gb",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-20247",
+            "priority": "P2",
+            "epss": 0.00054,
+            "cvss_base_score": 4.3,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:adaptive_security_appliance_software:9.8.1:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N",
+            "description": "A vulnerability in the remote access SSL VPN feature of Cisco Adaptive Security Appliance (ASA) Software and Cisco Firepower Threat Defense (FTD) Software could allow an authenticated, remote attacker to bypass a configured multiple certificate authentication policy and connect using only a valid username and password. This vulnerability is due to improper error handling during remote access VPN authentication. An attacker could exploit this vulnerability by sending crafted requests during remote access VPN session establishment. A successful exploit could allow the attacker to bypass the configured multiple certificate authentication policy while retaining the privileges and permissions associated with the original connection profile.",
+            "references": [
+                {
+                    "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-multi-cert-dzA3h5PT",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-20200",
+            "priority": "P2",
+            "epss": 0.00094,
+            "cvss_base_score": 6.3,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:firepower_9300_firmware:-:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:N/I:N/A:H",
+            "description": "A vulnerability in the Simple Network Management Protocol (SNMP) service of Cisco FXOS Software for Firepower 4100 Series and Firepower 9300 Security Appliances and of Cisco UCS 6300 Series Fabric Interconnects could allow an authenticated, remote attacker to cause a denial of service (DoS) condition on an affected device.\r\n\r This vulnerability is due to the improper handling of specific SNMP requests. An attacker could exploit this vulnerability by sending a crafted SNMP request to an affected device. A successful exploit could allow the attacker to cause the affected device to reload, resulting in a DoS condition.\r\n\r Note: This vulnerability affects all supported SNMP versions. To exploit this vulnerability through SNMPv2c or earlier, an attacker must know the SNMP community string that is configured on an affected device. To exploit this vulnerability through SNMPv3, the attacker must have valid credentials for an SNMP user who is configured on the affected device.",
+            "references": [
+                {
+                    "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-fp-ucsfi-snmp-dos-qtv69NAO",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-20095",
+            "priority": "P2",
+            "epss": 0.00063,
+            "cvss_base_score": 8.6,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:adaptive_security_appliance_software:9.8.1:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:H",
+            "description": "A vulnerability in the remote access VPN feature of Cisco Adaptive Security Appliance (ASA) Software and Cisco Firepower Threat Defense (FTD) Software could allow an unauthenticated, remote attacker to cause a denial of service (DoS) condition on an affected device. This vulnerability is due to improper handling of HTTPS requests. An attacker could exploit this vulnerability by sending crafted HTTPS requests to an affected system. A successful exploit could allow the attacker to cause resource exhaustion, resulting in a DoS condition.",
+            "references": [
+                {
+                    "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asa-webvpn-dos-3GhZQBAS",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-20015",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 6.7,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:cisco:ucs_central_software:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in the CLI of Cisco Firepower 4100 Series, Cisco Firepower 9300 Security Appliances, and Cisco UCS 6200, 6300, 6400, and 6500 Series Fabric Interconnects could allow an authenticated, local attacker to inject unauthorized commands. This vulnerability is due to insufficient input validation of commands supplied by the user. An attacker could exploit this vulnerability by authenticating to a device and submitting crafted input to the affected command. A successful exploit could allow the attacker to execute unauthorized commands within the CLI. An attacker with Administrator privileges could also execute arbitrary commands on the underlying operating system of Cisco UCS 6400 and 6500 Series Fabric Interconnects with root-level privileges.",
+            "references": [
+                {
+                    "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nxfp-cmdinj-XXBZjtR",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-20934",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:google:android:12.0:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "description": "In resolveAttributionSource of ServiceUtilities.cpp, there is a possible way to disable the microphone privacy indicator due to a permissions bypass. This could lead to local escalation of privilege with no additional execution privileges needed. User interaction is not needed for exploitation.Product: AndroidVersions: Android-12 Android-12L Android-13Android ID: A-258672042",
+            "references": [
+                {
+                    "url": "https://source.android.com/security/bulletin/2023-02-01",
+                    "source": "security@android.com",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2018-0284",
+            "priority": "P2",
+            "epss": 0.00079,
+            "cvss_base_score": 6.5,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:meraki_mr_24_firmware:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N",
+            "description": "A vulnerability in the local status page functionality of the Cisco Meraki MR, MS, MX, Z1, and Z3 product lines could allow an authenticated, remote attacker to modify device configuration files. The vulnerability occurs when handling requests to the local status page. An exploit could allow the attacker to establish an interactive session to the device with elevated privileges. The attacker could then use the elevated privileges to further compromise the device or obtain additional configuration data from the device that is being exploited.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/105878",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20181107-meraki",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2014-7999",
+            "priority": "P2",
+            "epss": 0.00123,
+            "cvss_base_score": 7.7,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:cisco:meraki_mr_firmware:*:*:*:*:*:*:*:*",
+            "vector": "AV:A/AC:L/Au:S/C:C/I:C/A:C",
+            "description": "Cisco-Meraki MS, MR, and MX devices with firmware before 2014-09-24 allow remote authenticated users to install arbitrary firmware by leveraging unspecified HTTP handler access on the local network, aka Cisco-Meraki defect ID 00478565.",
+            "references": [
+                {
+                    "url": "http://tools.cisco.com/security/center/viewAlert.x?alertId=36800",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://dashboard.meraki.com/firmware_security",
+                    "source": "ykramarz@cisco.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2014-7993",
+            "priority": "P2",
+            "epss": 0.00196,
+            "cvss_base_score": 3.3,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "LOW",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:cisco:meraki_mx_firmware:*:*:*:*:*:*:*:*",
+            "vector": "AV:A/AC:L/Au:N/C:P/I:N/A:N",
+            "description": "Cisco-Meraki MS, MR, and MX devices with firmware before 2014-09-24 allow remote attackers to obtain sensitive credential information by leveraging unspecified HTTP handler access on the local network, aka Cisco-Meraki defect ID 00302012.",
+            "references": [
+                {
+                    "url": "http://tools.cisco.com/security/center/viewAlert.x?alertId=36797",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://dashboard.meraki.com/firmware_security",
+                    "source": "ykramarz@cisco.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-1935",
+            "priority": "P2",
+            "epss": 0.00124,
+            "cvss_base_score": 5.7,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:A/AC:M/Au:N/C:N/I:N/A:C",
+            "description": "A certain Red Hat patch to the KVM subsystem in the kernel package before 2.6.32-358.11.1.el6 on Red Hat Enterprise Linux (RHEL) 6 does not properly implement the PV EOI feature, which allows guest OS users to cause a denial of service (host OS crash) by leveraging a time window during which interrupts are disabled but copy_to_user function calls are possible.",
+            "references": [
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-0911.html",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=949981",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://rhn.redhat.com/errata/RHSA-2013-0907.html",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-2224",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 6.9,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "A certain Red Hat patch for the Linux kernel 2.6.32 on Red Hat Enterprise Linux (RHEL) 6 allows local users to cause a denial of service (invalid free operation and system crash) or possibly gain privileges via a sendmsg system call with the IP_RETOPTS option, as demonstrated by hemlock.c.  NOTE: this vulnerability exists because of an incorrect fix for CVE-2012-3552.",
+            "references": [
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1166.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1173.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1450.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2013/06/30/7",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=979936",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-2188",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 4.7,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:M/Au:N/C:N/I:N/A:C",
+            "description": "A certain Red Hat patch to the do_filp_open function in fs/namei.c in the kernel package before 2.6.32-358.11.1.el6 on Red Hat Enterprise Linux (RHEL) 6 does not properly handle failure to obtain write permissions, which allows local users to cause a denial of service (system crash) by leveraging access to a filesystem that is mounted read-only.",
+            "references": [
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=975406",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-47804",
+            "priority": "P2",
+            "epss": 0.00278,
+            "cvss_base_score": 8.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "Apache OpenOffice documents can contain links that call internal macros with arbitrary arguments. Several URI Schemes are defined for this purpose.\n\nLinks can be activated by clicks, or by automatic document events.\n\nThe execution of such links must be subject to user approval.\n\nIn the affected versions of OpenOffice, approval for certain links is not requested; when activated, such links could therefore result in arbitrary script execution.\n\nThis is a corner case of CVE-2022-47502.\n\n",
+            "references": [
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2024/01/03/3",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://lists.apache.org/thread/ygp59swfcy6g46jf8v9s6qpwmxn8fsvb",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.openoffice.org/security/cves/CVE-2023-47804.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2022-37401",
+            "priority": "P2",
+            "epss": 0.00078,
+            "cvss_base_score": 8.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "description": "Apache OpenOffice supports the storage of passwords for web connections in the user's configuration database. The stored passwords are encrypted with a single master key provided by the user. A flaw in OpenOffice existed where master key was poorly encoded resulting in weakening its entropy from 128 to 43 bits making the stored passwords vulnerable to a brute force attack if an attacker has access to the users stored config. This issue affects: Apache OpenOffice versions prior to 4.1.13. Reference: CVE-2022-26307 - LibreOffice",
+            "references": [
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2022/08/13/2",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.openoffice.org/security/cves/CVE-2022-37401.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mitigation",
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2020-13958",
+            "priority": "P2",
+            "epss": 0.00064,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in Apache OpenOffice scripting events allows an attacker to construct documents containing hyperlinks pointing to an executable on the target users file system. These hyperlinks can be triggered unconditionally. In fixed versions no internal protocol may be called from the document event handler and other hyperlinks require a control-click.",
+            "references": [
+                {
+                    "url": "https://lists.apache.org/thread.html/r6b2f48cf6c4aad4ebd13f90033162276b0ccae63bea2d3d89cdaf355%40%3Cannounce.openoffice.apache.org%3E",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2021-33035",
+            "priority": "P1+",
+            "epss": 0.00645,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "TRUE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "Apache OpenOffice opens dBase/DBF documents and shows the contents as spreadsheets. DBF are database files with data organized in fields. When reading DBF data the size of certain fields is not checked: the data is just copied into local variables. A carefully crafted document could overflow the allocated space, leading to the execution of arbitrary code by altering the contents of the program stack. This issue affects Apache OpenOffice up to and including version 4.1.10",
+            "references": [
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2021/10/07/3",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Patch",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://github.com/apache/openoffice/commit/efddaef0151af3be16078cc4d88c6bae0f911e56#diff-ea66e734dd358922aba12ad4ba39c96bdc6cbde587d07dbc63d04daa0a30e90f",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Patch",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://lists.apache.org/thread.html/r1ab8532e11f41bc7ca057ac7e39cab25f2e1f9d5f4929788ae21c8b9%40%3Cusers.openoffice.apache.org%3E",
+                    "source": "security@apache.org"
+                },
+                {
+                    "url": "https://lists.apache.org/thread.html/r929c0c6a53cad64a1007b878342756badbb05ddd9b8f31a6d0b424cb%40%3Cannounce.apache.org%3E",
+                    "source": "security@apache.org"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2017-12607",
+            "priority": "P2",
+            "epss": 0.00164,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in OpenOffice's PPT file parser before 4.1.4, and specifically in PPTStyleSheet, allows attackers to craft malicious documents that cause denial of service (memory corruption and application crash) potentially resulting in arbitrary code execution.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/101585",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1039732",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1039734",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "https://lists.debian.org/debian-lts-announce/2017/12/msg00017.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.debian.org/security/2017/dsa-4022",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.openoffice.org/security/cves/CVE-2017-12607.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-1935",
+            "priority": "P2",
+            "epss": 0.00124,
+            "cvss_base_score": 5.7,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:A/AC:M/Au:N/C:N/I:N/A:C",
+            "description": "A certain Red Hat patch to the KVM subsystem in the kernel package before 2.6.32-358.11.1.el6 on Red Hat Enterprise Linux (RHEL) 6 does not properly implement the PV EOI feature, which allows guest OS users to cause a denial of service (host OS crash) by leveraging a time window during which interrupts are disabled but copy_to_user function calls are possible.",
+            "references": [
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-0911.html",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=949981",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://rhn.redhat.com/errata/RHSA-2013-0907.html",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-2224",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 6.9,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "A certain Red Hat patch for the Linux kernel 2.6.32 on Red Hat Enterprise Linux (RHEL) 6 allows local users to cause a denial of service (invalid free operation and system crash) or possibly gain privileges via a sendmsg system call with the IP_RETOPTS option, as demonstrated by hemlock.c.  NOTE: this vulnerability exists because of an incorrect fix for CVE-2012-3552.",
+            "references": [
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1166.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1173.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-1450.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2013/06/30/7",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=979936",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2013-2188",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 4.7,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:M/Au:N/C:N/I:N/A:C",
+            "description": "A certain Red Hat patch to the do_filp_open function in fs/namei.c in the kernel package before 2.6.32-358.11.1.el6 on Red Hat Enterprise Linux (RHEL) 6 does not properly handle failure to obtain write permissions, which allows local users to cause a denial of service (system crash) by leveraging access to a filesystem that is mounted read-only.",
+            "references": [
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=975406",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-47804",
+            "priority": "P2",
+            "epss": 0.00278,
+            "cvss_base_score": 8.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "Apache OpenOffice documents can contain links that call internal macros with arbitrary arguments. Several URI Schemes are defined for this purpose.\n\nLinks can be activated by clicks, or by automatic document events.\n\nThe execution of such links must be subject to user approval.\n\nIn the affected versions of OpenOffice, approval for certain links is not requested; when activated, such links could therefore result in arbitrary script execution.\n\nThis is a corner case of CVE-2022-47502.\n\n",
+            "references": [
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2024/01/03/3",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://lists.apache.org/thread/ygp59swfcy6g46jf8v9s6qpwmxn8fsvb",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.openoffice.org/security/cves/CVE-2023-47804.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2022-37401",
+            "priority": "P2",
+            "epss": 0.00078,
+            "cvss_base_score": 8.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "description": "Apache OpenOffice supports the storage of passwords for web connections in the user's configuration database. The stored passwords are encrypted with a single master key provided by the user. A flaw in OpenOffice existed where master key was poorly encoded resulting in weakening its entropy from 128 to 43 bits making the stored passwords vulnerable to a brute force attack if an attacker has access to the users stored config. This issue affects: Apache OpenOffice versions prior to 4.1.13. Reference: CVE-2022-26307 - LibreOffice",
+            "references": [
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2022/08/13/2",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.openoffice.org/security/cves/CVE-2022-37401.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mitigation",
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2021-33035",
+            "priority": "P1+",
+            "epss": 0.00645,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "TRUE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "Apache OpenOffice opens dBase/DBF documents and shows the contents as spreadsheets. DBF are database files with data organized in fields. When reading DBF data the size of certain fields is not checked: the data is just copied into local variables. A carefully crafted document could overflow the allocated space, leading to the execution of arbitrary code by altering the contents of the program stack. This issue affects Apache OpenOffice up to and including version 4.1.10",
+            "references": [
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2021/10/07/3",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Patch",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://github.com/apache/openoffice/commit/efddaef0151af3be16078cc4d88c6bae0f911e56#diff-ea66e734dd358922aba12ad4ba39c96bdc6cbde587d07dbc63d04daa0a30e90f",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Patch",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://lists.apache.org/thread.html/r1ab8532e11f41bc7ca057ac7e39cab25f2e1f9d5f4929788ae21c8b9%40%3Cusers.openoffice.apache.org%3E",
+                    "source": "security@apache.org"
+                },
+                {
+                    "url": "https://lists.apache.org/thread.html/r929c0c6a53cad64a1007b878342756badbb05ddd9b8f31a6d0b424cb%40%3Cannounce.apache.org%3E",
+                    "source": "security@apache.org"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2020-13958",
+            "priority": "P2",
+            "epss": 0.00064,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in Apache OpenOffice scripting events allows an attacker to construct documents containing hyperlinks pointing to an executable on the target users file system. These hyperlinks can be triggered unconditionally. In fixed versions no internal protocol may be called from the document event handler and other hyperlinks require a control-click.",
+            "references": [
+                {
+                    "url": "https://lists.apache.org/thread.html/r6b2f48cf6c4aad4ebd13f90033162276b0ccae63bea2d3d89cdaf355%40%3Cannounce.openoffice.apache.org%3E",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2017-12607",
+            "priority": "P2",
+            "epss": 0.00164,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in OpenOffice's PPT file parser before 4.1.4, and specifically in PPTStyleSheet, allows attackers to craft malicious documents that cause denial of service (memory corruption and application crash) potentially resulting in arbitrary code execution.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/101585",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1039732",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1039734",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "https://lists.debian.org/debian-lts-announce/2017/12/msg00017.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.debian.org/security/2017/dsa-4022",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.openoffice.org/security/cves/CVE-2017-12607.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2012-2697",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 4.9,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:redhat:enterprise_linux:5:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:L/Au:N/C:N/I:N/A:C",
+            "description": "Unspecified vulnerability in autofs, as used in Red Hat Enterprise Linux (RHEL) 5, allows local users to cause a denial of service (autofs crash and delayed mounts) or prevent \"mount expiration\" via unspecified vectors related to \"using an LDAP-based automount map.\"",
+            "references": [
+                {
+                    "url": "http://kb.juniper.net/InfoCenter/index?page=content&id=JSA10705",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://rhn.redhat.com/errata/RHSA-2013-0132.html",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "http://www.osvdb.org/89878",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.securityfocus.com/bid/57183",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=831772",
+                    "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2012-3440",
+            "priority": "P2",
+            "epss": 0.00042,
+            "cvss_base_score": 5.6,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:todd_miller:sudo:1.7.2:*:*:*:*:*:*:*",
+            "vector": "AV:L/AC:H/Au:N/C:N/I:C/A:C",
+            "description": "A certain Red Hat script for sudo 1.7.2 on Red Hat Enterprise Linux (RHEL) 5 allows local users to overwrite arbitrary files via a symlink attack on the /var/tmp/nsswitch.conf.bak temporary file.",
+            "references": [
+                {
+                    "url": "http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "http://www.securityfocus.com/bid/54868",
+                    "source": "secalert@redhat.com"
+                },
+                {
+                    "url": "https://bugzilla.redhat.com/show_bug.cgi?id=844442",
+                    "source": "secalert@redhat.com",
+                    "tags": [
+                        "Exploit"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2023-47804",
+            "priority": "P2",
+            "epss": 0.00278,
+            "cvss_base_score": 8.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "Apache OpenOffice documents can contain links that call internal macros with arbitrary arguments. Several URI Schemes are defined for this purpose.\n\nLinks can be activated by clicks, or by automatic document events.\n\nThe execution of such links must be subject to user approval.\n\nIn the affected versions of OpenOffice, approval for certain links is not requested; when activated, such links could therefore result in arbitrary script execution.\n\nThis is a corner case of CVE-2022-47502.\n\n",
+            "references": [
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2024/01/03/3",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://lists.apache.org/thread/ygp59swfcy6g46jf8v9s6qpwmxn8fsvb",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Vendor Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.openoffice.org/security/cves/CVE-2023-47804.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2022-37401",
+            "priority": "P2",
+            "epss": 0.00078,
+            "cvss_base_score": 8.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "description": "Apache OpenOffice supports the storage of passwords for web connections in the user's configuration database. The stored passwords are encrypted with a single master key provided by the user. A flaw in OpenOffice existed where master key was poorly encoded resulting in weakening its entropy from 128 to 43 bits making the stored passwords vulnerable to a brute force attack if an attacker has access to the users stored config. This issue affects: Apache OpenOffice versions prior to 4.1.13. Reference: CVE-2022-26307 - LibreOffice",
+            "references": [
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2022/08/13/2",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.openoffice.org/security/cves/CVE-2022-37401.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mitigation",
+                        "Patch",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2021-33035",
+            "priority": "P1+",
+            "epss": 0.00645,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "TRUE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "Apache OpenOffice opens dBase/DBF documents and shows the contents as spreadsheets. DBF are database files with data organized in fields. When reading DBF data the size of certain fields is not checked: the data is just copied into local variables. A carefully crafted document could overflow the allocated space, leading to the execution of arbitrary code by altering the contents of the program stack. This issue affects Apache OpenOffice up to and including version 4.1.10",
+            "references": [
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2021/10/07/3",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Patch",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://github.com/apache/openoffice/commit/efddaef0151af3be16078cc4d88c6bae0f911e56#diff-ea66e734dd358922aba12ad4ba39c96bdc6cbde587d07dbc63d04daa0a30e90f",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Patch",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://lists.apache.org/thread.html/r1ab8532e11f41bc7ca057ac7e39cab25f2e1f9d5f4929788ae21c8b9%40%3Cusers.openoffice.apache.org%3E",
+                    "source": "security@apache.org"
+                },
+                {
+                    "url": "https://lists.apache.org/thread.html/r929c0c6a53cad64a1007b878342756badbb05ddd9b8f31a6d0b424cb%40%3Cannounce.apache.org%3E",
+                    "source": "security@apache.org"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2020-13958",
+            "priority": "P2",
+            "epss": 0.00064,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in Apache OpenOffice scripting events allows an attacker to construct documents containing hyperlinks pointing to an executable on the target users file system. These hyperlinks can be triggered unconditionally. In fixed versions no internal protocol may be called from the document event handler and other hyperlinks require a control-click.",
+            "references": [
+                {
+                    "url": "https://lists.apache.org/thread.html/r6b2f48cf6c4aad4ebd13f90033162276b0ccae63bea2d3d89cdaf355%40%3Cannounce.openoffice.apache.org%3E",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2017-12607",
+            "priority": "P2",
+            "epss": 0.00164,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in OpenOffice's PPT file parser before 4.1.4, and specifically in PPTStyleSheet, allows attackers to craft malicious documents that cause denial of service (memory corruption and application crash) potentially resulting in arbitrary code execution.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/101585",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1039732",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1039734",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "https://lists.debian.org/debian-lts-announce/2017/12/msg00017.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.debian.org/security/2017/dsa-4022",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://www.openoffice.org/security/cves/CVE-2017-12607.html",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2017-6606",
+            "priority": "P2",
+            "epss": 0.0013,
+            "cvss_base_score": 6.4,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:ios_xe:3.1.0s:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:P/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in a startup script of Cisco IOS XE Software could allow an unauthenticated attacker with physical access to the targeted system to execute arbitrary commands on the underlying operating system with the privileges of the root user. More Information: CSCuz06639 CSCuz42122. Known Affected Releases: 15.6(1.1)S 16.1.2 16.2.0 15.2(1)E. Known Fixed Releases: Denali-16.1.3 16.2(1.8) 16.1(2.61) 15.6(2)SP 15.6(2)S1 15.6(1)S2 15.5(3)S3a 15.5(3)S3 15.5(2)S4 15.5(1)S4 15.4(3)S6a 15.4(3)S6 15.3(3)S8a 15.3(3)S8 15.2(5)E 15.2(4)E3 15.2(3)E5 15.0(2)SQD3 15.0(1.9.2)SQD3 3.9(0)E.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/97434",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1038190",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20170405-iosxe",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2017-3803",
+            "priority": "P2",
+            "epss": 0.00112,
+            "cvss_base_score": 4.7,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:ios:15.2\\(2\\)e3:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+            "description": "A vulnerability in the Cisco IOS Software forwarding queue of Cisco 2960X and 3750X switches could allow an unauthenticated, adjacent attacker to cause a memory leak in the software forwarding queue that would eventually lead to a partial denial of service (DoS) condition. More Information: CSCva72252. Known Affected Releases: 15.2(2)E3 15.2(4)E1. Known Fixed Releases: 15.2(2)E6 15.2(4)E3 15.2(5)E1 15.2(5.3.28i)E1 15.2(6.0.49i)E 3.9(1)E.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/95632",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Third Party Advisory",
+                        "VDB Entry"
+                    ]
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1037657",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20170118-catalyst",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Mitigation",
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2016-1425",
+            "priority": "P2",
+            "epss": 0.00435,
+            "cvss_base_score": 6.5,
+            "cvss_version": "CVSS 3.0",
+            "cvss_severity": "MEDIUM",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:o:cisco:ios:15.0\\(2\\)sg5:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "description": "Cisco IOS 15.0(2)SG5, 15.1(2)SG3, 15.2(1)E, 15.3(3)S, and 15.4(1.13)S allows remote attackers to cause a denial of service (device crash) via a crafted LLDP packet, aka Bug ID CSCun66735.",
+            "references": [
+                {
+                    "url": "http://www.securityfocus.com/bid/91545",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "http://www.securitytracker.com/id/1036129",
+                    "source": "ykramarz@cisco.com"
+                },
+                {
+                    "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20160616-ios1",
+                    "source": "ykramarz@cisco.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        }
+    ]
+}
