@@ -142,7 +142,6 @@ def nist_check(cve_id, api_key):
         click.echo(f"Unable to connect to NIST NVD, Check your Internet connection or try again")
         return None
 
-
 # Check Vulncheck NVD++
 def vulncheck_check(cve_id, api_key):
     """
@@ -171,98 +170,107 @@ def vulncheck_check(cve_id, api_key):
 
         if vc_status_code == 200:
             cisa_kev = False
-            if vulncheck_response.json().get("_meta").get("total_documents") > 0:   
-                for unique_cve in vulncheck_response.json().get("data"):
+            response_json = vulncheck_response.json()  # Store the JSON response in a variable
+            #print(response_json)
+
+            if response_json.get("_meta", {}).get("total_documents", 0) > 0:
+                
+                for unique_cve in response_json.get("data", []):
                     
-                    description_text = unique_cve.get("cve", {}).get("description", {}).get("description_data", [{}])[0].get("value")
-                    
+                    description = unique_cve.get("descriptions", [])[0].get("value", "")
+                    references = unique_cve.get("references", [])
                     # Check if present in CISA's KEV
                     if unique_cve.get("cisaExploitAdd"):
                         cisa_kev = True
 
                     try:
-                        cpe = unique_cve.get("configurations")[0].get("nodes")[0].get("cpeMatch")[0].get(
-                            "criteria")
-                    except TypeError:
+                        cpe = unique_cve.get("configurations", [])[0].get("nodes", [])[0].get("cpeMatch", [])[0].get("criteria", 'cpe:2.3:::::::::::')
+                    except (IndexError, TypeError):
                         cpe = 'cpe:2.3:::::::::::'
-                        
 
                     # Collect CVSS Data
-                    if unique_cve.get("metrics").get("cvssMetricV31"):
-                        for metric in unique_cve.get("metrics").get("cvssMetricV31"):
-                            results = {"cvss_version": "CVSS 3.1",
-                                       "cvss_baseScore": float(metric.get("cvssData").get("baseScore")),
-                                       "cvss_severity": metric.get("cvssData").get("baseSeverity"),
-                                       "cisa_kev": cisa_kev,
-                                       "cpe": cpe,
-                                       "vector": metric.get("cvssData").get("vectorString"),
-                                       "description": description_text,
-                                       "required_action: ": metric.get("cvssData").get("required_action")}
-                                        
-                            #results["cve_description"] = unique_cve.get("cve", {}).get("description", {}).get("description_data", [{}])[0].get("value")           
+                    if unique_cve.get("metrics", {}).get("cvssMetricV31"):
+                        for metric in unique_cve.get("metrics", {}).get("cvssMetricV31", []):
+                            results = {
+                                "description": description,
+                                "cvss_version": "CVSS 3.1",
+                                "cvss_baseScore": float(metric.get("cvssData", {}).get("baseScore", 0)),
+                                "cvss_severity": metric.get("cvssData", {}).get("baseSeverity", ""),
+                                "cisa_kev": cisa_kev,
+                                "cpe": cpe,
+                                "vector": metric.get("cvssData", {}).get("vectorString", ""),
+                                "references" : references
+                            }
                             return results
-                    elif unique_cve.get("metrics").get("cvssMetricV30"):
-                        for metric in unique_cve.get("metrics").get("cvssMetricV30"):
-                            results = {"cvss_version": "CVSS 3.0",
-                                       "cvss_baseScore": float(metric.get("cvssData").get("baseScore")),
-                                       "cvss_severity": metric.get("cvssData").get("baseSeverity"),
-                                       "cisa_kev": cisa_kev,
-                                       "cpe": cpe,
-                                       "vector": metric.get("cvssData").get("vectorString"),
-                                       "description": description_text,
-                                       "required_action: ": metric.get("cvssData").get("required_action")}
-                            #results["cve_description"] = unique_cve.get("cve", {}).get("description", {}).get("description_data", [{}])[0].get("value")
+                    elif unique_cve.get("metrics", {}).get("cvssMetricV30"):
+                        for metric in unique_cve.get("metrics", {}).get("cvssMetricV30", []):
+                            results = {
+                                "description": description,
+                                "cvss_version": "CVSS 3.0",
+                                "cvss_baseScore": float(metric.get("cvssData", {}).get("baseScore", 0)),
+                                "cvss_severity": metric.get("cvssData", {}).get("baseSeverity", ""),
+                                "cisa_kev": cisa_kev,
+                                "cpe": cpe,
+                                "vector": metric.get("cvssData", {}).get("vectorString", ""),
+                                "references" : references
+                            }
                             return results
-                    elif unique_cve.get("metrics").get("cvssMetricV2"):
-                        for metric in unique_cve.get("metrics").get("cvssMetricV2"):
-                            results = {"cvss_version": "CVSS 2.0",
-                                       "cvss_baseScore": float(metric.get("cvssData").get("baseScore")),
-                                       "cvss_severity": metric.get("baseSeverity"),
-                                       "cisa_kev": cisa_kev,
-                                       "cpe": cpe,
-                                       "vector": metric.get("cvssData").get("vectorString"),
-                                       "description": description_text,
-                                       "required_action: ": metric.get("cvssData").get("required_action")}
-                            #results["cve_description"] = unique_cve.get("cve", {}).get("description", {}).get("description_data", [{}])[0].get("value")
+                    elif unique_cve.get("metrics", {}).get("cvssMetricV2"):
+                        for metric in unique_cve.get("metrics", {}).get("cvssMetricV2", []):
+                            results = {
+                                "description": description,
+                                "cvss_version": "CVSS 2.0",
+                                "cvss_baseScore": float(metric.get("cvssData", {}).get("baseScore", 0)),
+                                "cvss_severity": metric.get("baseSeverity", ""),
+                                "cisa_kev": cisa_kev,
+                                "cpe": cpe,
+                                "vector": metric.get("cvssData", {}).get("vectorString", ""),
+                                "references" : references
+                            }
                             return results
                     elif unique_cve.get("vulnStatus") == "Awaiting Analysis":
                         click.echo(f"{cve_id:<18}NIST Status: {unique_cve.get('vulnStatus')}")
-                        results = {"cvss_version": "",
-                                   "cvss_baseScore": "",
-                                   "cvss_severity": "",
-                                   "cisa_kev": "",
-                                   "cpe": "",
-                                   "vector": "",
-                                   "description": "",
-                                   "required_action": ""}
+                        results = {
+                            "cvss_version": "",
+                            "cvss_baseScore": "",
+                            "cvss_severity": "",
+                            "cisa_kev": "",
+                            "cpe": "",
+                            "vector": "",
+                            "description": "",
+                            "references": ""
+                        }
                         return results
             else:
                 click.echo(f"{cve_id:<18}Not Found in VulnCheck.")
-                results = {"cvss_version": "",
-                           "cvss_baseScore": "",
-                           "cvss_severity": "",
-                           "cisa_kev": "",
-                           "cpe": "",
-                           "vector": "",
-                           "description": "",
-                           "required_action": ""}
+                results = {
+                    "cvss_version": "",
+                    "cvss_baseScore": "",
+                    "cvss_severity": "",
+                    "cisa_kev": "",
+                    "cpe": "",
+                    "vector": "",
+                    "description": "",
+                    "references": ""
+                }
                 return results
         else:
             click.echo(f"{cve_id:<18}Error code {vc_status_code}")
-            results = {"cvss_version": "",
-                       "cvss_baseScore": "",
-                       "cvss_severity": "",
-                       "cisa_kev": "",
-                       "cpe": "",
-                       "vector": "",
-                       "description": "",
-                       "required_action": ""}
+            results = {
+                "cvss_version": "",
+                "cvss_baseScore": "",
+                "cvss_severity": "",
+                "cisa_kev": "",
+                "cpe": "",
+                "vector": "",
+                "description": "",
+                "references": ""
+            }
             return results
     except requests.exceptions.ConnectionError:
         click.echo(f"Unable to connect to VulnCheck, Check your Internet connection or try again")
         return None
-
-
+    
 def vulncheck_kev(cve_id, api_key):
     """
     Check Vulncheck's KEV catalog
@@ -341,7 +349,7 @@ def truncate_string(input_string, max_length):
 
 # Function manages the outputs
 def print_and_write(working_file, cve_id, priority, epss, cvss_base_score, cvss_version, cvss_severity, kev, source,
-                    verbose, cpe, vector, no_color,description,required_action):
+                    verbose, cpe, vector, no_color,description,references):
     color_priority = colored_print(priority)
     vendor, product = parse_cpe(cpe)
 
@@ -352,14 +360,14 @@ def print_and_write(working_file, cve_id, priority, epss, cvss_base_score, cvss_
                 f"{kev:<10}{truncate_string(vendor, 15):<18}"
                 f"{truncate_string(product, 20):<23}{vector}"
                 f"{description}"
-                f"{required_action}")
+                f"{references}")
                 
         else:
             click.echo(f"{cve_id:<18}{priority:<13}{epss:<9}{cvss_base_score:<6}{cvss_version:<10}{cvss_severity:<10}"
                        f"{kev:<10}{truncate_string(vendor, 15):<18}"
                        f"{truncate_string(product, 20):<23}{vector}"    
                        f"{description}"
-                       f"{required_action}")
+                       f"{references}")
     else:
         if no_color:
             click.echo(f"{cve_id:<18}{color_priority:<22}")
@@ -367,7 +375,7 @@ def print_and_write(working_file, cve_id, priority, epss, cvss_base_score, cvss_
             click.echo(f"{cve_id:<18}{priority:<13}")
     if working_file:
         working_file.write(f"{cve_id},{priority},{epss},{cvss_base_score},{cvss_version},{cvss_severity},"
-                           f"{kev},{source},{cpe},{vendor},{product},{vector},{description},{required_action}\n")
+                           f"{kev},{source},{cpe},{vendor},{product},{vector},{description},{references}\n")
 
 
 # Main function
@@ -398,33 +406,33 @@ def worker(cve_id, cvss_score, epss_score, verbose_print, sem, colored_output, s
                             cve_result.get('cvss_baseScore'), cve_result.get('cvss_version'),
                             cve_result.get('cvss_severity'), 'TRUE', kev_source, verbose_print,
                             cve_result.get('cpe'), cve_result.get('vector'),
-                            cve_result.get('description'), cve_result.get('required_action'), colored_output)
+                            cve_result.get('description'), cve_result.get('references'), colored_output)
         elif cve_result.get("cvss_baseScore") >= cvss_score:
             if epss_result.get("epss") >= epss_score:
                 print_and_write(save_output, cve_id, 'Priority 1', epss_result.get('epss'),
                                 cve_result.get('cvss_baseScore'), cve_result.get('cvss_version'),
                                 cve_result.get('cvss_severity'), '', kev_source, verbose_print,
                                 cve_result.get('cpe'), cve_result.get('vector'),
-                            cve_result.get('description'), cve_result.get('required_action'), colored_output)
+                            cve_result.get('description'), cve_result.get('references'), colored_output)
             else:
                 print_and_write(save_output, cve_id, 'Priority 2', epss_result.get('epss'),
                                 cve_result.get('cvss_baseScore'), cve_result.get('cvss_version'),
                                 cve_result.get('cvss_severity'), '', kev_source, verbose_print,
                                 cve_result.get('cpe'), cve_result.get('vector'),
-                            cve_result.get('description'), cve_result.get('required_action'), colored_output)
+                            cve_result.get('description'), cve_result.get('references'), colored_output)
         else:
             if epss_result.get("epss") >= epss_score:
                 print_and_write(save_output, cve_id, 'Priority 3', epss_result.get('epss'),
                                 cve_result.get('cvss_baseScore'), cve_result.get('cvss_version'),
                                 cve_result.get('cvss_severity'), '', kev_source, verbose_print,
                                 cve_result.get('cpe'), cve_result.get('vector'),
-                            cve_result.get('description'), cve_result.get('required_action'), colored_output)
+                            cve_result.get('description'), cve_result.get('references'), colored_output)
             else:
                 print_and_write(save_output, cve_id, 'Priority 4', epss_result.get('epss'),
                                 cve_result.get('cvss_baseScore'), cve_result.get('cvss_version'),
                                 cve_result.get('cvss_severity'), '', kev_source, verbose_print,
                                 cve_result.get('cpe'), cve_result.get('vector'),
-                            cve_result.get('description'), cve_result.get('required_action'), colored_output)
+                            cve_result.get('description'), cve_result.get('references'), colored_output)
         if results is not None:
             results.append({
                 'cve_id': cve_id,
@@ -441,7 +449,7 @@ def worker(cve_id, cvss_score, epss_score, verbose_print, sem, colored_output, s
                 'cpe': cve_result.get('cpe'),
                 'vector': cve_result.get('vector'),
                 'description': cve_result.get('description'),
-                'required_action': cve_result.get('required_action'),
+                'references': cve_result.get('references'),
             })
     except (TypeError, AttributeError):
         pass
