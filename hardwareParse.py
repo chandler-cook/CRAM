@@ -7,8 +7,8 @@ csv_folder = 'CSVfromTables'
 # Output file where the extracted hardware information will be saved
 output_file = 'extracted_hardware_models.txt'
 
-# List of keywords to identify relevant columns
-hardware_keywords = ['Make', 'Model No.', 'Description']
+# List of keywords to identify relevant columns (normalized)
+hardware_keywords = ['make', 'model no.', 'description']
 
 def extract_hardware_from_csvs(csv_folder, output_file):
     with open(output_file, 'w') as outfile:
@@ -21,15 +21,18 @@ def extract_hardware_from_csvs(csv_folder, output_file):
                     # Read CSV into DataFrame
                     df = pd.read_csv(file_path)
                     
+                    # Normalize the column names by stripping spaces and converting to lower case
+                    df.columns = df.columns.str.strip().str.lower()
+                    
                     # Check if the relevant columns exist
                     if all(keyword in df.columns for keyword in hardware_keywords):
                         outfile.write(f"Extracting from {file}\n")
                         
                         # Loop through each row to extract Make, Model No., and Description
                         for index, row in df.iterrows():
-                            make = row['Make']
-                            model_no = row['Model No.']
-                            description = row['Description']
+                            make = row['make']
+                            model_no = row['model no.']
+                            description = row['description']
                             
                             outfile.write(f"Make: {make}, Model No.: {model_no}, Description: {description}\n")
                     
