@@ -1,0 +1,591 @@
+Extracting from table_14.csv
+Make: Make
+Model No.: Model No.
+
+Make: Cisco
+Model No.: 4125 NGFW
+
+Make: Cisco
+Model No.: MS425-32
+
+Make: Cisco
+Model No.: Catalyst 2960-X
+
+Make: Tripp Lite
+Model No.: B030-008-17-IP
+
+Make: Dell
+Model No.: PowerEdge R750
+
+Make: Dell
+Model No.: PowerVault ME5024
+
+Make: Tripp Lite
+Model No.: N052-048-1U
+
+Make: APC
+Model No.: SMT3000RM2UC
+
+Extracting from table_25.csv
+Make: Make
+Model No.: Model No. 
+Description
+
+Make: Dell
+Model No.: Precision 5820 
+Computer Tower with Keyboard and Mouse
+
+Make: Samsung
+Model No.: S24C450DL 
+24” Widescreen LCD Display
+
+Make: Make
+Model No.: Description 
+Software Version
+
+Make: RedHat
+Model No.: Red Hat Enterprise Linux (RHEL) 
+RHEL 6.0
+
+Make: OpenOffice
+Model No.: Apache OpenOffice (Open Source) 
+4.1.1.4
+
+Make: Make
+Model No.: Model No. 
+Description
+
+Make: Dell
+Model No.: 7330 
+Rugged Latitude Extreme Laptop
+
+Make: Gator
+Model No.: None 
+ATA TSA Molded Laptop Travel Case (Hard Shell, Exterior
+
+Extracting from table_27.csv
+Make: Function Number
+Model No.: Company Work Area
+
+Make: F4
+Model No.: Test Engineering
+
+Make: F5
+Model No.: IT & Cybersecurity
+
+Make: F6
+Model No.: IT & Cybersecurity
+
+Make: F7
+Model No.: Engineering & Production
+
+Make: F8
+Model No.: Test Engineering
+
+Make: F9
+Model No.: Test Engineering
+
+Make: F10
+Model No.: Company Management
+
+Make: F11
+Model No.: Engineering & Production
+
+Make: F12
+Model No.: Test Engineering
+
+Make: F13
+Model No.: Company Management
+
+Make: F14
+Model No.: Company Management
+
+Make: F15
+Model No.: Company Management
+
+Extracting from table_1.csv
+Extracting from table_21.csv
+Make: a.
+Model No.: Provide the bulk data storage location for all data collected during IT operations and cybersecurity monitoring
+
+Make: b.
+Model No.: Store  product  Intellectual  Property  and  any  other  company  sensitive  data,  such  as  financial  records  and
+
+Make: c.
+Model No.: Store product test and analysis data and test reports.
+
+Make: d.
+Model No.: Store company sensitive financial data, legal data to include contracts data, human resources data, payroll
+
+Extracting from table_24.csv
+Make: Company Management SAN
+Model No.: RedHat
+
+Extracting from table_15.csv
+Make: Node
+Model No.: SW Make
+
+Make: Firewall
+Model No.: Cisco
+
+Make: Layer 3 Switch (Router)
+Model No.: Cisco
+
+Make: Layer 2 Switch (Ethernet)
+Model No.: Cisco
+
+Make: Virtualization Manager
+Model No.: RedHat
+
+Make: Cybersecurity Capability &
+Model No.: RedHat
+
+Make: Audit Log Server
+Model No.: RedHat
+
+Make: Virtualization Manager
+Model No.: RedHat
+
+Make: Cybersecurity Capability &
+Model No.: RedHat
+
+Make: Audit Log SANS
+Model No.: RedHat
+
+Extracting from table_20.csv
+Make: Company Management SAN
+Model No.: RedHat
+
+Extracting from table_19.csv
+Make: Node
+Model No.: SW Make
+
+Make: Layer 2 Switches (Ethernet),
+Model No.: Cisco
+
+Make: Servers SR1 and SR2
+Model No.: RedHat
+
+Make: Servers SR3 and SR4
+Model No.: RedHat
+
+Make: Servers SR5 and SR6
+Model No.: RedHat
+
+Make: Servers SR7 and SR8
+Model No.: RedHat
+
+Make: Severs SR9 and SR10
+Model No.: RedHat
+
+Make: Severs SR11 and SR12
+Model No.: Microsoft
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Test SAN
+Model No.: RedHat
+
+Make: Company Management SAN
+Model No.: RedHat
+
+Extracting from table_26.csv
+Make: •
+Model No.: High Criticality – The company must maintain all High criticality functions at all times to meeting vital
+
+Make: •
+Model No.: Medium Criticality – The company can accept partial or complete interruption of Medium criticality
+
+Make: •
+Model No.: Low Criticality – The company can accept long term degradation or denial of Low criticality functions.  It
+
+Extracting from table_11.csv
+Extracting from table_12.csv
+Extracting from table_34.csv
+Make: Node
+Model No.: SW Make
+
+Make: Layer 2 Switches
+Model No.: Cisco
+
+Make: Servers SR1 and SR2
+Model No.: RedHat
+
+Make: Servers SR3 and SR4
+Model No.: RedHat
+
+Make: Servers SR5 and SR6
+Model No.: RedHat
+
+Make: Servers SR7 and SR8
+Model No.: RedHat
+
+Make: Severs SR9 and SR10
+Model No.: RedHat
+
+Make: Severs SR11 and SR12
+Model No.: Microsoft
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Extracting from table_23.csv
+Make: Node
+Model No.: SW Make
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Test SAN Archive
+Model No.: RedHat
+
+Make: Test SAN Archive Backup
+Model No.: RedHat
+
+Make: Cybersecurity Capability &
+Model No.: RedHat
+
+Make: Company Management SAN
+Model No.: RedHat
+
+Make: Company Management SAN
+Model No.: RedHat
+
+Extracting from table_33.csv
+Make: Node
+Model No.: SW Make
+
+Make: Ethernet Switch
+Model No.: Cisco
+
+Make: Virtualization Manager
+Model No.: RedHat
+
+Make: Cybersecurity Capability &
+Model No.: RedHat
+
+Make: Audit Log Server
+Model No.: RedHat
+
+Make: Virtualization Manager
+Model No.: RedHat
+
+Make: Cybersecurity Capability &
+Model No.: RedHat
+
+Make: Audit Log SANS
+Model No.: RedHat
+
+Extracting from table_13.csv
+Extracting from table_5.csv
+Extracting from table_32.csv
+Extracting from table_38.csv
+Make: •
+Model No.: APT1 - APT1, Comment Crew, Comment Group, Comment Panda, Group G0006 | MITRE ATT&CK®
+
+Make: •
+Model No.: Sandworm Team - Sandworm Team, ELECTRUM, Telebots, IRON VIKING, BlackEnergy (Group), Quedagh, Voodoo Bear, IRIDIUM, Group G0034
+
+Make: •
+Model No.: APT28 - APT28, IRON TWILIGHT, SNAKEMACKEREL, Swallowtail, Group 74, Sednit, Sofacy, Pawn Storm, Fancy Bear, STRONTIUM, Tsar
+
+Make: •
+Model No.: Windigo- Windigo, Group G0124 | MITRE ATT&CK®
+
+Extracting from table_36.csv
+Make: Node
+Model No.: SW Make
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Company Management
+Model No.: RedHat
+
+Extracting from table_17.csv
+Make: and  cybersecurity  work  area  separated  and
+Model No.: is 
+implemented  on  a  dedicated  Boundary  Defense  and  System
+
+Make: a.
+Model No.: Provides the product design, development, and test tools.
+
+Make: b.
+Model No.: Process and display technical data library artifacts that describe the systems and products under development
+
+Make: c.
+Model No.: Product  Help  Desk  Response  Ticketing  System  application  software  and  record  database  software.  The
+
+Make: d.
+Model No.: Virtualized product under development Test and Analysis Environment for software products.
+
+Make: e.
+Model No.: Company training environment that will be used to develop workforce knowledge and skills.
+
+Make: f.
+Model No.: Provide  computer resources for company management functions (e.g., Human Resources,  Payroll,  Legal,
+
+Extracting from table_18.csv
+Make: Make
+Model No.: Model No.
+
+Make: Cisco
+Model No.: Catalyst 2960-X
+
+Make: Dell
+Model No.: PowerEdge R750
+
+Make: Tripp Lite
+Model No.: N052-048-1U
+
+Make: Cisco
+Model No.: MS425-32
+
+Make: Dell
+Model No.: PowerVault ME5024
+
+Make: APC
+Model No.: SMT3000RM2UC
+
+Extracting from table_30.csv
+Make: Endpoint Node Name
+Model No.: F1
+
+Extracting from table_2.csv
+Extracting from table_31.csv
+Extracting from table_4.csv
+Extracting from table_9.csv
+Make: a.
+Model No.: Cyber Defensive Capability Performance Measurement Development Challenge
+
+Make: f.
+Model No.: Mitre Common Attack Pattern Enumeration and Classification (CAPEC)
+
+Make: h.
+Model No.: National Institute of Standards and Technology (NIST), National Vulnerability Database (NVD)
+
+Make: i.
+Model No.: NIST NVD Common Vulnerability Scoring System (CVSS)
+
+Make: j.
+Model No.: NIST NVD CVSS Calculator
+
+Extracting from table_29.csv
+Make: Endpoint Node Name 
+F1
+Model No.: F2 
+F3
+
+Make: Engineering & Production SAN 
+X
+Model No.: X 
+X
+
+Make: Engineering & Production SAN 2 
+X
+Model No.: X 
+X
+
+Make: Engineering & Production SAN 
+X
+Model No.: X 
+X
+
+Make: Engineering & Production 
+X
+Model No.: X
+
+Make: Engineering & Production
+Model No.: X
+
+Make: Engineering & Production
+Model No.: X
+
+Extracting from table_37.csv
+Make: Node
+Model No.: SW Make
+
+Make: Test Engineering
+Model No.: RedHat
+
+Extracting from table_10.csv
+Make: k.
+Model No.: Cybersecurity Infrastructure & Infrastructure Security Agency, Know Exploited Vulnerabilities Catalog
+
+Make: l.
+Model No.: MTR180314, Cyber Resiliency Metrics, Measures of Effectiveness, and Scoring, Mitre, September 2018
+
+Extracting from table_28.csv
+Make: Endpoint Node Name
+Model No.: F1
+
+Make: Virtualization Manager Server
+Model No.: X
+
+Make: Server Rack, Server #1 (SR1)
+Model No.: X
+
+Make: Server Rack, Server #2 (SR2)
+Model No.: X
+
+Make: Engineering & Production SAN 1
+Model No.: X
+
+Extracting from table_6.csv
+Make: Performance  Measurement  Development  Challenge,  Phase  3  Demonstration  and
+Model No.: it  can  be  referenced  by
+
+Extracting from table_3.csv
+Make: 1.0
+Model No.: Introduction. .......................................................................................................................................................... 1
+
+Make: 2.0
+Model No.: References. ............................................................................................................................................................ 3
+
+Make: 3.0
+Model No.: System Under Evaluation Description. ................................................................................................................. 5
+
+Make: 3.1
+Model No.: Company Information System Architecture. ................................................................................................... 5
+
+Make: 3.2
+Model No.: Information System Components Description................................................................................................. 7
+
+Make: 3.2.1
+Model No.: Boundary Defense and System Administration Rack. .................................................................................... 7
+
+Make: 3.2.2
+Model No.: Server Rack. ..................................................................................................................................................... 9
+
+Make: 3.2.3
+Model No.: Bulk Data Storage Rack................................................................................................................................. 11
+
+Make: 3.2.4
+Model No.: Workstations and Laptops. ............................................................................................................................ 13
+
+Make: 3.3
+Model No.: System Critical Functions and Mapping........................................................................................................ 15
+
+Make: 3.4
+Model No.: Information System Cyber Vulnerabilities Lists. .......................................................................................... 20
+
+Make: 3.5
+Model No.: Example Advanced Persistent Threats (APTs).............................................................................................. 25
+
+Extracting from table_35.csv
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Engineering & Production
+Model No.: RedHat
+
+Make: Test SAN Archive
+Model No.: RedHat
+
+Make: Test SAN Archive
+Model No.: RedHat
+
+Make: Cybersecurity Capability
+Model No.: RedHat
+
+Extracting from table_8.csv
+Make: •
+Model No.: System Administrator (SA) – The SA role has “root” level privileges to all IT equipment, cybersecurity
+
+Make: •
+Model No.: Engineering and Production (EP) – The EP role has “owner” privileges to all software applications and
+
+Make: •
+Model No.: Test Engineering (TE) – The TE role has “owner” privileges to all the software applications used to test
+
+Make: •
+Model No.: Company Management (CMgmt) – The CMgmt role has “owner” privileges to all the company sensitive
+
+Extracting from table_16.csv
+Make: and  cybersecurity  work  area  separated  and
+Model No.: is
+
+Extracting from table_22.csv
+Make: Make
+Model No.: Model No.
+
+Make: Cisco
+Model No.: Catalyst 2960-X
+
+Make: Dell
+Model No.: PowerVault ME5024
+
+Make: Tripp Lite
+Model No.: N052-048-1U
+
+Make: Cisco
+Model No.: MS425-32
+
+Make: APC
+Model No.: SMT3000RM2UC
+
+Extracting from table_7.csv
+Make: a.
+Model No.: Company facility is next to a river and is in the flood plain.
+
+Make: b.
+Model No.: Company facility implements some physical security measures to include a Security Guard desk at the main
+
+Make: c.
+Model No.: Company has an equipment room that contains all the Information Technology (IT) equipment racks and the
+
+Make: d.
+Model No.: Company has a room for the Engineering and Production staff and it has a single entrance door but there is not
+
+Make: e.
+Model No.: Company has a room for the product test and evaluation, and it has a single door but it is accessed through the
+
+Make: f.
+Model No.: Company Management offices are comprised of a suite of rooms that are accessed from a single door.  That
+
+Make: g.
+Model No.: Assume the company Product floor is all Industrial Control System (ICS) components that is standalone with
+
+Make: h.
+Model No.: The company uses proprietary application software for all the engineering and production, test engineering,
+
+Make: i.
+Model No.: The  IT  staff  has  a  mix  of  training  and  experience.    Some  IT  staff  have  received  IT  and  cybersecurity
+
+Make: j.
+Model No.: Information system boundary Firewall Intrusion Prevention System (IPS) rulesets are not up-to-date.
+
+Make: k.
+Model No.: Some of the hardware and software components within the company information system have reached “end-
+
+Make: l.
+Model No.: Nodes within the company information system have not had the latest security patches installed leaving open
+
