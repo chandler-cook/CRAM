@@ -1,5 +1,9 @@
 import os
 import pandas as pd
+import numpy
+import csv
+import re
+from collections import Counter
 
 matchedFiles = []
 processedList = []
@@ -14,37 +18,15 @@ def check_csv_for_criticality(directory_path, search_value='F6'):
             
             try:
                 # Load the CSV file
-                df = pd.read_csv(file_path)
+                df = pd.read_csv(file_path, low_memory=False)
                 
                 # Check if any cell contains the search value
                 match = (df == search_value).any().any()  # Checks if any cell has the value 'F6'
                 
                 # If a match is found, print the file name
                 if match:
-                    filename1 = "C:\\Users\\JP\\Desktop\\Personal Projects\\CRAM Work\\" + filename
+                    filename1 = "C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\CRAM Tables\\" + filename
                     matchedFiles.append(filename1)
-                    print(f'Match found in file: {filename}')
-            except Exception as e:
-                print(f'Error processing file {filename}: {e}')
-
-def check_csv_for_cve(directory_path, search_value='CVE-'):
-    # Loop through all files in the directory
-    for filename in os.listdir(directory_path):
-        # Check if the file is a CSV file
-        if filename.endswith('.csv'):
-            file_path = os.path.join(directory_path, filename)
-            
-            try:
-                # Load the CSV file
-                df = pd.read_csv(file_path)
-                
-                # Check if any cell contains the search value
-                match = (df == search_value).any().any()  # Checks if any cell has the value 'F6'
-                
-                # If a match is found, print the file name
-                if match:
-                    filename1 = "C:\\Users\\JP\\Desktop\\Personal Projects\\CRAM Work\\" + filename
-                    cveFiles.append(filename1)
                     print(f'Match found in file: {filename}')
             except Exception as e:
                 print(f'Error processing file {filename}: {e}')
@@ -53,7 +35,7 @@ def process_csvs(csv_list):
     for file in csv_list:
         try:
             # Load the CSV file
-            df = pd.read_csv(file)
+            df = pd.read_csv(file, low_memory=False)
             
             # Create a list to track indices of rows to be deleted
             rows_to_delete = []
@@ -110,8 +92,8 @@ def generate_csv_with_3_columns(output_file):
 def add_first_column_and_assign_criticality(modified_csv, new_csv):
     try:
         # Load the modified CSV file
-        df_modified = pd.read_csv(modified_csv)
-        df_newCSV = pd.read_csv(new_csv)
+        df_modified = pd.read_csv(modified_csv, low_memory=False)
+        df_newCSV = pd.read_csv(new_csv, low_memory=False)
         # Check if the necessary columns already exist
         if 'Endpoint Name' not in df_newCSV or 'Criticality' not in df_newCSV:
             print(f"Error: CSV file '{new_csv}' must contain 'Endpoint Name' and 'Criticality' columns.")
@@ -184,58 +166,132 @@ def search_csvs_in_directory(directory, substring = 'CVE'):
     return matching_files
 
 
-def process_csv_CVE_list(csv_list):
-    """
-    Reads each CSV in the list and processes rows where the first column is empty and the last column contains 'CVE'.
-    Appends the value in the last column to the last column of the previous row, and deletes the row.
-
-    Parameters:
-    csv_list (list): List of CSV file paths to process.
-    """
-    for csv_file in csv_list:
-        try:
-            # Load the CSV file into a pandas DataFrame
-            df = pd.read_csv(csv_file)
-
-            # Iterate over the rows (index is required for modification)
-            rows_to_delete = []
-            for i in range(1, len(df)):  # Start from the second row (index 1)
-                first_col_empty = pd.isna(df.iloc[i, 0])  # Check if the first column is empty
-                last_col_value = df.iloc[i, -1]  # Get the value from the last column
-
-                if first_col_empty and isinstance(last_col_value, str) and 'CVE' in str(last_col_value):
-                    # Append the current last column value to the last column of the row above it
-                    df.iloc[i - 1, -1] += f", {str(last_col_value)}"
-                    
-                    # Mark the current row for deletion
-                    rows_to_delete.append(i)
-
-            # Drop the marked rows
-            df.drop(index=rows_to_delete, inplace=True)
-
-            # Reset index after deletion (optional, if desired)
-            df.reset_index(drop=True, inplace=True)
-
-            # Save the modified CSV back to the same file (or to a new file if needed)
-            df.to_csv(csv_file, index=False)
-            print(f"Processed and saved '{csv_file}' successfully.")
+def move_append_and_delete_row_if_last_empty(input_file, output_file):
+    # Read the CSV file
+    with open(input_file, 'r', newline='') as infile:
+        reader = list(csv.reader(infile))
         
-        except Exception as e:
-            print(f"Error processing file {csv_file}: {e}")
+        # Traverse rows from the second row to the last
+        i = 1
+        while i < len(reader):
+            if reader[i][-1] == '':  # Check if the last column is empty
+                # Append the current row's first column value to the previous row's first column
+                reader[i-1][0] = reader[i-1][0] + ' ' + reader[i][0] if reader[i-1][0] else reader[i][0]
+                
+                # Remove the current row after appending
+                reader.pop(i)
+            else:
+                i += 1  # Move to the next row only if no deletion
 
+        # Write the updated data to a new CSV file
+        with open(output_file, 'w', newline='') as outfile:
+            writer = csv.writer(outfile)
+            writer.writerows(reader)
+            
+def move_append_and_delete_row_if_first_empty(input_file, output_file):
+    # Read the CSV file
+    with open(input_file, 'r', newline='') as infile:
+        reader = list(csv.reader(infile))
+        
+        # Traverse rows from the second row to the last
+        i = 1
+        while i < len(reader):
+            if reader[i][0] == '':  # Check if the first column is empty
+                # Append the current row's last column value to the previous row's last column
+                reader[i-1][-1] = reader[i-1][-1] + ', ' + reader[i][-1] if reader[i-1][-1] else reader[i][-1]
+                
+                # Remove the current row after appending
+                reader.pop(i)
+            else:
+                i += 1  # Move to the next row only if no deletion
+
+        # Write the updated data to a new CSV file
+        with open(output_file, 'w', newline='') as outfile:
+            writer = csv.writer(outfile)
+            writer.writerows(reader)
+
+
+# List of common stopwords to ignore during comparison
+stopwords = {"and", "the", "is", "in", "at", "of", "on", "a", "to"}
+
+def tokenize(text):
+    """Tokenizes and removes stopwords and punctuation from a given text."""
+    # Convert to lowercase, remove punctuation, and split into words
+    words = re.findall(r'\w+', text.lower())
+    # Remove stopwords
+    filtered_words = [word for word in words if word not in stopwords]
+    return filtered_words
+
+def word_similarity(tokens1, tokens2):
+    """Calculates the percentage of common words between two token lists."""
+    common_words = Counter(tokens1) & Counter(tokens2)
+    total_words = max(len(tokens1), len(tokens2))
+    
+    # If no words in either string, return 0 similarity
+    if total_words == 0:
+        return 0
+    
+    # Percentage of common words
+    similarity = sum(common_words.values()) / total_words
+    return similarity
+
+def append_matching_values(primary_csv, secondary_csv):
+    # Read Primary.csv
+    with open(primary_csv, 'r') as p_file:
+        primary_data = list(csv.reader(p_file))
+    
+    # Read Secondary.csv
+    with open(secondary_csv, 'r') as s_file:
+        secondary_data = list(csv.reader(s_file))
+    
+    # Create new Primary.csv content with appended column
+    updated_primary_data = []
+    
+    # Loop through each row in Primary.csv
+    for p_row in primary_data:
+        primary_value = p_row[0]
+        primary_tokens = tokenize(primary_value)
+        
+        # Track if we find a match
+        matching_value = ""
+        
+        # Nested loop: compare with each row in Secondary.csv
+        for s_row in secondary_data:
+            secondary_value = s_row[0]
+            secondary_tokens = tokenize(secondary_value)
+            
+            # Check word similarity (50% threshold)
+            if word_similarity(primary_tokens, secondary_tokens) >= 0.99:
+                matching_value = s_row[-1]  # Get the final column of the secondary row
+                break  # Stop searching once a match is found
+        
+        # Append the matching value to the current row of Primary.csv
+        updated_primary_data.append(p_row + [matching_value])
+    
+    # Write the updated Primary.csv back to disk
+    with open(primary_csv, 'w', newline='') as p_file:
+        writer = csv.writer(p_file)
+        writer.writerows(updated_primary_data)
 
 # Specify the directory path
-directory_path = "C:\\Users\\JP\\Desktop\\Personal Projects\\CRAM Work"
+directory_path = "C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\CRAM Tables"
 
 # Run the function to check the headers in all CSV files
 
-output_file = "C:\\Users\\JP\\Desktop\\Personal Projects\\CRAM Work\\test.csv"
-#generate_csv_with_3_columns(output_file)
+output_file = "C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\test.csv"
+generate_csv_with_3_columns(output_file)
 check_csv_for_criticality(directory_path)
-check_csv_for_cve(directory_path)
-#process_csvs(matchedFiles)
-#for x in processedList:
-    #add_first_column_and_assign_criticality(x, output_file)
-
+process_csvs(matchedFiles)
 cveFiles = search_csvs_in_directory(directory_path)
-process_csv_CVE_list(cveFiles)
+for x in processedList:
+    add_first_column_and_assign_criticality(x, output_file)
+count = 0
+cveFinalFiles = []
+for x in cveFiles:
+    move_append_and_delete_row_if_last_empty(x, "C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\CVEModified" + str(count) + ".csv")
+    move_append_and_delete_row_if_first_empty("C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\CVEModified" + str(count) + ".csv", "C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\CVEFinal" + str(count) + ".csv")
+    cveFinalFiles.append("C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\CVEFinal" + str(count) + ".csv")
+    count += 1
+    
+for x in cveFinalFiles:
+    append_matching_values("C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\test.csv", x)
