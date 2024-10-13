@@ -1,0 +1,15 @@
+"Node","SW Make","Software (SW) Description","Software 
+Version","CVEs List; (NVD Score)"
+"Firewall","Cisco","FirePower 4125 Next Generation 
+Firewall with Firepower Threat Defense 
+(FTD) Software","6.6.7","CVE-2023-20269; (NVD Score: 9.1) 
+CVE-2023-20256; (NVD Score: 5.8) 
+CVE-2023-20247; (NVD Score: 4.3) 
+CVE-2023-20200; (NVD Score: 6.3) 
+CVE-2023-20095; (NVD Score: 8.6) 
+CVE-2023-20015; (NVD Score: 6.7) 
+CVE-2023-20934  (NVD Score: 7.8)"
+"Router","Cisco","Meraki MS425-32 Layer 3 Switch 
+(firmware 2014-09-23)","2014-09-23","CVE-2018-0284; (NVD Score: 6.5) 
+CVE-2014-7999; (NVD Score: 7.7) 
+CVE-2014-7993; (NVD Score: 3.3)"

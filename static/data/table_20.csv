@@ -1,0 +1,30 @@
+"","Function Number","","","","","","","","","","","","","",""
+"Endpoint Node Name","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","F13","F14","F15"
+"Engineering & Production SAN 
+Archive 1","X","X","X","","","","","","","","","","","",""
+"Engineering & Production SAN 
+Archive 1 Backup","","","","","","","X","","","","","","","",""
+"Engineering & Production SAN 2","X","X","X","","","","","","","","","","","",""
+"Engineering & Production SAN 
+Archive 2","X","X","X","","","","","","","","","","","",""
+"Engineering & Production SAN 
+Archive 2 Backup","","","","","","","X","","","","","","","",""
+"Engineering & Production SAN 3","","","","","","","X","","","","","","","",""
+"Test SAN","","","","X","","","","X","X","","","","","",""
+"Test SAN Archive","","","","X","","","","X","X","","","","","",""
+"Test SAN Archive Backup","","","","","","","","X","","","","","","",""
+"Company Management SAN","","","","","","","","","","X","","","X","X","X"
+"Company Management SAN 
+Archive","","","","","","","","","","X","","","X","X","X"
+"Company Management SAN 
+Archive Backup","","","","","","","","","","X","","","X","X","X"
+"Engineering & Production 
+(Workstation 1)","X","X","","","","","","","","","","","","",""
+"Engineering & Production 
+(Workstation 2)","","","X","","","","","","","","","","","",""
+"Engineering & Production 
+(Workstation 3)","","X","","","","","X","","","","","","","",""
+"Engineering & Production 
+(Workstation 4)","","","","","","","X","","","","X","","","",""
+"Test Engineering (Laptop 1)","","","","X","","","","","","","","","","",""
+"Test Engineering (Laptop 2)","","","","","","","","X","X","","","","","",""
