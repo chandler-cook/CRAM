@@ -1,7 +1,7 @@
 {
     "metadata": {
         "generator": "CVE Prioritizer",
-        "generation_date": "2024-10-10T06:18:05.796454",
+        "generation_date": "2024-10-12T22:58:24.304713",
         "total_cves": 74,
         "cvss_threshold": 6.0,
         "epss_threshold": 0.2
@@ -793,32 +793,6 @@
             ]
         },
         {
-            "cve_id": "CVE-2009-5118",
-            "priority": "P2",
-            "epss": 0.00067,
-            "cvss_base_score": 9.3,
-            "cvss_version": "CVSS 2.0",
-            "cvss_severity": "HIGH",
-            "kev": "FALSE",
-            "kev_source": "VULNCHECK",
-            "cpe": "cpe:2.3:a:mcafee:virusscan_enterprise:*:*:*:*:*:*:*:*",
-            "vector": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
-            "description": "Untrusted search path vulnerability in McAfee VirusScan Enterprise before 8.7i allows local users to gain privileges via a Trojan horse DLL in an unspecified directory, as demonstrated by scanning a document located on a remote share.",
-            "references": [
-                {
-                    "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/78448",
-                    "source": "cve@mitre.org"
-                },
-                {
-                    "url": "https://kc.mcafee.com/corporate/index?page=content&id=SB10013",
-                    "source": "cve@mitre.org",
-                    "tags": [
-                        "Vendor Advisory"
-                    ]
-                }
-            ]
-        },
-        {
             "cve_id": "CVE-2007-2152",
             "priority": "P1",
             "epss": 0.78188,
@@ -954,6 +928,32 @@
                 {
                     "url": "https://www.tenable.com/security/tns-2020-05",
                     "source": "vulnreport@tenable.com",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2009-5118",
+            "priority": "P2",
+            "epss": 0.00067,
+            "cvss_base_score": 9.3,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:mcafee:virusscan_enterprise:*:*:*:*:*:*:*:*",
+            "vector": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "Untrusted search path vulnerability in McAfee VirusScan Enterprise before 8.7i allows local users to gain privileges via a Trojan horse DLL in an unspecified directory, as demonstrated by scanning a document located on a remote share.",
+            "references": [
+                {
+                    "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/78448",
+                    "source": "cve@mitre.org"
+                },
+                {
+                    "url": "https://kc.mcafee.com/corporate/index?page=content&id=SB10013",
+                    "source": "cve@mitre.org",
                     "tags": [
                         "Vendor Advisory"
                     ]
@@ -1553,29 +1553,6 @@
             ]
         },
         {
-            "cve_id": "CVE-2020-13958",
-            "priority": "P2",
-            "epss": 0.00064,
-            "cvss_base_score": 7.8,
-            "cvss_version": "CVSS 3.1",
-            "cvss_severity": "HIGH",
-            "kev": "FALSE",
-            "kev_source": "VULNCHECK",
-            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
-            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
-            "description": "A vulnerability in Apache OpenOffice scripting events allows an attacker to construct documents containing hyperlinks pointing to an executable on the target users file system. These hyperlinks can be triggered unconditionally. In fixed versions no internal protocol may be called from the document event handler and other hyperlinks require a control-click.",
-            "references": [
-                {
-                    "url": "https://lists.apache.org/thread.html/r6b2f48cf6c4aad4ebd13f90033162276b0ccae63bea2d3d89cdaf355%40%3Cannounce.openoffice.apache.org%3E",
-                    "source": "security@apache.org",
-                    "tags": [
-                        "Mailing List",
-                        "Vendor Advisory"
-                    ]
-                }
-            ]
-        },
-        {
             "cve_id": "CVE-2021-33035",
             "priority": "P1+",
             "epss": 0.00645,
@@ -1612,6 +1589,29 @@
                 {
                     "url": "https://lists.apache.org/thread.html/r929c0c6a53cad64a1007b878342756badbb05ddd9b8f31a6d0b424cb%40%3Cannounce.apache.org%3E",
                     "source": "security@apache.org"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2020-13958",
+            "priority": "P2",
+            "epss": 0.00064,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in Apache OpenOffice scripting events allows an attacker to construct documents containing hyperlinks pointing to an executable on the target users file system. These hyperlinks can be triggered unconditionally. In fixed versions no internal protocol may be called from the document event handler and other hyperlinks require a control-click.",
+            "references": [
+                {
+                    "url": "https://lists.apache.org/thread.html/r6b2f48cf6c4aad4ebd13f90033162276b0ccae63bea2d3d89cdaf355%40%3Cannounce.openoffice.apache.org%3E",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Vendor Advisory"
+                    ]
                 }
             ]
         },
@@ -1832,46 +1832,6 @@
             ]
         },
         {
-            "cve_id": "CVE-2021-33035",
-            "priority": "P1+",
-            "epss": 0.00645,
-            "cvss_base_score": 7.8,
-            "cvss_version": "CVSS 3.1",
-            "cvss_severity": "HIGH",
-            "kev": "TRUE",
-            "kev_source": "VULNCHECK",
-            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
-            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
-            "description": "Apache OpenOffice opens dBase/DBF documents and shows the contents as spreadsheets. DBF are database files with data organized in fields. When reading DBF data the size of certain fields is not checked: the data is just copied into local variables. A carefully crafted document could overflow the allocated space, leading to the execution of arbitrary code by altering the contents of the program stack. This issue affects Apache OpenOffice up to and including version 4.1.10",
-            "references": [
-                {
-                    "url": "http://www.openwall.com/lists/oss-security/2021/10/07/3",
-                    "source": "security@apache.org",
-                    "tags": [
-                        "Mailing List",
-                        "Patch",
-                        "Third Party Advisory"
-                    ]
-                },
-                {
-                    "url": "https://github.com/apache/openoffice/commit/efddaef0151af3be16078cc4d88c6bae0f911e56#diff-ea66e734dd358922aba12ad4ba39c96bdc6cbde587d07dbc63d04daa0a30e90f",
-                    "source": "security@apache.org",
-                    "tags": [
-                        "Patch",
-                        "Third Party Advisory"
-                    ]
-                },
-                {
-                    "url": "https://lists.apache.org/thread.html/r1ab8532e11f41bc7ca057ac7e39cab25f2e1f9d5f4929788ae21c8b9%40%3Cusers.openoffice.apache.org%3E",
-                    "source": "security@apache.org"
-                },
-                {
-                    "url": "https://lists.apache.org/thread.html/r929c0c6a53cad64a1007b878342756badbb05ddd9b8f31a6d0b424cb%40%3Cannounce.apache.org%3E",
-                    "source": "security@apache.org"
-                }
-            ]
-        },
-        {
             "cve_id": "CVE-2020-13958",
             "priority": "P2",
             "epss": 0.00064,
@@ -1990,6 +1950,46 @@
                 {
                     "url": "https://bugzilla.redhat.com/show_bug.cgi?id=831772",
                     "source": "secalert@redhat.com"
+                }
+            ]
+        },
+        {
+            "cve_id": "CVE-2021-33035",
+            "priority": "P1+",
+            "epss": 0.00645,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "TRUE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "Apache OpenOffice opens dBase/DBF documents and shows the contents as spreadsheets. DBF are database files with data organized in fields. When reading DBF data the size of certain fields is not checked: the data is just copied into local variables. A carefully crafted document could overflow the allocated space, leading to the execution of arbitrary code by altering the contents of the program stack. This issue affects Apache OpenOffice up to and including version 4.1.10",
+            "references": [
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2021/10/07/3",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Patch",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://github.com/apache/openoffice/commit/efddaef0151af3be16078cc4d88c6bae0f911e56#diff-ea66e734dd358922aba12ad4ba39c96bdc6cbde587d07dbc63d04daa0a30e90f",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Patch",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://lists.apache.org/thread.html/r1ab8532e11f41bc7ca057ac7e39cab25f2e1f9d5f4929788ae21c8b9%40%3Cusers.openoffice.apache.org%3E",
+                    "source": "security@apache.org"
+                },
+                {
+                    "url": "https://lists.apache.org/thread.html/r929c0c6a53cad64a1007b878342756badbb05ddd9b8f31a6d0b424cb%40%3Cannounce.apache.org%3E",
+                    "source": "security@apache.org"
                 }
             ]
         },

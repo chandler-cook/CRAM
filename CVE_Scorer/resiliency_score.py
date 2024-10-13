@@ -1,13 +1,72 @@
 import json
 import subprocess
 from cpeparser import CpeParser
-import argparse
 import os
-
+import pandas as pd
 
 ### Make script to see if api is set, if not set it
 
+def crit_score(json_file, cve):
+    crit_score = 1  # Default score if not found
+    endpoint_name = ''
+    with open(json_file) as f:
+        data = json.load(f)
+        for crit in data['cves']:
+            # Check if 'CVEs' key exists and if the CVE is in the list
+            if 'CVEs' in crit and cve in crit['CVEs']:
+                if crit.get('Criticality') == 'Critical':
+                    return 3, crit.get('Endpoint Name')
+                elif crit.get('Criticality') == 'Medium':
+                    return 2, crit.get('Endpoint Name')
+                elif crit.get('Criticality') == 'Low':
+                    return 1, crit.get('Endpoint Name')
+                else:
+                    return 1, crit.get('Endpoint Name')
+    return crit_score, ""
+    
 
+
+def csv_to_json(csv_file, json_file):
+    df = pd.read_csv(csv_file)
+    
+    # Function to parse CVEs
+    def parse_cves(row):
+        cves = []
+        for col in row.index:
+            if col.startswith('Unnamed:') and isinstance(row[col], str):
+                for cve_entry in row[col].split(','):
+                    cve_entry = cve_entry.strip()
+                    if cve_entry.startswith(('CVE-', 'CVD-')):
+                        cve_id = cve_entry.split(';')[0].strip()
+                        # Change 'CVD' to 'CVE' if present
+                        if cve_id.startswith('CVD-'):
+                            cve_id = 'CVE-' + cve_id[4:]
+                        cves.append(cve_id)
+        return cves if cves else None
+
+    # Apply the parsing function and create a new 'CVEs' column
+    df['CVEs'] = df.apply(parse_cves, axis=1)
+    
+    # Drop all unnamed columns
+    df = df.drop(columns=[col for col in df.columns if col.startswith('Unnamed:')])
+    
+    # Remove rows where all values are null
+    df = df.dropna(how='all')
+    
+    # Remove rows where the 'CVEs' column is null
+    df = df[df['CVEs'].notna()]
+    
+    # Convert to a list of dictionaries
+    cves_list = df.to_dict(orient='records')
+    
+    # Create a dictionary with 'cves' as the key
+    cves_dict = {'cves': cves_list}
+    
+    # Save to JSON
+    with open(json_file, 'w') as f:
+        json.dump(cves_dict, f, indent=4)
+
+    
 
 def run_cve_scan(cve_file, json_file_name):
     #json_file_name = args.json_file
@@ -92,12 +151,6 @@ def parse_cvss_vector(cvss_vector):
             whole_description[full_name] = descriptions[code][value]
     
     return whole_description
-     #   if code in descriptions and value in descriptions[code]:
-     #       code = full_names[code]
-     #       whole_description[code] = descriptions[code][value]
-    
-    # Join all descriptions into a single string
-
 
 
 def type_of_vuln_cpe(cpe_parsed):
@@ -119,7 +172,8 @@ def all_cpe(cpe_parsed):
     return key_val_dict
     
 
-def all_json_to_sw_hw_json(json_file):
+def all_json_to_sw_hw_json(json_file, crit_csv_file):
+    csv_to_json(crit_csv_file, 'crit.json')
     cpe = CpeParser()
     with open(json_file) as f:
         data = json.load(f)
@@ -147,7 +201,9 @@ def all_json_to_sw_hw_json(json_file):
             cvss_vector_description = parse_cvss_vector(cve['vector'])
             type = type_of_vuln_cpe(cpe_parsed)
             if type == 'Operating System' or type == 'Application':
-                resiliency_score = 100 - cve['cvss_base_score'] * 10
+                cve['criticality'], cve['endpoint_name'] = crit_score('crit.json', cve['cve_id'])
+                resiliency_score = (100 - cve['cvss_base_score'] * 10)/cve['criticality']
+                
                 cve['resiliency_score'] = resiliency_score
                 cve['cpe_full'] = cpe_to_json
                 cve['cvss_vector_description'] = cvss_vector_description
@@ -155,7 +211,8 @@ def all_json_to_sw_hw_json(json_file):
                 sw_overall_resiliency_score += resiliency_score
                 sw_i += 1
             elif type == 'Hardware':
-                resiliency_score = 100 - cve['cvss_base_score'] * 10
+                cve['criticality'], cve['endpoint_name'] = crit_score('crit.json', cve['cve_id'])
+                resiliency_score = (100 - cve['cvss_base_score'] * 10)/cve['criticality']
                 cve['resiliency_score'] = resiliency_score
                 cve['cpe_full'] = cpe_to_json
                 hw_data['cves'].append(cve)

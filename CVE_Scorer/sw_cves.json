@@ -30,6 +30,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 35.0,
             "cpe_full": {
                 "part": "o",
@@ -88,6 +90,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 36.0,
             "cpe_full": {
                 "part": "o",
@@ -147,6 +151,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 53.0,
             "cpe_full": {
                 "part": "o",
@@ -201,6 +207,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 35.0,
             "cpe_full": {
                 "part": "o",
@@ -263,7 +271,9 @@
                     "source": "secalert@redhat.com"
                 }
             ],
-            "resiliency_score": 51.0,
+            "criticality": 3,
+            "endpoint_name": "Virtualization Manager Server",
+            "resiliency_score": 17.0,
             "cpe_full": {
                 "part": "o",
                 "vendor": "redhat",
@@ -312,7 +322,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 44.0,
+            "criticality": 3,
+            "endpoint_name": "Virtualization Manager Server",
+            "resiliency_score": 14.666666666666666,
             "cpe_full": {
                 "part": "a",
                 "vendor": "todd_miller",
@@ -360,6 +372,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 43.0,
             "cpe_full": {
                 "part": "o",
@@ -413,6 +427,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 31.0,
             "cpe_full": {
                 "part": "o",
@@ -447,6 +463,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 53.0,
             "cpe_full": {
                 "part": "o",
@@ -505,6 +523,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 2.0,
             "cpe_full": {
                 "part": "o",
@@ -552,6 +572,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 7.0,
             "cpe_full": {
                 "part": "o",
@@ -590,6 +612,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 34.0,
             "cpe_full": {
                 "part": "o",
@@ -642,6 +666,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 31.0,
             "cpe_full": {
                 "part": "o",
@@ -680,6 +706,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 31.0,
             "cpe_full": {
                 "part": "o",
@@ -718,6 +746,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 7.0,
             "cpe_full": {
                 "part": "o",
@@ -771,7 +801,9 @@
                     "source": "secalert@redhat.com"
                 }
             ],
-            "resiliency_score": 51.0,
+            "criticality": 3,
+            "endpoint_name": "Virtualization Manager Server",
+            "resiliency_score": 17.0,
             "cpe_full": {
                 "part": "o",
                 "vendor": "redhat",
@@ -820,7 +852,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 44.0,
+            "criticality": 3,
+            "endpoint_name": "Virtualization Manager Server",
+            "resiliency_score": 14.666666666666666,
             "cpe_full": {
                 "part": "a",
                 "vendor": "todd_miller",
@@ -864,6 +898,8 @@
                     "source": "ykramarz@cisco.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 46.0,
             "cpe_full": {
                 "part": "a",
@@ -905,6 +941,8 @@
                     "source": "ykramarz@cisco.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 28.0,
             "cpe_full": {
                 "part": "a",
@@ -953,6 +991,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 35.0,
             "cpe_full": {
                 "part": "o",
@@ -1011,6 +1051,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 36.0,
             "cpe_full": {
                 "part": "o",
@@ -1070,6 +1112,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 53.0,
             "cpe_full": {
                 "part": "o",
@@ -1124,6 +1168,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 35.0,
             "cpe_full": {
                 "part": "o",
@@ -1186,7 +1232,9 @@
                     "source": "secalert@redhat.com"
                 }
             ],
-            "resiliency_score": 51.0,
+            "criticality": 3,
+            "endpoint_name": "Virtualization Manager Server",
+            "resiliency_score": 17.0,
             "cpe_full": {
                 "part": "o",
                 "vendor": "redhat",
@@ -1235,7 +1283,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 44.0,
+            "criticality": 3,
+            "endpoint_name": "Virtualization Manager Server",
+            "resiliency_score": 14.666666666666666,
             "cpe_full": {
                 "part": "a",
                 "vendor": "todd_miller",
@@ -1272,7 +1322,9 @@
                     "source": "trellixpsirt@trellix.com"
                 }
             ],
-            "resiliency_score": 33.0,
+            "criticality": 3,
+            "endpoint_name": "Cybersecurity Capability & Tools Server",
+            "resiliency_score": 11.0,
             "cpe_full": {
                 "part": "a",
                 "vendor": "mcafee",
@@ -1296,47 +1348,6 @@
                 "Integrity Impact": "High: Complete loss of integrity",
                 "Availability Impact": "High: Complete loss of availability"
             }
-        },
-        {
-            "cve_id": "CVE-2009-5118",
-            "priority": "P2",
-            "epss": 0.00067,
-            "cvss_base_score": 9.3,
-            "cvss_version": "CVSS 2.0",
-            "cvss_severity": "HIGH",
-            "kev": "FALSE",
-            "kev_source": "VULNCHECK",
-            "cpe": "cpe:2.3:a:mcafee:virusscan_enterprise:*:*:*:*:*:*:*:*",
-            "vector": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
-            "description": "Untrusted search path vulnerability in McAfee VirusScan Enterprise before 8.7i allows local users to gain privileges via a Trojan horse DLL in an unspecified directory, as demonstrated by scanning a document located on a remote share.",
-            "references": [
-                {
-                    "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/78448",
-                    "source": "cve@mitre.org"
-                },
-                {
-                    "url": "https://kc.mcafee.com/corporate/index?page=content&id=SB10013",
-                    "source": "cve@mitre.org",
-                    "tags": [
-                        "Vendor Advisory"
-                    ]
-                }
-            ],
-            "resiliency_score": 7.0,
-            "cpe_full": {
-                "part": "a",
-                "vendor": "mcafee",
-                "product": "virusscan_enterprise",
-                "version": "*",
-                "update": "*",
-                "edition": "*",
-                "language": "*",
-                "sw_edition": "*",
-                "target_sw": "*",
-                "target_hw": "*",
-                "other": "*"
-            },
-            "cvss_vector_description": {}
         },
         {
             "cve_id": "CVE-2007-2152",
@@ -1402,7 +1413,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 21.0,
+            "criticality": 3,
+            "endpoint_name": "Cybersecurity Capability & Tools Server",
+            "resiliency_score": 7.0,
             "cpe_full": {
                 "part": "a",
                 "vendor": "mcafee",
@@ -1450,7 +1463,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 12.0,
+            "criticality": 3,
+            "endpoint_name": "Cybersecurity Capability & Tools Server",
+            "resiliency_score": 4.0,
             "cpe_full": {
                 "part": "a",
                 "vendor": "tenable",
@@ -1496,7 +1511,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 33.0,
+            "criticality": 3,
+            "endpoint_name": "Cybersecurity Capability & Tools Server",
+            "resiliency_score": 11.0,
             "cpe_full": {
                 "part": "a",
                 "vendor": "tenable",
@@ -1542,7 +1559,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 46.0,
+            "criticality": 3,
+            "endpoint_name": "Cybersecurity Capability & Tools Server",
+            "resiliency_score": 15.333333333333334,
             "cpe_full": {
                 "part": "a",
                 "vendor": "tenable",
@@ -1566,6 +1585,49 @@
                 "Integrity Impact": "Low: Partial loss of integrity",
                 "Availability Impact": "None: No impact on availability"
             }
+        },
+        {
+            "cve_id": "CVE-2009-5118",
+            "priority": "P2",
+            "epss": 0.00067,
+            "cvss_base_score": 9.3,
+            "cvss_version": "CVSS 2.0",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:mcafee:virusscan_enterprise:*:*:*:*:*:*:*:*",
+            "vector": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
+            "description": "Untrusted search path vulnerability in McAfee VirusScan Enterprise before 8.7i allows local users to gain privileges via a Trojan horse DLL in an unspecified directory, as demonstrated by scanning a document located on a remote share.",
+            "references": [
+                {
+                    "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/78448",
+                    "source": "cve@mitre.org"
+                },
+                {
+                    "url": "https://kc.mcafee.com/corporate/index?page=content&id=SB10013",
+                    "source": "cve@mitre.org",
+                    "tags": [
+                        "Vendor Advisory"
+                    ]
+                }
+            ],
+            "criticality": 3,
+            "endpoint_name": "Cybersecurity Capability & Tools Server",
+            "resiliency_score": 2.3333333333333335,
+            "cpe_full": {
+                "part": "a",
+                "vendor": "mcafee",
+                "product": "virusscan_enterprise",
+                "version": "*",
+                "update": "*",
+                "edition": "*",
+                "language": "*",
+                "sw_edition": "*",
+                "target_sw": "*",
+                "target_hw": "*",
+                "other": "*"
+            },
+            "cvss_vector_description": {}
         },
         {
             "cve_id": "CVE-2024-23675",
@@ -1595,7 +1657,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 35.0,
+            "criticality": 3,
+            "endpoint_name": "Cybersecurity Capability & Tools Server",
+            "resiliency_score": 11.666666666666666,
             "cpe_full": {
                 "part": "a",
                 "vendor": "splunk",
@@ -1648,7 +1712,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 65.0,
+            "criticality": 3,
+            "endpoint_name": "Cybersecurity Capability & Tools Server",
+            "resiliency_score": 21.666666666666668,
             "cpe_full": {
                 "part": "a",
                 "vendor": "splunk",
@@ -1701,7 +1767,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 25.0,
+            "criticality": 3,
+            "endpoint_name": "Cybersecurity Capability & Tools Server",
+            "resiliency_score": 8.333333333333334,
             "cpe_full": {
                 "part": "a",
                 "vendor": "splunk",
@@ -1754,7 +1822,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 39.0,
+            "criticality": 3,
+            "endpoint_name": "Cybersecurity Capability & Tools Server",
+            "resiliency_score": 13.0,
             "cpe_full": {
                 "part": "a",
                 "vendor": "splunk",
@@ -1808,6 +1878,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 43.0,
             "cpe_full": {
                 "part": "o",
@@ -1861,6 +1933,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 31.0,
             "cpe_full": {
                 "part": "o",
@@ -1895,6 +1969,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 53.0,
             "cpe_full": {
                 "part": "o",
@@ -1935,6 +2011,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 9.0,
             "cpe_full": {
                 "part": "o",
@@ -1981,6 +2059,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 42.0,
             "cpe_full": {
                 "part": "o",
@@ -2027,6 +2107,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 57.0,
             "cpe_full": {
                 "part": "o",
@@ -2073,6 +2155,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 37.0,
             "cpe_full": {
                 "part": "o",
@@ -2119,6 +2203,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 14.0,
             "cpe_full": {
                 "part": "o",
@@ -2165,6 +2251,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 33.0,
             "cpe_full": {
                 "part": "a",
@@ -2212,6 +2300,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 22.0,
             "cpe_full": {
                 "part": "o",
@@ -2266,6 +2356,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 35.0,
             "cpe_full": {
                 "part": "o",
@@ -2316,6 +2408,8 @@
                     "source": "ykramarz@cisco.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 23.0,
             "cpe_full": {
                 "part": "a",
@@ -2359,6 +2453,8 @@
                     "source": "ykramarz@cisco.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 67.0,
             "cpe_full": {
                 "part": "a",
@@ -2408,6 +2504,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 43.0,
             "cpe_full": {
                 "part": "o",
@@ -2461,6 +2559,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 31.0,
             "cpe_full": {
                 "part": "o",
@@ -2495,6 +2595,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 53.0,
             "cpe_full": {
                 "part": "o",
@@ -2552,6 +2654,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 12.0,
             "cpe_full": {
                 "part": "a",
@@ -2608,6 +2712,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 12.0,
             "cpe_full": {
                 "part": "a",
@@ -2627,53 +2733,6 @@
                 "Attack Complexity": "Low: Exploitation is straightforward",
                 "Privileges Required": "Low: Requires basic user privileges",
                 "User Interaction": "None: No user interaction required",
-                "Scope": "Unchanged: Exploitation does not affect other components",
-                "Confidentiality Impact": "High: Complete loss of confidentiality",
-                "Integrity Impact": "High: Complete loss of integrity",
-                "Availability Impact": "High: Complete loss of availability"
-            }
-        },
-        {
-            "cve_id": "CVE-2020-13958",
-            "priority": "P2",
-            "epss": 0.00064,
-            "cvss_base_score": 7.8,
-            "cvss_version": "CVSS 3.1",
-            "cvss_severity": "HIGH",
-            "kev": "FALSE",
-            "kev_source": "VULNCHECK",
-            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
-            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
-            "description": "A vulnerability in Apache OpenOffice scripting events allows an attacker to construct documents containing hyperlinks pointing to an executable on the target users file system. These hyperlinks can be triggered unconditionally. In fixed versions no internal protocol may be called from the document event handler and other hyperlinks require a control-click.",
-            "references": [
-                {
-                    "url": "https://lists.apache.org/thread.html/r6b2f48cf6c4aad4ebd13f90033162276b0ccae63bea2d3d89cdaf355%40%3Cannounce.openoffice.apache.org%3E",
-                    "source": "security@apache.org",
-                    "tags": [
-                        "Mailing List",
-                        "Vendor Advisory"
-                    ]
-                }
-            ],
-            "resiliency_score": 22.0,
-            "cpe_full": {
-                "part": "a",
-                "vendor": "apache",
-                "product": "openoffice",
-                "version": "*",
-                "update": "*",
-                "edition": "*",
-                "language": "*",
-                "sw_edition": "*",
-                "target_sw": "*",
-                "target_hw": "*",
-                "other": "*"
-            },
-            "cvss_vector_description": {
-                "Attack Vector": "Local: Exploitable with local access",
-                "Attack Complexity": "Low: Exploitation is straightforward",
-                "Privileges Required": "None: No privileges needed",
-                "User Interaction": "Required: User interaction is required",
                 "Scope": "Unchanged: Exploitation does not affect other components",
                 "Confidentiality Impact": "High: Complete loss of confidentiality",
                 "Integrity Impact": "High: Complete loss of integrity",
@@ -2719,6 +2778,57 @@
                     "source": "security@apache.org"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
+            "resiliency_score": 22.0,
+            "cpe_full": {
+                "part": "a",
+                "vendor": "apache",
+                "product": "openoffice",
+                "version": "*",
+                "update": "*",
+                "edition": "*",
+                "language": "*",
+                "sw_edition": "*",
+                "target_sw": "*",
+                "target_hw": "*",
+                "other": "*"
+            },
+            "cvss_vector_description": {
+                "Attack Vector": "Local: Exploitable with local access",
+                "Attack Complexity": "Low: Exploitation is straightforward",
+                "Privileges Required": "None: No privileges needed",
+                "User Interaction": "Required: User interaction is required",
+                "Scope": "Unchanged: Exploitation does not affect other components",
+                "Confidentiality Impact": "High: Complete loss of confidentiality",
+                "Integrity Impact": "High: Complete loss of integrity",
+                "Availability Impact": "High: Complete loss of availability"
+            }
+        },
+        {
+            "cve_id": "CVE-2020-13958",
+            "priority": "P2",
+            "epss": 0.00064,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "FALSE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "A vulnerability in Apache OpenOffice scripting events allows an attacker to construct documents containing hyperlinks pointing to an executable on the target users file system. These hyperlinks can be triggered unconditionally. In fixed versions no internal protocol may be called from the document event handler and other hyperlinks require a control-click.",
+            "references": [
+                {
+                    "url": "https://lists.apache.org/thread.html/r6b2f48cf6c4aad4ebd13f90033162276b0ccae63bea2d3d89cdaf355%40%3Cannounce.openoffice.apache.org%3E",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Vendor Advisory"
+                    ]
+                }
+            ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 22.0,
             "cpe_full": {
                 "part": "a",
@@ -2804,6 +2914,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 22.0,
             "cpe_full": {
                 "part": "a",
@@ -2858,6 +2970,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 43.0,
             "cpe_full": {
                 "part": "o",
@@ -2911,6 +3025,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 31.0,
             "cpe_full": {
                 "part": "o",
@@ -2945,6 +3061,8 @@
                     "source": "secalert@redhat.com"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 53.0,
             "cpe_full": {
                 "part": "o",
@@ -3002,6 +3120,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 12.0,
             "cpe_full": {
                 "part": "a",
@@ -3058,6 +3178,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 12.0,
             "cpe_full": {
                 "part": "a",
@@ -3077,70 +3199,6 @@
                 "Attack Complexity": "Low: Exploitation is straightforward",
                 "Privileges Required": "Low: Requires basic user privileges",
                 "User Interaction": "None: No user interaction required",
-                "Scope": "Unchanged: Exploitation does not affect other components",
-                "Confidentiality Impact": "High: Complete loss of confidentiality",
-                "Integrity Impact": "High: Complete loss of integrity",
-                "Availability Impact": "High: Complete loss of availability"
-            }
-        },
-        {
-            "cve_id": "CVE-2021-33035",
-            "priority": "P1+",
-            "epss": 0.00645,
-            "cvss_base_score": 7.8,
-            "cvss_version": "CVSS 3.1",
-            "cvss_severity": "HIGH",
-            "kev": "TRUE",
-            "kev_source": "VULNCHECK",
-            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
-            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
-            "description": "Apache OpenOffice opens dBase/DBF documents and shows the contents as spreadsheets. DBF are database files with data organized in fields. When reading DBF data the size of certain fields is not checked: the data is just copied into local variables. A carefully crafted document could overflow the allocated space, leading to the execution of arbitrary code by altering the contents of the program stack. This issue affects Apache OpenOffice up to and including version 4.1.10",
-            "references": [
-                {
-                    "url": "http://www.openwall.com/lists/oss-security/2021/10/07/3",
-                    "source": "security@apache.org",
-                    "tags": [
-                        "Mailing List",
-                        "Patch",
-                        "Third Party Advisory"
-                    ]
-                },
-                {
-                    "url": "https://github.com/apache/openoffice/commit/efddaef0151af3be16078cc4d88c6bae0f911e56#diff-ea66e734dd358922aba12ad4ba39c96bdc6cbde587d07dbc63d04daa0a30e90f",
-                    "source": "security@apache.org",
-                    "tags": [
-                        "Patch",
-                        "Third Party Advisory"
-                    ]
-                },
-                {
-                    "url": "https://lists.apache.org/thread.html/r1ab8532e11f41bc7ca057ac7e39cab25f2e1f9d5f4929788ae21c8b9%40%3Cusers.openoffice.apache.org%3E",
-                    "source": "security@apache.org"
-                },
-                {
-                    "url": "https://lists.apache.org/thread.html/r929c0c6a53cad64a1007b878342756badbb05ddd9b8f31a6d0b424cb%40%3Cannounce.apache.org%3E",
-                    "source": "security@apache.org"
-                }
-            ],
-            "resiliency_score": 22.0,
-            "cpe_full": {
-                "part": "a",
-                "vendor": "apache",
-                "product": "openoffice",
-                "version": "*",
-                "update": "*",
-                "edition": "*",
-                "language": "*",
-                "sw_edition": "*",
-                "target_sw": "*",
-                "target_hw": "*",
-                "other": "*"
-            },
-            "cvss_vector_description": {
-                "Attack Vector": "Local: Exploitable with local access",
-                "Attack Complexity": "Low: Exploitation is straightforward",
-                "Privileges Required": "None: No privileges needed",
-                "User Interaction": "Required: User interaction is required",
                 "Scope": "Unchanged: Exploitation does not affect other components",
                 "Confidentiality Impact": "High: Complete loss of confidentiality",
                 "Integrity Impact": "High: Complete loss of integrity",
@@ -3169,6 +3227,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 22.0,
             "cpe_full": {
                 "part": "a",
@@ -3254,6 +3314,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 22.0,
             "cpe_full": {
                 "part": "a",
@@ -3316,7 +3378,9 @@
                     "source": "secalert@redhat.com"
                 }
             ],
-            "resiliency_score": 51.0,
+            "criticality": 3,
+            "endpoint_name": "Virtualization Manager Server",
+            "resiliency_score": 17.0,
             "cpe_full": {
                 "part": "o",
                 "vendor": "redhat",
@@ -3334,6 +3398,72 @@
                 "Attack Complexity": "Low: Exploitation is straightforward",
                 "Confidentiality Impact": "None: No impact on confidentiality",
                 "Integrity Impact": "None: No impact on integrity"
+            }
+        },
+        {
+            "cve_id": "CVE-2021-33035",
+            "priority": "P1+",
+            "epss": 0.00645,
+            "cvss_base_score": 7.8,
+            "cvss_version": "CVSS 3.1",
+            "cvss_severity": "HIGH",
+            "kev": "TRUE",
+            "kev_source": "VULNCHECK",
+            "cpe": "cpe:2.3:a:apache:openoffice:*:*:*:*:*:*:*:*",
+            "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "description": "Apache OpenOffice opens dBase/DBF documents and shows the contents as spreadsheets. DBF are database files with data organized in fields. When reading DBF data the size of certain fields is not checked: the data is just copied into local variables. A carefully crafted document could overflow the allocated space, leading to the execution of arbitrary code by altering the contents of the program stack. This issue affects Apache OpenOffice up to and including version 4.1.10",
+            "references": [
+                {
+                    "url": "http://www.openwall.com/lists/oss-security/2021/10/07/3",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Mailing List",
+                        "Patch",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://github.com/apache/openoffice/commit/efddaef0151af3be16078cc4d88c6bae0f911e56#diff-ea66e734dd358922aba12ad4ba39c96bdc6cbde587d07dbc63d04daa0a30e90f",
+                    "source": "security@apache.org",
+                    "tags": [
+                        "Patch",
+                        "Third Party Advisory"
+                    ]
+                },
+                {
+                    "url": "https://lists.apache.org/thread.html/r1ab8532e11f41bc7ca057ac7e39cab25f2e1f9d5f4929788ae21c8b9%40%3Cusers.openoffice.apache.org%3E",
+                    "source": "security@apache.org"
+                },
+                {
+                    "url": "https://lists.apache.org/thread.html/r929c0c6a53cad64a1007b878342756badbb05ddd9b8f31a6d0b424cb%40%3Cannounce.apache.org%3E",
+                    "source": "security@apache.org"
+                }
+            ],
+            "criticality": 1,
+            "endpoint_name": "",
+            "resiliency_score": 22.0,
+            "cpe_full": {
+                "part": "a",
+                "vendor": "apache",
+                "product": "openoffice",
+                "version": "*",
+                "update": "*",
+                "edition": "*",
+                "language": "*",
+                "sw_edition": "*",
+                "target_sw": "*",
+                "target_hw": "*",
+                "other": "*"
+            },
+            "cvss_vector_description": {
+                "Attack Vector": "Local: Exploitable with local access",
+                "Attack Complexity": "Low: Exploitation is straightforward",
+                "Privileges Required": "None: No privileges needed",
+                "User Interaction": "Required: User interaction is required",
+                "Scope": "Unchanged: Exploitation does not affect other components",
+                "Confidentiality Impact": "High: Complete loss of confidentiality",
+                "Integrity Impact": "High: Complete loss of integrity",
+                "Availability Impact": "High: Complete loss of availability"
             }
         },
         {
@@ -3365,7 +3495,9 @@
                     ]
                 }
             ],
-            "resiliency_score": 44.0,
+            "criticality": 3,
+            "endpoint_name": "Virtualization Manager Server",
+            "resiliency_score": 14.666666666666666,
             "cpe_full": {
                 "part": "a",
                 "vendor": "todd_miller",
@@ -3422,6 +3554,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 12.0,
             "cpe_full": {
                 "part": "a",
@@ -3478,6 +3612,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 12.0,
             "cpe_full": {
                 "part": "a",
@@ -3542,6 +3678,8 @@
                     "source": "security@apache.org"
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 22.0,
             "cpe_full": {
                 "part": "a",
@@ -3589,6 +3727,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 22.0,
             "cpe_full": {
                 "part": "a",
@@ -3674,6 +3814,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 22.0,
             "cpe_full": {
                 "part": "a",
@@ -3732,6 +3874,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 36.0,
             "cpe_full": {
                 "part": "o",
@@ -3791,6 +3935,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 53.0,
             "cpe_full": {
                 "part": "o",
@@ -3845,6 +3991,8 @@
                     ]
                 }
             ],
+            "criticality": 1,
+            "endpoint_name": "",
             "resiliency_score": 35.0,
             "cpe_full": {
                 "part": "o",
@@ -3871,5 +4019,5 @@
             }
         }
     ],
-    "overall_resiliency_score": 32.986486486486484
+    "overall_resiliency_score": 26.716216216216218
 }
