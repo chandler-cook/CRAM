@@ -267,3 +267,25 @@ def word_similarity(tokens1, tokens2):
     # Percentage of common words
     similarity = sum(common_words.values()) / total_words
     return similarity
+
+def delete_csv_files(directory):
+    try:
+        # List all files in the provided directory
+        files_in_directory = os.listdir(directory)
+        
+        # Filter out only .csv files
+        csv_files = [file for file in files_in_directory if file.endswith(".csv")]
+        
+        if csv_files:
+            for file in csv_files:
+                file_path = os.path.join(directory, file)
+                try:
+                    os.remove(file_path)  # Delete the file
+                    print(f"{file_path} has been deleted.")
+                except Exception as e:
+                    print(f"Error occurred while deleting {file_path}: {e}")
+        else:
+            print("No .csv files found in the directory.")
+    
+    except Exception as e:
+        print(f"Error occurred while accessing the directory: {e}")
