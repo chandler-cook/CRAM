@@ -109,13 +109,14 @@ def add_first_column_and_assign_criticality(modified_csv, new_csv):
             # Get the value of the first column
             endpoint_name = row.iloc[0]  # First column of the current row
             
-            # Check the first 5 columns for 'X'
-            if (row[:6] == 'X').any():
+            if (row[:len(row)//3] == 'X').any():
                 criticality = 'Critical'
-            # If no 'X' in the first 5 columns, check columns 6, 7, and 8
-            elif (row[6:9] == 'X').any():
+
+            # Check the second portion (e.g., the second third of the data)
+            elif (row[len(row)//3:2*len(row)//3] == 'X').any():
                 criticality = 'Medium'
-            # If no 'X' in the first 8 columns
+
+            # Check the third portion (the last third of the data)
             else:
                 criticality = 'Low'
             
