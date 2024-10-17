@@ -2,9 +2,13 @@ from flask import Flask, request, jsonify, render_template
 from transformers import pipeline, AutoTokenizer, AutoModelForSeq2SeqLM
 from functions.pdf_processor import *
 from functions.csv_formatter import *
+from functions.resiliency_score import *
+from functions.physical_model import physical_main
+
 import torch
 
 app = Flask(__name__)
+
 
 
 # Setup device and torch type based on CUDA availability
@@ -61,6 +65,13 @@ def analyze():
     pdf_bytes = pdf_file.read()
 
     output_path = os.path.join(app.root_path, 'static/data')
+
+    # Deletes previous runs
+    sw_json = os.path.join(output_path, 'sw_cves.json')
+    hw_json = os.path.join(output_path, 'hw_cves.json')
+    delete_txt_files(output_path)
+    delete_csv_files(output_path)
+    delete_json_files(sw_json, hw_json)
 
     # Extract text from PDF
     extracted_text = extract_text(pdf_bytes)
@@ -124,6 +135,22 @@ def analyze():
     for x in final_cve_files:
         append_matching(final_csv, x)
 
+    #
+    # SCORING SECTION
+    #
+
+    cve_prioritizer = os.path.join(app.root_path, 'functions/CVE_Prioritizer/cve_prioritizer.py')
+    cve_json = os.path.join(output_path, 'all_cves.json')
+    cve_scan(cve_prioritizer, cve_file, cve_json)
+    convert_to_json(cve_json, final_csv)
+
+    static_path = os.path.join(app.root_path, 'static/')
+    physical_path = os.path.join(output_path, 'Physical.txt')
+    physical_score = physical_main(static_path, physical_path)
+    if physical_score is not None:
+        print(physical_score)
+    else:
+        print('No score could be calculated')
 
     return jsonify({
         "project_name": project_name,
@@ -134,3 +161,5 @@ def analyze():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    torch.cuda.empty_cache()
+    torch.cuda.ipc_collect()
