@@ -42,6 +42,22 @@
             justify-content: center;
         }
 
+        .circle-button {
+            border: none;
+            background: none;
+            padding: 0;
+            text-align: center;
+            color: inherit;
+            cursor: pointer;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .circle-button:focus {
+            outline: none;
+        }
+
+
     </style>
 </head>
 <body class="bg-dark">
@@ -68,8 +84,8 @@
         </div>
     </div>
 
-    <!-- Score Card -->
-    <div class="card mt-5 col-12 col-md-8 offset-md-2 col-lg-4 offset-lg-4" id="divScore" style="display: none;">
+    <!-- Overview Card -->
+    <div class="card mt-5 col-12 col-md-8 offset-md-2 col-lg-4 offset-lg-4" id="divOverview" style="display: none;">
         <div class="card-body text-center">
             <div id="resultDisplay" class="mt-4"></div>
             <h2>Score Overview</h2>
@@ -77,27 +93,53 @@
             <div class="big-circle">
                 <span class="big-number">85</span>
             </div>
+            <p class="mt-2">Overall</p>
         
             <!-- Smaller Circles -->
             <div class="row mt-4">
                 <div class="col-4">
-                    <div class="small-circle">
-                        <span class="small-number">75</span>
-                    </div>
+                    <button type="button" id="btnSoftware" class="circle-button">
+                        <div class="small-circle">
+                            <span class="small-number">75</span>
+                        </div>
+                        <p class="mt-2">Software</p>
+                    </button>
                 </div>
             <div class="col-4">
-                <div class="small-circle">
-                    <span class="small-number">90</span>
-                </div>
+                <button type="button" id="btnHardware" class="circle-button">
+                    <div class="small-circle">
+                        <span class="small-number">90</span>
+                    </div>
+                    <p class="mt-2">Hardware</p>
+                </button>
             </div>
             <div class="col-4">
-                <div class="small-circle">
-                    <span class="small-number">80</span>
-                </div>
+                <button type="button" id="btnPhysical" class="circle-button">
+                    <div class="small-circle">
+                        <span class="small-number">80</span>
+                    </div>
+                    <p class="mt-2">Physical</p>
+                </button>
             </div>
         </div>
         </div>
     </div>
+
+    <!-- Software Score -->
+    <div class="card mt-5 col-10 offset-1" id="divSoftware" style="display:none">
+
+    </div>
+
+    <!-- Hardware Score -->
+    <div class="card mt-5 col-10 offset-1" id="divHardware" style="display:none">
+
+    </div>
+
+    <!-- Physical Score -->
+    <div class="card mt-5 col-10 offset-1" id="divPhysical" style="display:none">
+
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         /* Switches from divUpload to divScore*/
@@ -110,7 +152,12 @@
             formData.append('projectName', projectName);
             formData.append('pdf', fileInput);
 
-            $.ajax({
+            // delete this
+            $('#divUpload').slideUp(function() {
+                        $('#divOverview').slideDown();
+            });
+
+            /*$.ajax({
                 url: '/analyze',
                 type: 'POST',
                 data: formData,
@@ -130,11 +177,30 @@
                 error: function(response) {
                     alert('Error processing file: ' + response.responseJSON.error)
                 }
-            });
+            });*/
         });
+        
         $(document).on('click', '#btnReset', function () {
             $('#txtName').val('')
             $('#txtFile').val('')
+        })
+
+        $(document).on('click', '#btnSoftware', function () {
+            $('#divOverview').slideUp(function() {
+                $('#divSoftware').slideDown();
+            });
+        })
+
+        $(document).on('click', '#btnHardware', function () {
+            $('#divOverview').slideUp(function() {
+                $('#divHardware').slideDown();
+            });
+        })
+
+        $(document).on('click', '#btnPhysical', function () {
+            $('#divOverview').slideUp(function() {
+                $('#divPhysical').slideDown();
+            });
         })
     </script>
 </body>
