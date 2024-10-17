@@ -102,11 +102,12 @@
     <script>
         /* Switches from divUpload to divScore*/
         $(document).on('click', '#btnAnalyze', function () {
+            $(this).fadeOut();
             const projectName = $('#txtName').val().trim();
             const fileInput = $('#txtFile')[0].files[0];
 
             let formData = new FormData();
-            formData.append('project_name', projectName);
+            formData.append('projectName', projectName);
             formData.append('pdf', fileInput);
 
             $.ajax({
