@@ -5,9 +5,17 @@ from pytesseract import Output
 from PIL import Image
 import os
 
+# Function to set a default DPI for the image before processing with Tesseract
+def ensure_dpi(img):
+    # Ensure the DPI is set to 300 for proper OCR
+    if img.info.get('dpi') is None or img.info['dpi'] == (0, 0):
+        img = img.resize((img.width * 2, img.height * 2), Image.LANCZOS)  # Resize to roughly 300 DPI
+    return img
+
 # Function to detect if a page needs to be rotated
 def is_page_rotated(img):
     # Perform OCR to detect text orientation
+    img = ensure_dpi(img)  # Ensure proper DPI
     ocr_result = pytesseract.image_to_osd(img, output_type=Output.DICT)
     rotation = ocr_result['rotate']
     return rotation
@@ -18,11 +26,11 @@ def contains_table(page):
     img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
     
     # Perform OCR to extract text data
+    img = ensure_dpi(img)  # Ensure proper DPI
     ocr_data = pytesseract.image_to_data(img, output_type=Output.DICT)
     text_count = len(ocr_data['text'])
     
     # Heuristic: Check for table-like structures
-    # If the text density is lower and there are gaps between text, it could indicate a table
     table_like_threshold = 0.6  # Adjust this threshold based on the document layout
     confidence_threshold = 60  # Confidence threshold for the OCR detection
     
