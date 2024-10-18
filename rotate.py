@@ -1,39 +1,27 @@
 # pip install pytesseract fitz Pillow
 import fitz  # PyMuPDF
-import pytesseract
-from PIL import Image
-import io
 
-# Function to detect if a page's content is rotated based on Tesseract's OSD (Orientation and Script Detection)
+# Function to check if a page's content should be rotated based on its aspect ratio
 def is_page_rotated(page):
-    # Render page to image
     pix = page.get_pixmap()
-    img_data = pix.tobytes("png")
     
-    # Convert image data to PIL image
-    img = Image.open(io.BytesIO(img_data))
+    # Calculate aspect ratio (width / height)
+    aspect_ratio = pix.width / pix.height
     
-    # Use Tesseract to detect orientation (OSD mode)
-    ocr_result = pytesseract.image_to_osd(img)
-    
-    # Check for rotation angle in OSD result
-    rotation_angle = int(ocr_result.split("\n")[2].split(":")[1].strip())
-    return rotation_angle != 0, rotation_angle
+    # If width is greater than height, it likely needs rotation
+    return aspect_ratio > 1.0
 
-# Function to rotate pages based on Tesseract's detected orientation
+# Function to rotate pages if needed based on aspect ratio
 def rotate_pdf_pages(pdf_path, output_path):
-    # Open the PDF
     document = fitz.open(pdf_path)
     
     for page_num in range(len(document)):
         page = document.load_page(page_num)
         
         # Check if the page content is rotated
-        rotated, angle = is_page_rotated(page)
-        
-        if rotated:
-            print(f"Rotating page {page_num + 1} by {angle} degrees")
-            page.set_rotation(angle)  # Rotate by the detected angle
+        if is_page_rotated(page):
+            print(f"Rotating page {page_num + 1}")
+            page.set_rotation(90)  # Rotate page by 90 degrees
             
     # Save the rotated PDF
     document.save(output_path)
