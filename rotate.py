@@ -1,44 +1,61 @@
-# pip install pymupdf pillow pytesseract pdfplumber
-
+# pip install pytesseract fitz Pillow
 import fitz  # PyMuPDF
 import pytesseract
+from pytesseract import Output
 from PIL import Image
-import io
+import os
 
-# Function to check if a page needs rotation
-def is_page_rotated(page):
-    # Convert the page into an image
+# Function to detect if a page needs to be rotated
+def is_page_rotated(img):
+    # Perform OCR to detect text orientation
+    ocr_result = pytesseract.image_to_osd(img, output_type=Output.DICT)
+    rotation = ocr_result['rotate']
+    return rotation
+
+# Function to check if the page contains a table (heuristic based on visual layout)
+def contains_table(page):
     pix = page.get_pixmap()
-    img = Image.open(io.BytesIO(pix.tobytes("png")))
+    img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
     
-    # Perform OCR to detect orientation
-    try:
-        ocr_result = pytesseract.image_to_osd(img)
-        if "Rotate: 90" in ocr_result or "Rotate: 270" in ocr_result:
-            return True
-    except Exception as e:
-        print(f"Error detecting rotation: {e}")
-        return False
+    # Perform OCR to extract text data
+    ocr_data = pytesseract.image_to_data(img, output_type=Output.DICT)
+    text_count = len(ocr_data['text'])
+    
+    # Heuristic: Check for table-like structures
+    # If the text density is lower and there are gaps between text, it could indicate a table
+    table_like_threshold = 0.6  # Adjust this threshold based on the document layout
+    confidence_threshold = 60  # Confidence threshold for the OCR detection
+    
+    table_lines = sum([1 for conf in ocr_data['conf'] if int(conf) > confidence_threshold])
+    
+    if table_lines / text_count < table_like_threshold:
+        return True
     return False
 
 # Function to rotate pages in the PDF
 def rotate_pdf_pages(pdf_path, output_path):
-    doc = fitz.open(pdf_path)
-    for page_num in range(doc.page_count):
-        page = doc.load_page(page_num)
-        
-        if is_page_rotated(page):
-            page.set_rotation(90)  # Rotate the page clockwise
-            print(f"Rotating page {page_num + 1}")
+    # Open the PDF
+    document = fitz.open(pdf_path)
     
-    # Save the rotated PDF
-    doc.save(output_path)
-    doc.close()
-    print(f"Saved rotated PDF as {output_path}")
+    for page_num in range(len(document)):
+        page = document.load_page(page_num)
+        pix = page.get_pixmap()
+        img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
 
-# Specify input and output PDF file paths
-pdf_path = '/mnt/data/Challenge_Smaller_System_Under_Evaluation_Rev_0.1.pdf'
-output_path = 'rotated_output.pdf'
+        # Detect if the page is rotated incorrectly
+        rotation = is_page_rotated(img)
+        
+        # Check for table structures
+        if contains_table(page) or rotation != 0:
+            print(f"Rotating page {page_num+1} by {rotation} degrees")
+            page.set_rotation(90)  # Rotate by 90 degrees or based on your needs
+    
+    # Save the output PDF
+    document.save(output_path)
+    document.close()
 
-# Rotate and save the PDF
+# Main code to process the PDF
+pdf_path = 'path/to/your/pdf/file'  # Replace with the path to your PDF file
+output_path = 'path/to/output/file'  # Replace with the desired output path
+
 rotate_pdf_pages(pdf_path, output_path)
