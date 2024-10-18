@@ -1,65 +1,41 @@
 # pip install pytesseract fitz Pillow
 import fitz  # PyMuPDF
 import pytesseract
-from pytesseract import Output
 from PIL import Image
-import os
+import io
 
-# Function to set a default DPI for the image before processing with Tesseract
-def ensure_dpi(img):
-    # Ensure the DPI is set to 300 for proper OCR
-    img = img.convert('RGB')
-    img.save("/tmp/temp_img.png", dpi=(300, 300))
-    img = Image.open("/tmp/temp_img.png")
-    return img
-
-# Function to detect if a page needs to be rotated
-def is_page_rotated(img):
-    # Perform OCR to detect text orientation
-    img = ensure_dpi(img)  # Ensure proper DPI
-    ocr_result = pytesseract.image_to_osd(img, output_type=Output.DICT)
-    rotation = ocr_result['rotate']
-    return rotation
-
-# Function to check if the page contains a table (heuristic based on visual layout)
-def contains_table(page):
+# Function to detect if a page's content is rotated based on Tesseract's OSD (Orientation and Script Detection)
+def is_page_rotated(page):
+    # Render page to image
     pix = page.get_pixmap()
-    img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+    img_data = pix.tobytes("png")
     
-    # Perform OCR to extract text data
-    img = ensure_dpi(img)  # Ensure proper DPI
-    ocr_data = pytesseract.image_to_data(img, output_type=Output.DICT)
-    text_count = len(ocr_data['text'])
+    # Convert image data to PIL image
+    img = Image.open(io.BytesIO(img_data))
     
-    # Heuristic: Check for table-like structures
-    table_like_threshold = 0.6  # Adjust this threshold based on the document layout
-    confidence_threshold = 60  # Confidence threshold for the OCR detection
+    # Use Tesseract to detect orientation (OSD mode)
+    ocr_result = pytesseract.image_to_osd(img)
     
-    table_lines = sum([1 for conf in ocr_data['conf'] if int(conf) > confidence_threshold])
-    
-    if table_lines / text_count < table_like_threshold:
-        return True
-    return False
+    # Check for rotation angle in OSD result
+    rotation_angle = int(ocr_result.split("\n")[2].split(":")[1].strip())
+    return rotation_angle != 0, rotation_angle
 
-# Function to rotate pages in the PDF
+# Function to rotate pages based on Tesseract's detected orientation
 def rotate_pdf_pages(pdf_path, output_path):
     # Open the PDF
     document = fitz.open(pdf_path)
     
     for page_num in range(len(document)):
         page = document.load_page(page_num)
-        pix = page.get_pixmap()
-        img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-
-        # Detect if the page is rotated incorrectly
-        rotation = is_page_rotated(img)
         
-        # Check for table structures
-        if contains_table(page) or rotation != 0:
-            print(f"Rotating page {page_num+1} by {rotation} degrees")
-            page.set_rotation(90)  # Rotate by 90 degrees or based on your needs
-    
-    # Save the output PDF
+        # Check if the page content is rotated
+        rotated, angle = is_page_rotated(page)
+        
+        if rotated:
+            print(f"Rotating page {page_num + 1} by {angle} degrees")
+            page.set_rotation(angle)  # Rotate by the detected angle
+            
+    # Save the rotated PDF
     document.save(output_path)
     document.close()
 
