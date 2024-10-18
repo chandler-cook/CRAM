@@ -8,8 +8,9 @@ import os
 # Function to set a default DPI for the image before processing with Tesseract
 def ensure_dpi(img):
     # Ensure the DPI is set to 300 for proper OCR
-    if img.info.get('dpi') is None or img.info['dpi'] == (0, 0):
-        img = img.resize((img.width * 2, img.height * 2), Image.LANCZOS)  # Resize to roughly 300 DPI
+    img = img.convert('RGB')
+    img.save("/tmp/temp_img.png", dpi=(300, 300))
+    img = Image.open("/tmp/temp_img.png")
     return img
 
 # Function to detect if a page needs to be rotated
