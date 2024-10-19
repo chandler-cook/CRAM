@@ -98,7 +98,7 @@ def add_first_column_and_assign_criticality(modified_csv, new_csv):
         if 'Endpoint Name' not in df_newCSV or 'Criticality' not in df_newCSV:
             print(f"Error: CSV file '{new_csv}' must contain 'Endpoint Name' and 'Criticality' columns.")
             return
-        
+
         # Create a temporary DataFrame to hold new rows
         new_rows = []
 
@@ -146,7 +146,7 @@ def search_csvs_in_directory(directory, substring = 'CVE'):
     List of file paths of CSVs that contain the substring.
     """
     matching_files = []
-    
+
     # Traverse through the directory and find CSV files
     for root, _, files in os.walk(directory):
         for file in files:
@@ -188,7 +188,8 @@ def move_append_and_delete_row_if_last_empty(input_file, output_file):
         with open(output_file, 'w', newline='') as outfile:
             writer = csv.writer(outfile)
             writer.writerows(reader)
-            
+
+
 def move_append_and_delete_row_if_first_empty(input_file, output_file):
     # Read the CSV file
     with open(input_file, 'r', newline='') as infile:
@@ -262,7 +263,7 @@ def append_matching_values(primary_csv, secondary_csv):
             secondary_tokens = tokenize(secondary_value)
             
             # Check word similarity (50% threshold)
-            if word_similarity(primary_tokens, secondary_tokens) >= 0.99:
+            if word_similarity(primary_tokens, secondary_tokens) >= 0.75:
                 matching_value = s_row[-1]  # Get the final column of the secondary row
                 break  # Stop searching once a match is found
         
@@ -273,6 +274,27 @@ def append_matching_values(primary_csv, secondary_csv):
     with open(primary_csv, 'w', newline='') as p_file:
         writer = csv.writer(p_file)
         writer.writerows(updated_primary_data)
+
+def process_csv2(input_file, output_file):
+    # Read the CSV file
+    with open(input_file, mode='r', newline='', encoding='utf-8') as infile:
+        reader = list(csv.reader(infile))
+
+    # Process the CSV content
+    new_rows = []
+    for i in range(len(reader)):
+        if i > 0 and (reader[i][0].startswith('CVE-') or reader[i][0].startswith('CVD-')):
+            # Append the current row to the row above
+            reader[i - 1] = reader[i - 1] + reader[i]
+        else:
+            # Add the row if it's not part of a CVE/CVD adjustment
+            new_rows.append(reader[i])
+
+    # Write the modified rows to the output CSV
+    with open(output_file, mode='w', newline='', encoding='utf-8') as outfile:
+        writer = csv.writer(outfile)
+        writer.writerows(new_rows)
+
 
 # Specify the directory path
 directory_path = "C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\CRAM Tables"
@@ -293,6 +315,8 @@ for x in cveFiles:
     move_append_and_delete_row_if_first_empty("C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\CVEModified" + str(count) + ".csv", "C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\CVEFinal" + str(count) + ".csv")
     cveFinalFiles.append("C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\CVEFinal" + str(count) + ".csv")
     count += 1
-    
+
 for x in cveFinalFiles:
     append_matching_values("C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\test.csv", x)
+
+process_csv2("C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\test.csv", "C:\\Users\\jippy\\OneDrive\\Desktop\\CSC Work\\Cyber\\CRAM Data\\test2.csv")
