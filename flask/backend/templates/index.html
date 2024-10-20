@@ -9,6 +9,8 @@
     <title>Panoptes</title>
     <!-- Linking Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Include app.min.css for spinner styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.min.css') }}">
     <style>
         .big-circle {
             width: 200px;
@@ -57,6 +59,11 @@
             outline: none;
         }
 
+        .sticky-back-button {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
     </style>
 </head>
@@ -127,7 +134,13 @@
 
     <!-- Software Score -->
     <div class="card mt-5 col-10 offset-1" id="divSoftware" style="display:none">
-
+        <div class="card-body text-center">
+            <!-- Large Circle for the Software Score -->
+            <div class="big-circle">
+                <span class="big-number">0</span> <!-- Default score is 0 until it's updated -->
+            </div>
+            <p class="mt-2">Software Score</p>
+        </div>
     </div>
 
     <!-- Hardware Score -->
@@ -140,11 +153,20 @@
 
     </div>
 
+    <!-- Bootstrap JS (Required for accordion) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- Include app.min.js for spinner functionality -->
+    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
+    
     <script>
-        /* Switches from divUpload to divScore*/
+
+        let softwareScore = 0;
+
+        /* Switches from divUpload to divOverview*/
         $(document).on('click', '#btnAnalyze', function () {
-            $(this).fadeOut();
+            //$(this).fadeOut();
             const projectName = $('#txtName').val().trim();
             const fileInput = $('#txtFile')[0].files[0];
 
@@ -152,32 +174,41 @@
             formData.append('projectName', projectName);
             formData.append('pdf', fileInput);
 
-            // delete this
-            $('#divUpload').slideUp(function() {
-                        $('#divOverview').slideDown();
-            });
+             // Show the busy-load spinner before making the AJAX request
+            $('body').busyLoad("show");
 
-            /*$.ajax({
+            $.ajax({
                 url: '/analyze',
                 type: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    let content = `<p><strong>Extracted Text:</strong></p><p>${response.extracted_text}</p>`;
-                    content += `<p><strong>Image Descriptions:</strong></p>`;
-                    response.image_descriptions.forEach((description, index) => {
-                        content += `<p>Image ${index + 1}: ${description}</p>`;
-                    });
+                    let content = `<p><strong>Project Name:</strong> ${response.project_name}</p>`;
                     $('#resultDisplay').html(content);
+
+                    softwareScore = response.sw_score;
+                    // Update the big circle with the resiliency score
+                    $('.big-number').text(response.resiliency_score);
+
+                    // Update the smaller circles with respective scores
+                    $('#btnSoftware .small-number').text(response.sw_score);
+                    $('#btnHardware .small-number').text(response.hw_score);
+                    $('#btnPhysical .small-number').text(response.physical_score);
+
+                    // Hide the busy-load spinner once the request is successful
+                    $('body').busyLoad("hide");
+
                     $('#divUpload').slideUp(function() {
-                        $('#divScore').slideDown();
+                        $('#divOverview').slideDown();
                     });
                 },
                 error: function(response) {
+                    // Hide the busy-load spinner even in case of an error
+                    $('body').busyLoad("hide");
                     alert('Error processing file: ' + response.responseJSON.error)
                 }
-            });*/
+            });
         });
         
         $(document).on('click', '#btnReset', function () {
@@ -188,8 +219,93 @@
         $(document).on('click', '#btnSoftware', function () {
             $('#divOverview').slideUp(function() {
                 $('#divSoftware').slideDown();
+                // Update the big circle in #divSoftware with the software score
+                $('#divSoftware .big-number').text(softwareScore);  // Update the big circle
             });
-        })
+
+            $.getJSON('/software', function(data) {
+                let groupedData = {};  // To group CVEs by endpoint_name
+
+                // Ensure the data contains the 'cves' array
+                if (data.cves && Array.isArray(data.cves)) {
+                    // Group CVEs by endpoint_name
+                    data.cves.forEach(cve => {
+                        const endpoint = cve.endpoint_name || 'No Endpoint';  // Default group for CVEs without an endpoint name
+                        if (!groupedData[endpoint]) {
+                            groupedData[endpoint] = [];
+                        }
+                        groupedData[endpoint].push(cve);
+                    });
+
+                    let accordionContent = '';  // To store all accordion sections
+
+                    // Add the "Back to Overview" button at the top
+                    accordionContent += `
+                        <div class="d-flex justify-content-end mb-3 sticky-back-button">
+                            <button id="btnBackToOverview" class="btn btn-secondary">Back to Overview</button>
+                        </div>
+                    `;
+
+                    // Loop through each endpoint group and create an accordion for each
+                    Object.keys(groupedData).forEach((endpoint, endpointIndex) => {
+                        let endpointAccordionItems = '';  // To store accordion items for each CVE in this endpoint
+
+                        // Create accordion items for each CVE under this endpoint
+                        groupedData[endpoint].forEach((cve, cveIndex) => {
+                            endpointAccordionItems += `
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading${endpointIndex}-${cveIndex}">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${endpointIndex}-${cveIndex}" aria-expanded="false" aria-controls="collapse${endpointIndex}-${cveIndex}">
+                                            ${cve.cve_id} - Priority: ${cve.priority}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse${endpointIndex}-${cveIndex}" class="accordion-collapse collapse" aria-labelledby="heading${endpointIndex}-${cveIndex}" data-bs-parent="#accordion${endpointIndex}">
+                                        <div class="accordion-body bg-secondary text-white">
+                                            <p><strong>Severity:</strong> ${cve.cvss_severity}</p>
+                                            <p><strong>Score:</strong> ${cve.cvss_base_score} (${cve.cvss_version})</p>
+                                            <p><strong>EPS Score:</strong> ${cve.epss}</p>
+                                            <p><strong>Criticality:</strong> ${cve.criticality}</p>
+                                            <p><strong>Description:</strong> ${cve.description}</p>
+                                            <p><strong>Availability Impact:</strong> ${cve.cvss_vector_description['Availability Impact'] || 'N/A'}</p>
+                                            <p><strong>References:</strong></p>
+                                            <ul>
+                                                ${cve.references ? cve.references.map(ref => `<li><a href="${ref.url}" target="_blank" class="text-info">${ref.url}</a></li>`).join('') : ''}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        // Create a new accordion for this endpoint
+                        accordionContent += `
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h4>${endpoint}</h4>
+                                </div>
+                                <div class="accordion" id="accordion${endpointIndex}">
+                                    ${endpointAccordionItems}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    // Inject the generated accordions into the #divSoftware element
+                    $('#divSoftware').html(accordionContent);
+
+                    // Add event listener for "Back to Overview" button
+                    $('#btnBackToOverview').on('click', function() {
+                        $('#divSoftware').slideUp();  // Hide the software section
+                        $('#divOverview').slideDown();  // Show the overview section
+                    });
+
+                } else {
+                    alert('No CVE data available');
+                }
+            }).fail(function() {
+                alert('Failed to load CVE data');
+            });
+        });
 
         $(document).on('click', '#btnHardware', function () {
             $('#divOverview').slideUp(function() {
