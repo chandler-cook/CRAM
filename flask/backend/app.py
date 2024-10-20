@@ -1,9 +1,13 @@
 from flask import Flask, request, jsonify, render_template
 from transformers import pipeline, AutoTokenizer, AutoModelForSeq2SeqLM
+import time
+from functions.pdf2imagetest import *
 from functions.pdf_processor import *
 from functions.csv_formatter import *
 from functions.resiliency_score import *
-from functions.physical_model import physical_main
+from functions.physical_line_indicator import *
+from functions.physical_model import *
+from functions.physical_suggestions import *
 
 import torch
 
@@ -61,18 +65,24 @@ def analyze():
     # Ensure file is a PDF
     if not pdf_file.filename.lower().endswith('.pdf'):
         return jsonify({'error': 'Invalid file type. Please upload a PDF'}), 400
+    
+    output_path = os.path.join(app.root_path, 'static/data')
+    filename = f"{project_name}_{pdf_file.filename}"
+
+    pdf_path = os.path.join(output_path, filename)
+    pdf_file.save(os.path.join(output_path, filename))
 
     pdf_bytes = pdf_file.read()
-
-    output_path = os.path.join(app.root_path, 'static/data')
 
     # Deletes previous runs
     sw_json = os.path.join(output_path, 'sw_cves.json')
     hw_json = os.path.join(output_path, 'hw_cves.json')
     delete_txt_files(output_path)
     delete_csv_files(output_path)
-    delete_json_files(sw_json, hw_json)
+    delete_json_files(output_path)
 
+    pdf_to_image(output_path, pdf_path)
+    '''
     # Extract text from PDF
     extracted_text = extract_text(pdf_bytes)
 
@@ -106,8 +116,8 @@ def analyze():
     processed_list = []
     cve_files = []
 
-    final_csv = os.path.join(output_path, 'final_cve.csv')
-    generate_csv(final_csv)
+    initial_csv = os.path.join(output_path, 'initial_cve.csv')
+    generate_csv(initial_csv)
 
     matched_files = check_criticality(output_path, matched_files)
 
@@ -116,7 +126,7 @@ def analyze():
     cve_files = search_csvs(output_path)
 
     for x in processed_list:
-        assign_criticality(x, final_csv)
+        assign_criticality(x, initial_csv)
 
     count = 0
     final_cve_files = []
@@ -133,7 +143,10 @@ def analyze():
         count += 1
 
     for x in final_cve_files:
-        append_matching(final_csv, x)
+        append_matching(initial_csv, x)
+
+    final_csv = os.path.join(output_path, 'final_cve.csv')
+    process_csv2(initial_csv, final_csv)
 
     #
     # SCORING SECTION
@@ -142,7 +155,7 @@ def analyze():
     cve_prioritizer = os.path.join(app.root_path, 'functions/CVE_Prioritizer/cve_prioritizer.py')
     cve_json = os.path.join(output_path, 'all_cves.json')
     cve_scan(cve_prioritizer, cve_file, cve_json)
-    convert_to_json(cve_json, final_csv)
+    sw_score, hw_score = convert_to_json(output_path, cve_json, final_csv)
 
     static_path = os.path.join(app.root_path, 'static/')
     physical_path = os.path.join(output_path, 'Physical.txt')
@@ -152,12 +165,61 @@ def analyze():
     else:
         print('No score could be calculated')
 
+    resiliency_score = (sw_score + hw_score + physical_score) / 3
+    #rounded_score = round(resiliency_score)
+    '''
+
+
+    torch.cuda.empty_cache() # Clearing cache
+
+    model_name = "llama3" # Defining the name of the model being used
+    run_path = os.path.join(output_path, 'run.txt') #Defining the path to the file that contains all of the text extracted from the pdf
+    phy_txt_path = os.path.join(output_path, 'physical_output.txt') # Defining the path of the text file that contains the physical policy to be scored
+
+    physical_suggestions_rag = os.path.join(output_path, 'suggestions_vault.txt') # Path for the two code files: finding the physcial policy and the giving improvements
+    physical_vault_path = os.path.join(output_path, 'physical_vault.txt')
+
+    torch.cuda.empty_cache() # Clearing cache to avoid GPU issues
+
+    process_input_file(run_path, phy_txt_path, model_name) # This is the function that finds each line of text that is a physcial policy
+    remove_unwanted_lines(phy_txt_path) # Cleaning up the text to be scored next
+
+    # This is the call that gets the physical score
+    time.sleep(2)  # Giving two seconds for the model to wait before reinitiating a connection
+    physical_vault_path = os.path.join(output_path, 'physical_vault.txt')
+    physical_score = localrag(phy_txt_path, physical_vault_path)
+    
+    print (physical_score)
+
+
+    time.sleep(2) # Giving two seconds for the model to wait before reinitiating a connection
+    #torch.cuda.empty_cache() # Clearing cache to avoid GPU issues
+
+    physical_suggestions = os.path.join(output_path, "suggestions.txt")
+    # This is the function that calls the model and finds suggestions to physical policy
+    process_file(phy_txt_path, physical_suggestions, model_name, physical_suggestions_rag)
+
+    # Functions to clean up the suggestions text.
+    remove_lines(physical_suggestions)
+    remove_double_asterisks(physical_suggestions)
+
+
     return jsonify({
         "project_name": project_name,
-        "extracted_text": extracted_text,
-        "image_descriptions": image_descriptions
+        "resiliency_score": int(resiliency_score),
+        "sw_score": sw_score,
+        "hw_score": hw_score,
+        "physical_score": physical_score
     }), 200
+    
 
+@app.route('/software')
+def software():
+
+    sw_path = os.path.join(app.root_path, 'static/data/sw_cves.json')
+    with open(sw_path, 'r') as file:
+        cve_data = json.load(file)
+    return jsonify(cve_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
