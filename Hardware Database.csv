@@ -1,13 +1,11 @@
 Hardware Name,Year
-Cisco FirePower 4125 (Next Generation Firewall),2020
-Cisco Meraki MS425-32 (Layer 3 Switch),2014
-Cisco Catalyst 2960-X (Layer 2 Ethernet Switch),2015
-Cisco Catalyst 2960-X (Ethernet Switch),2015
-Tripp Lite N052-048-1U (48-Port Patch Panel),2010
-Cisco Catalyst 2960-X (Ethernet Switch),2015
+Cisco FirePower 4125,2020
+Cisco Meraki MS425-32,2014
+Cisco Catalyst 2960-X ,2015
+Tripp Lite N052-048-1U ,2010
 APC SMT3000RM2UC,2015
 Dell Precision 5820,2018
-Samsung S24C450DL (24” Widescreen LCD Display),2013
+Samsung S24C450DL,2013
 Dell 7330 Rugged Latitude Extreme Laptop,2018
 Gator ATA TSA Molded Laptop Travel Case,2010
 Cisco 2500 Series,1993
@@ -36,9 +34,6 @@ Cisco 1000v Series,2012
 Cisco Catalyst 8200 Series,2021
 Cisco Catalyst 8500 Series,2020
 Cisco ISR 1100 Series,2018
-Cisco Catalyst 9600 Series,2019
-Cisco Catalyst 9800 Series,2020
-Cisco 900 Series Industrial Routers,2021
 Cisco FirePower 1010,2020
 Cisco FirePower 1120,2020
 Cisco FirePower 1140,2021
