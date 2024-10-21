@@ -44,14 +44,8 @@ def remove_unwanted_lines(output_file_path):
     # Replace the original file with the filtered temp file
     os.replace(temp_file_path, output_file_path)
 
-# Helper function to split large text into smaller chunks to avoid exceeding token limits
-def split_text_into_chunks(text, max_tokens=1024):
-    words = text.split()
-    for i in range(0, len(words), max_tokens):
-        yield ' '.join(words[i:i + max_tokens])
-
 # The main function to process the input file and write the filtered paragraphs to the output file
-def process_input_file(input_file_path, output_file_path, model_name, max_chunk_size=1024):
+def process_input_file(input_file_path, output_file_path, model_name):
     # Read the entire file content at once
     with open(input_file_path, 'r', encoding='utf-8') as input_file:
         content = input_file.read()
@@ -65,11 +59,9 @@ def process_input_file(input_file_path, output_file_path, model_name, max_chunk_
             paragraph = paragraph.strip()  # Remove leading/trailing whitespace
 
             if paragraph:  # Check if the paragraph is not empty
-                # Split large paragraphs into smaller chunks to avoid exceeding model limits
-                for chunk in split_text_into_chunks(paragraph, max_chunk_size):
-                    # Check if the chunk pertains to a physical policy
-                    if is_physical_policy(chunk, model_name):
-                        output_file.write(paragraph + "\n\n")  # Write the paragraph to the output file
+                # Check if the paragraph pertains to a physical policy
+                if is_physical_policy(paragraph, model_name):
+                    output_file.write(paragraph + "\n\n")  # Write the paragraph to the output file
     
     # Optionally, remove unwanted lines (hardware-related) from the output file
     remove_unwanted_lines(output_file_path)

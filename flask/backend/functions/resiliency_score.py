@@ -4,6 +4,8 @@ from cpeparser import CpeParser
 import os
 import pandas as pd
 
+OVERALL_LOW_CRIT_SCORE_WEIGHT = 0.75
+
 ### Make script to see if api is set, if not set it
 
 def crit_score(json_file, sw_hw_cve):
@@ -81,8 +83,6 @@ def cve_scan(cve_prioritizer, cve_file, json_file_name):
     # Run cve_prioritizer.py to generate .json file
     subprocess.run(["python3", cve_prioritizer, "-j", json_file_name, "-vc", "-vck", "-v", "-t 100" , "-f", cve_file])
     
-
-
 def parse_cvss_vector(cvss_vector):
     # Remove everything up to and including the first '/'
     cvss_vector = cvss_vector.split('/', 1)[-1]
@@ -161,6 +161,8 @@ def parse_cvss_vector(cvss_vector):
     return whole_description
 
 
+
+
 def type_of_vuln_cpe(cpe_parsed):
     for key, value in cpe_parsed.items():
                 if value not in ['-', '*']:
@@ -181,7 +183,8 @@ def all_cpe(cpe_parsed):
     
 
 def convert_to_json(output_path, json_file, crit_csv_file):
-    csv_to_json(crit_csv_file, 'crit.json')
+    if os.path.exists(crit_csv_file):
+        csv_to_json(crit_csv_file, 'crit.json')
     cpe = CpeParser()
     with open(json_file) as f:
         data = json.load(f)
@@ -207,7 +210,8 @@ def convert_to_json(output_path, json_file, crit_csv_file):
         hw_i = 0
         sw_crit_score_overall_modification = 1 # This is to modify the overall resiliency score of sw based on the criticality score of a cve
         hw_crit_score_overall_modification = 1 # This is to modify the overall resiliency score based on the criticality score of a cve
-
+        overall_hw_cve_score_modification = 7 # This is to modify the overall resiliency score based on the criticality score of a cve
+        overall_sw_cve_score_modification = 7 # This is to modify the overall resiliency score based on the criticality score of a cve
         for cve in data['cves']:
             cpe_string = cve['cpe']
             cpe_parsed = cpe.parser(cpe_string)
@@ -218,6 +222,8 @@ def convert_to_json(output_path, json_file, crit_csv_file):
                 cve['criticality'], cve['endpoint_name'] = crit_score('crit.json', cve)
                 if cve['criticality'] > 1:
                     sw_crit_score_overall_modification = cve['criticality']
+                    if cve['cvss_base_score'] >= 7:
+                        overall_sw_cve_score_modification = cve['cvss_base_score']
                 resiliency_score = (100 - cve['cvss_base_score'] * 10)/cve['criticality']
                 cve['resiliency_score'] = resiliency_score
                 cve['cpe_full'] = cpe_to_json
@@ -229,25 +235,57 @@ def convert_to_json(output_path, json_file, crit_csv_file):
                 cve['criticality'], cve['endpoint_name'] = crit_score('crit.json', cve['cve_id'])
                 if cve['criticality'] > 1:
                     hw_crit_score_overall_modification = cve['criticality']
-                resiliency_score = (100 - cve['cvss_base_score'] * 10)/cve['criticality']
+                    if cve['cvss_base_score'] >= 7:
+                        overall_hw_cve_score_modification = cve['cvss_base_score']
+                resiliency_score = (100 - cve['cvss_base_score'] * 10)/(cve['criticality'])
                 cve['resiliency_score'] = resiliency_score
                 cve['cpe_full'] = cpe_to_json
                 hw_data['cves'].append(cve)
                 hw_overall_resiliency_score += resiliency_score
                 hw_i += 1
         if sw_i > 0:
-            sw_overall_resiliency_score = sw_overall_resiliency_score / sw_i
-            sw_overall_resiliency_score = sw_overall_resiliency_score/sw_crit_score_overall_modification
+            if sw_i < 5:
+                sw_overall_resiliency_score = sw_overall_resiliency_score / (sw_i+3)
+            if sw_i < 10:
+                sw_overall_resiliency_score = sw_overall_resiliency_score / (sw_i + 2)
+            else:
+                sw_overall_resiliency_score = sw_overall_resiliency_score / sw_i
+            if sw_crit_score_overall_modification == 1:
+                sw_crit_score_overall_modification = OVERALL_LOW_CRIT_SCORE_WEIGHT
+            if overall_sw_cve_score_modification >=7:
+                sw_overall_resiliency_score = sw_overall_resiliency_score/(sw_crit_score_overall_modification * (overall_sw_cve_score_modification/7))
+            else:
+                sw_overall_resiliency_score = sw_overall_resiliency_score/sw_crit_score_overall_modification
+            sw_overall_resiliency_score = min(sw_overall_resiliency_score, 95)
             sw_data['overall_resiliency_score'] = sw_overall_resiliency_score
             # Write the updated data back to sw_cves.json
-            with open(sw_path, 'w') as sw_f:
+            with open('sw_cves.json', 'w') as sw_f:
+                json.dump(sw_data, sw_f, indent=4)
+        else:
+            sw_data['overall_resiliency_score'] = 100
+            with open('sw_cves.json', 'w') as sw_f:
                 json.dump(sw_data, sw_f, indent=4)
         if hw_i > 0:
-            hw_overall_resiliency_score = hw_overall_resiliency_score / hw_i
-            hw_overall_resiliency_score = hw_overall_resiliency_score/hw_crit_score_overall_modification
+            if hw_i < 5:
+                hw_overall_resiliency_score = hw_overall_resiliency_score / (hw_i + 3)
+            if hw_i < 10:
+                hw_overall_resiliency_score = hw_overall_resiliency_score / (hw_i + 2)
+            else:
+                hw_overall_resiliency_score = hw_overall_resiliency_score / hw_i
+            if hw_crit_score_overall_modification == 1:
+                hw_crit_score_overall_modification = OVERALL_LOW_CRIT_SCORE_WEIGHT
+            if overall_hw_cve_score_modification >=7:
+                hw_overall_resiliency_score = hw_overall_resiliency_score/(hw_crit_score_overall_modification * (overall_hw_cve_score_modification/7))
+            else:
+                hw_overall_resiliency_score = hw_overall_resiliency_score/hw_crit_score_overall_modification
+            hw_overall_resiliency_score = min(hw_overall_resiliency_score, 95)
             hw_data['overall_resiliency_score'] = hw_overall_resiliency_score
             # Write the updated data back to sw_cves.json
-            with open(hw_path, 'w') as hw_f:
+            with open('hw_cves.json', 'w') as hw_f:
+                json.dump(hw_data, hw_f, indent=4)
+        else:
+            hw_data['overall_resiliency_score'] = 100
+            with open('hw_cves.json', 'w') as hw_f:
                 json.dump(hw_data, hw_f, indent=4)
     return round(sw_overall_resiliency_score), round(hw_overall_resiliency_score)
 

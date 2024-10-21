@@ -5,7 +5,7 @@ import os
 from openai import OpenAI
 import json
 import time
-import statistics  # To use the built-in median function
+import statistics  # To use the built-in mean function
 
 # Helper function to read content from a file
 def read_file_content(file_path):
@@ -63,7 +63,7 @@ def engage_with_ollama(user_input, base_prompt, doc_embeddings, doc_texts, ai_mo
 
             # Extract the response content
             ai_response = response.choices[0].message.content
-
+            
             # Extract the numerical score from AI response
             extracted_number = extract_number_from_response(ai_response)
 
@@ -74,28 +74,25 @@ def engage_with_ollama(user_input, base_prompt, doc_embeddings, doc_texts, ai_mo
 
         return scores
 
-
-    # New function to calculate the median of the scores
-    def calculate_median(scores):
+    # New function to calculate the average of the scores
+    def calculate_average(scores):
         if scores:
-            # Calculate and return the median
-            median_score = statistics.median(scores)
+            # Calculate and return the average
+            average_score = statistics.mean(scores)
 
-            # This hasn't happend yet, but just in case
-            if median_score > 99:
-                median_score = 100
+            # If the average score is greater than 99, set it to 100
+            if average_score > 99:
+                average_score = 100
 
-            #print(f"Median score: {median_score}")
-            return round(median_score, 2)
+            return round(average_score, 2)
         else:
-            #print("No scores available to calculate the median.")
             return None
 
     # Perform initial 15 independent runs and collect the scores
     scores = get_scores(15)
 
-    # Calculate the median score
-    final_score = calculate_median(scores)
+    # Calculate the average score
+    final_score = calculate_average(scores)
 
     # Return the valid final score
     return round(final_score)
@@ -104,7 +101,7 @@ def engage_with_ollama(user_input, base_prompt, doc_embeddings, doc_texts, ai_mo
 def localrag(file_path, physical_vault_path):
     
     user_input = read_file_content(file_path)
-    base_prompt = "Score this system based on cyber resilience, and only give a numerical score. No text or explanation."
+    base_prompt = "Analyze where this text contains physical policy and score this system based on cyber resilience, and only give a numerical score. Use the related text as part of your judgement. No text or explanation."
     
     vault_texts = []
     if os.path.exists(physical_vault_path):
@@ -138,5 +135,3 @@ for text in vault_texts:
     embeddings_list.append(embedding_response["embedding"])
 
 embeddings_tensor = torch.tensor(embeddings_list)
-
-

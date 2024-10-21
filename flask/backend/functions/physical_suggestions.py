@@ -105,4 +105,3 @@ def process_file(input_file_path, output_file_path, model_name, rag_file_path):
     # Write the suggestions to the output file
     with open(output_file_path, 'w', encoding='utf-8') as output_file:
         output_file.write(f"Suggestions and Identified Physical Policies:\n\n{suggestions}\n")
-
