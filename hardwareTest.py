@@ -3,36 +3,13 @@ from datetime import datetime
 from difflib import SequenceMatcher
 from rapidfuzz import fuzz
 
-def is_similar(str1, str2, threshold=0.75):
-    """Returns True if the similarity ratio between str1 and str2 is above the threshold."""
-    return SequenceMatcher(None, str1, str2).ratio() >= threshold
+def check_substring(substring1, list):
+    for x in list:
+        if x in substring1:
+            return False
+    return True
 
-def find_similar_entries(csv_file1, csv_file2):
-    similar_values = []
-
-    # Read the first and second CSV files into pandas DataFrames
-    df1 = pd.read_csv(csv_file1)
-    df2 = pd.read_csv(csv_file2)
-
-    # Iterate over each value in the first column of the first DataFrame
-    for value1 in df1.iloc[:, 0]:  # First column of CSV1
-        # Compare with each value in the first column of the second DataFrame
-        for value2 in df2.iloc[:, 0]:  # First column of CSV2
-            # If similarity is above 85%, store the second column value of the first DataFrame
-            if is_similar(str(value1), str(value2)):
-                similar_values.append(df1.iloc[df1[df1.iloc[:, 0] == value1].index[0], 1])  # Store the second column value from CSV1
-
-    return similar_values
-
-def print_first_column(csv_file):
-    # Read the CSV file into a pandas DataFrame
-    df = pd.read_csv(csv_file)
-    
-    # Print all the values in the first column
-    for value in df.iloc[:, 0]:
-        print(value)
-
-def find_matches(text_file_path, csv_file_path, similarity_threshold=75):
+def find_matches(text_file_path, csv_file_path, similarity_threshold=60):
     # Initialize an empty list to store the matches
     matching_values = []
     matching_string = []
@@ -42,7 +19,7 @@ def find_matches(text_file_path, csv_file_path, similarity_threshold=75):
         df = pd.read_csv(csv_file_path, encoding='utf-8')  # Try with UTF-8 encoding
     except UnicodeDecodeError:
         df = pd.read_csv(csv_file_path, encoding='ISO-8859-1')  # Fallback to ISO-8859-1 encoding
-
+    modelList = df['Hardware Name'].tolist()
     # Ensure the CSV has at least two columns
     if df.shape[1] < 2:
         raise ValueError("The CSV file must have at least two columns.")
@@ -60,11 +37,10 @@ def find_matches(text_file_path, csv_file_path, similarity_threshold=75):
             
             # Calculate the similarity ratio
             similarity = fuzz.ratio(substring, csv_value)
-            
             # If similarity is above the threshold, append the corresponding value
-            if similarity >= similarity_threshold and substring not in matching_string:
-                matching_values.append(corresponding_value)
+            if similarity >= similarity_threshold and substring not in matching_string and check_substring(substring, modelList):
                 matching_string.append(substring)
+                matching_values.append(corresponding_value)
                 print(substring)
     return matching_values
 
@@ -82,14 +58,7 @@ for x in yearList:
         count_10_20 += 1
     elif int(x) <= (current_year - 20):
         count_over_20 += 1
-# Output the counts
-for x in yearList:
-    print(x)
-print(f"The count of years between 5 and 10 years older than the current year: {count_5_10}")
-print(f"The count of years between 10 and 20 years older than the current year: {count_10_20}")
-print(f"The count of years more than 20 years older than the current year: {count_over_20}")
 
 hardwareScore += (count_5_10 * 2)
 hardwareScore += (count_10_20 * 5)
 hardwareScore += (count_over_20 * 20)
-print("Final Hardware Score: " + str(hardwareScore))
