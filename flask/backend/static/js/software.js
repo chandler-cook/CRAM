@@ -30,14 +30,34 @@ $(document).on('click', '#btnSoftware', function () {
 
             // Loop through each endpoint group and create an accordion for each
             Object.keys(groupedData).forEach((endpoint, endpointIndex) => {
-                let cveListItems = '';  // Store the CVE list for each endpoint
+                let cveAccordionItems = '';  // Store the CVE accordion for each endpoint
 
-                // Create clickable CVE items for this endpoint
+                // Create clickable accordion items for this endpoint
                 groupedData[endpoint].forEach((cve, cveIndex) => {
-                    cveListItems += `
-                        <li class="list-group-item cve-item" data-cve-id="${cve.cve_id}" data-index="${endpointIndex}-${cveIndex}">
-                            ${cve.cve_id} (Score: ${cve.cvss_base_score})
-                        </li>
+                    cveAccordionItems += `
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingCve${endpointIndex}-${cveIndex}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCve${endpointIndex}-${cveIndex}" aria-expanded="false" aria-controls="collapseCve${endpointIndex}-${cveIndex}">
+                                    ${cve.cve_id} (Score: ${cve.cvss_base_score})
+                                </button>
+                            </h2>
+                            <div id="collapseCve${endpointIndex}-${cveIndex}" class="accordion-collapse collapse" aria-labelledby="headingCve${endpointIndex}-${cveIndex}">
+                                <div class="accordion-body">
+                                    <h5>CVE Details for ${cve.cve_id}</h5>
+                                    <p><strong>Severity:</strong> ${cve.cvss_severity}</p>
+                                    <p><strong>Score:</strong> ${cve.cvss_base_score} (${cve.cvss_version})</p>
+                                    <p><strong>EPSS Score:</strong> ${cve.epss}</p>
+                                    <p><strong>Endpoint Criticality:</strong> ${cve.criticality}</p>
+                                    <p><strong>Description:</strong> ${cve.description}</p>
+                                    <p><strong>Availability Impact:</strong> ${cve.cvss_vector_description['Availability Impact'] || 'N/A'}</p>
+                                    <p><strong>References:</strong></p>
+                                    <ul>
+                                        ${cve.references ? cve.references.map(ref => `<li><a href="${ref.url}" target="_blank" class="text-info">${ref.url}</a></li>`).join('') : ''}
+                                    </ul>
+                                    <button class="btn btn-success btnResolve" data-score="${cve.cvss_base_score}" data-cve-id="${cve.cve_id}">Resolve</button>
+                                </div>
+                            </div>
+                        </div>
                     `;
                 });
 
@@ -51,11 +71,8 @@ $(document).on('click', '#btnSoftware', function () {
                         </h2>
                         <div id="collapse${endpointIndex}" class="accordion-collapse collapse" aria-labelledby="heading${endpointIndex}" data-bs-parent="#accordionEndpoints">
                             <div class="accordion-body">
-                                <ul class="list-group" id="cveList-${endpointIndex}">
-                                    ${cveListItems}
-                                </ul>
-                                <div id="cveDetail-${endpointIndex}" class="cve-detail mt-3" style="display: none;">
-                                    <!-- CVE details will appear here -->
+                                <div class="accordion" id="accordionCves${endpointIndex}">
+                                    ${cveAccordionItems}
                                 </div>
                             </div>
                         </div>
@@ -76,50 +93,17 @@ $(document).on('click', '#btnSoftware', function () {
                 $('#divOverview').slideDown();  // Show the overview section
             });
 
-            // Event listener for clicking on a CVE item
-            $('.cve-item').on('click', function () {
+            // Event listener for "Resolve" button
+            $(document).on('click', '.btnResolve', function () {
+                const scoreToAdd = parseFloat($(this).data('score'));
                 const cveId = $(this).data('cve-id');
-                const index = $(this).data('index').split('-');
-                const endpointIndex = index[0];
-                const cveIndex = index[1];
                 
-                // Find the CVE details and display them
-                const cve = groupedData[Object.keys(groupedData)[endpointIndex]][cveIndex];
-                const cveDetailDiv = $(`#cveDetail-${endpointIndex}`);
-
-                const cveDetailContent = `
-                    <h5>CVE Details for ${cve.cve_id}</h5>
-                    <p><strong>Severity:</strong> ${cve.cvss_severity}</p>
-                    <p><strong>Score:</strong> ${cve.cvss_base_score} (${cve.cvss_version})</p>
-                    <p><strong>EPSS Score:</strong> ${cve.epss}</p>
-                    <p><strong>Endpoint Criticality:</strong> ${cve.criticality}</p>
-                    <p><strong>Description:</strong> ${cve.description}</p>
-                    <p><strong>Availability Impact:</strong> ${cve.cvss_vector_description['Availability Impact'] || 'N/A'}</p>
-                    <p><strong>References:</strong></p>
-                    <ul>
-                        ${cve.references ? cve.references.map(ref => `<li><a href="${ref.url}" target="_blank" class="text-info">${ref.url}</a></li>`).join('') : ''}
-                    </ul>
-                    <button class="btn btn-success btnResolve" data-score="${cve.cvss_base_score}" data-cve-id="${cve.cve_id}">Resolve</button>
-                `;
-
-                // Update the details section and show it
-                cveDetailDiv.html(cveDetailContent).slideDown();
+                // Remove the resolved CVE accordion item
+                $(this).closest('.accordion-item').remove();
+                softwareScore += scoreToAdd;
                 
-                // Event listener for "Resolve" button
-                $('.btnResolve').on('click', function () {
-                    const scoreToAdd = parseFloat($(this).data('score'));
-                    const cveId = $(this).data('cve-id');
-                    
-                    // Remove the resolved CVE
-                    $(`#cve-${cveId}`).remove();
-                    softwareScore += scoreToAdd;
-                    
-                    // Update the displayed software score
-                    $('#divSoftware .big-number').text(softwareScore.toFixed(1));
-                    
-                    // Hide the details after resolving
-                    cveDetailDiv.slideUp();
-                });
+                // Update the displayed software score
+                $('#divSoftware .big-number').text(softwareScore.toFixed(1));
             });
 
         } else {

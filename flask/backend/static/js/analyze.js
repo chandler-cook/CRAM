@@ -1,7 +1,13 @@
 /* Switches from divUpload to divOverview */
-$(document).on('click', '#btnAnalyze', function () {
+$(document).on('click', '#btnAnalyze', function (e) {
+    e.preventDefault();
     const projectName = $('#txtName').val().trim();
     const fileInput = $('#txtFile')[0].files[0];
+
+    if (!projectName || !fileInput) {
+        alert("Please provide a project name and upload a file.");
+        return;
+    }
 
     let formData = new FormData();
     formData.append('projectName', projectName);
