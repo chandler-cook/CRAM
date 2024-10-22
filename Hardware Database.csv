@@ -1,8 +1,9 @@
 Hardware Name,Year
 Cisco FirePower 4125,2020
 Cisco Meraki MS425-32,2014
-Cisco Catalyst 2960-X ,2015
-Tripp Lite N052-048-1U ,2010
+Cisco Catalyst 2960-X,2015
+Tripp Lite N052-048-1U,2010
+Tripp Lite B030-008-17-IP,2016
 APC SMT3000RM2UC,2015
 Dell Precision 5820,2018
 Samsung S24C450DL,2013
@@ -167,3 +168,4 @@ Dell PowerVault MD3460,2020
 Dell PowerVault MD3860f,2020
 Dell PowerVault ML6000,2017
 Dell PowerVault DL4000,2016
+Netgear WAC510,2017
