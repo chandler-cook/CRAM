@@ -78,7 +78,7 @@
         </div>
         <!-- Choose APTs Button -->
         <button type="button" class="btn btn-secondary mt-4" id="btnChooseAPTs">Choose APTs</button>
-
+        <button type="button" class="btn btn-secondary" id="btnAddAPT">Add APT</button>
         <!-- Dropdown for APTs Selection -->
         <div id="aptDropdown" class="mt-3" style="display: none;">
             <form id="aptForm">
@@ -111,6 +111,34 @@
     <!-- Physical Score -->
     <div class="card mt-5 col-10 offset-1" id="divPhysical" style="display:none">
 
+    </div>
+
+    <!-- Modal for Adding APT -->
+    <div class="modal fade" id="addAPTModal" tabindex="-1" aria-labelledby="addAPTModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAPTModalLabel">Add New APT</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAPTForm">
+                        <div class="mb-3">
+                            <label for="aptName" class="form-label">APT Name</label>
+                            <input type="text" class="form-control" id="aptName" placeholder="Enter APT name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="aptBehavior" class="form-label">APT Behavior</label>
+                            <textarea class="form-control" id="aptBehavior" rows="3" placeholder="Enter APT behavior"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnSubmitNewAPT">Save APT</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JS (Required for accordion) -->
