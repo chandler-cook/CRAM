@@ -1,0 +1,3 @@
+Physical: 0
+Hardware: 0
+Software: 9
