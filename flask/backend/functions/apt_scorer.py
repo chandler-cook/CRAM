@@ -55,7 +55,11 @@ def process_directory(directory_path):
 
 def makeNewScore(hardware, software, physical):
     global scoreH,scoreP,scoreS,checkedAPTs
-    if(len(checkedAPTs) <= 5):
+    if(len(checkedAPTs) <= 3):
+        scoreP = scoreP - (physical * (1))
+        scoreH = scoreH - (hardware * (1))
+        scoreS = scoreS - (software * (1))
+    elif(len(checkedAPTs) <= 5):
         scoreP = scoreP - (physical * (1/5))
         scoreH = scoreH - (hardware * (1/5))
         scoreS = scoreS - (software * (1/5))

@@ -62,6 +62,6 @@ def process_input_file(input_file_path, output_file_path, model_name):
                 # Check if the paragraph pertains to a physical policy
                 if is_physical_policy(paragraph, model_name):
                     output_file.write(paragraph + "\n\n")  # Write the paragraph to the output file
-    
+                    print('paragraph added')
     # Optionally, remove unwanted lines (hardware-related) from the output file
     remove_unwanted_lines(output_file_path)
