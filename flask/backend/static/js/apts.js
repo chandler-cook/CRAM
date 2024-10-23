@@ -1,4 +1,41 @@
 $(document).ready(function() {
+    $('#btnAddAPT').click(function(e) {
+        e.preventDefault();
+        $('#addAPTModal').modal('show');
+    });
+    
+    $('#btnSubmitNewAPT').click(function(e) {
+        e.preventDefault();
+        let aptName = $('#aptName').val().trim();
+        let aptBehavior = $('#aptBehavior').val().trim();
+
+        if (aptName === '' || aptBehavior === '') {
+            alert('Please enter both APT name and behavior.');
+            return;
+        }
+
+        // Send the new APT details to the backend via AJAX
+        $.ajax({
+            url: '/new_apt',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "apt_name": aptName,
+                "apt_behavior": aptBehavior
+            }),
+            success: function(response) {
+                alert('APT submitted successfully!');
+                $('#addAPTModal').modal('hide'); // Close the modal after submission
+                $('#aptName').val(''); // Clear the input fields
+                $('#aptBehavior').val('');
+
+            },
+            error: function() {
+                alert('An error occurred while submitting the APT');
+            }
+        });
+    });
+
     // Toggle APT dropdown
     $('#btnChooseAPTs').click(function(e) {
         e.preventDefault();
@@ -60,6 +97,8 @@ $(document).ready(function() {
                 $('#btnSoftware .small-number').text(response.sw_score);
                 $('#btnHardware .small-number').text(response.hw_score);
                 $('#btnPhysical .small-number').text(response.phy_score);
+
+                $('#aptDropdown').hide();
             },
             error: function() {
                 alert('An error occurred while processing APTs');

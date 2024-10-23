@@ -20,6 +20,7 @@ $(document).on('click', '#btnSoftware', function () {
             accordionContent += `
                 <div class="d-flex justify-content-end mb-3 sticky-back-button">
                     <button id="btnBackToOverview" class="btn btn-secondary">Back to Overview</button>
+                    <button id="btnChangeCriticality" class="btn btn-warning">Change Criticality</button>
                 </div>
             `;
 
@@ -99,6 +100,120 @@ $(document).on('click', '#btnSoftware', function () {
                 $('#btnPhysical .small-number').text(physicalScore.toFixed(1));  // Keep the existing physical score
             });
 
+            // Event listener for "Change Criticality" button
+            $(document).on('click', '#btnChangeCriticality', function () {
+                // Send the AJAX request to trigger the backend process
+                $.ajax({
+                    url: '/change_criticality',  // Backend route to trigger your changeCrit function
+                    type: 'POST',
+                    contentType: 'application/json',
+                    success: function(response) {
+                        const updatedSoftwareScore = response.software_score;
+                        // Retrieve existing scores for hardware and physical from the small circles
+                        const hardwareScore = parseFloat($('.small-number', '#btnHardware').text()) || 0;  
+                        const physicalScore = parseFloat($('.small-number', '#btnPhysical').text()) || 0;
+                        // Calculate the new overall score (you can adjust the formula as needed)
+                        const overallScore = (updatedSoftwareScore + hardwareScore + physicalScore) / 3;
+                        ('#btnSoftware .small-number').text(updatedSoftwareScore.toFixed(1));
+                        $('#divOverview .big-number').text(overallScore.toFixed(2));
+                        // Now retrieve the updated CVE data and rebuild the accordion
+                        $.getJSON('/software', function (data) {
+                            // Ensure the data contains the 'cves' array
+                            if (data.cves && Array.isArray(data.cves)) {
+                                let groupedData = {};  // To group CVEs by endpoint_name
+
+                                // Group CVEs by endpoint_name
+                                data.cves.forEach(cve => {
+                                    const endpoint = cve.endpoint_name || 'No Endpoint';  // Default group for CVEs without an endpoint name
+                                    if (!groupedData[endpoint]) {
+                                        groupedData[endpoint] = [];
+                                    }
+                                    groupedData[endpoint].push(cve);
+                                });
+
+                                let accordionContent = '';  // To store all accordion sections
+
+                                // Add the "Back to Overview" and "Change Criticality" buttons at the top
+                                accordionContent += `
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <button id="btnBackToOverview" class="btn btn-secondary">Back to Overview</button>
+                                        <button id="btnChangeCriticality" class="btn btn-warning">Change Criticality</button>
+                                    </div>
+                                `;
+
+                                // Loop through each endpoint group and create an accordion for each
+                                Object.keys(groupedData).forEach((endpoint, endpointIndex) => {
+                                    let cveAccordionItems = '';  // Store the CVE accordion for each endpoint
+
+                                    // Create clickable accordion items for this endpoint
+                                    groupedData[endpoint].forEach((cve, cveIndex) => {
+                                        cveAccordionItems += `
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingCve${endpointIndex}-${cveIndex}">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCve${endpointIndex}-${cveIndex}" aria-expanded="false" aria-controls="collapseCve${endpointIndex}-${cveIndex}">
+                                                        ${cve.cve_id} (Score: ${cve.cvss_base_score})
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseCve${endpointIndex}-${cveIndex}" class="accordion-collapse collapse" aria-labelledby="headingCve${endpointIndex}-${cveIndex}">
+                                                    <div class="accordion-body">
+                                                        <h5>CVE Details for ${cve.cve_id}</h5>
+                                                        <p><strong>Severity:</strong> ${cve.cvss_severity}</p>
+                                                        <p><strong>Score:</strong> ${cve.cvss_base_score} (${cve.cvss_version})</p>
+                                                        <p><strong>EPSS Score:</strong> ${cve.epss}</p>
+                                                        <p><strong>Endpoint Criticality:</strong> ${cve.criticality}</p>
+                                                        <p><strong>Description:</strong> ${cve.description}</p>
+                                                        <button class="btn btn-success btnResolve" data-score="${cve.cvss_base_score}" data-cve-id="${cve.cve_id}">Resolve</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+                                    });
+
+                                    // Create a new accordion for this endpoint
+                                    accordionContent += `
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="heading${endpointIndex}">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${endpointIndex}" aria-expanded="false" aria-controls="collapse${endpointIndex}">
+                                                    ${endpoint}
+                                                </button>
+                                            </h2>
+                                            <div id="collapse${endpointIndex}" class="accordion-collapse collapse" aria-labelledby="heading${endpointIndex}" data-bs-parent="#accordionEndpoints">
+                                                <div class="accordion-body">
+                                                    <div class="accordion" id="accordionCves${endpointIndex}">
+                                                        ${cveAccordionItems}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                });
+
+                                // Inject the generated accordions into the #divSoftware element
+                                $('#divSoftware').html(`
+                                    <div class="accordion" id="accordionEndpoints">
+                                        ${accordionContent}
+                                    </div>
+                                `);
+
+                                $('#divOverview').slideUp(function () {
+                                    $('#divSoftware').slideDown(function () {
+                                        // Update the big circle in #divSoftware with the software score
+                                        $('#divSoftware .big-number').text(data.software_score);
+                                    });
+                                });
+
+                            } else {
+                                alert('No CVE data available');
+                            }
+                        });
+                    },
+                    error: function(err) {
+                        console.error('Error changing criticality:', err);
+                    }
+                });
+            });
+
+
             // Event listener for "Resolve" button
             $(document).on('click', '.btnResolve', function () {
                 const cveId = $(this).data('cve-id');  // Get the CVE ID from the button
@@ -123,8 +238,7 @@ $(document).on('click', '#btnSoftware', function () {
                         // Calculate the new overall score (you can adjust the formula as needed)
                         const overallScore = (updatedSoftwareScore + hardwareScore + physicalScore) / 3;
 
-                        // Update the scores on the overview page
-                        $('#overallScore').text(overallScore.toFixed(1));  // Update the overall score
+                        $('#divOverview .big-number').text(overallScore.toFixed(2));
                         $.getJSON('/software', function (data) {
                             // Regenerate the accordion content with the updated CVE data
                             let groupedData = {};
@@ -143,6 +257,7 @@ $(document).on('click', '#btnSoftware', function () {
                                 accordionContent += `
                                     <div class="d-flex justify-content-end mb-3 sticky-back-button">
                                         <button id="btnBackToOverview" class="btn btn-secondary">Back to Overview</button>
+                                        
                                     </div>
                                 `;
 
