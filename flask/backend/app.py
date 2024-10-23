@@ -122,11 +122,6 @@ def analyze():
     # SCORING SECTION
     #
 
-    # Deletes previous runs
-    #sw_json = os.path.join(output_path, 'sw_cves.json')
-    #hw_json = os.path.join(output_path, 'hw_cves.json')
-
-
     cve_prioritizer = os.path.join(app.root_path, 'functions/CVE_Prioritizer/cve_prioritizer.py')
     cve_json = os.path.join(output_path, 'all_cves.json')
     cve_scan(cve_prioritizer, cves_path, cve_json)
@@ -159,8 +154,8 @@ def analyze():
     #Defining the path to the file that contains all of the text extracted from the pdf
     phy_txt_path = os.path.join(output_path, 'physical_output.txt') # Defining the path of the text file that contains the physical policy to be scored
 
-    physical_suggestions_rag = os.path.join(output_path, 'suggestions_vault.txt') # Path for the two code files: finding the physcial policy and the giving improvements
-    physical_vault_path = os.path.join(output_path, 'physical_vault.txt')
+    physical_suggestions_rag = os.path.join(app.root_path, 'static/suggestions_vault.txt') # Path for the two code files: finding the physcial policy and the giving improvements
+    physical_vault_path = os.path.join(app.root_path, 'static/physical_vault.txt')
 
     torch.cuda.empty_cache() # Clearing cache to avoid GPU issues
 
@@ -171,7 +166,7 @@ def analyze():
 
     # This is the call that gets the physical score
     time.sleep(2)  # Giving two seconds for the model to wait before reinitiating a connection
-    physical_vault_path = os.path.join(output_path, 'physical_vault.txt')
+    #physical_vault_path = os.path.join(output_path, 'physical_vault.txt')
     physical_score = localrag(phy_txt_path, physical_vault_path)
 
     print(physical_score)
@@ -180,7 +175,7 @@ def analyze():
     process_file(phy_txt_path, physical_suggestions_rag, model_name, physical_vault_path)
 
 
-    resiliency_score = (sw_score + hw_score + physical_score) / 3
+    resiliency_score = (sw_score + final_hw_score + physical_score) / 3
     #time.sleep(2) # Giving two seconds for the model to wait before reinitiating a connection
     #torch.cuda.empty_cache() # Clearing cache to avoid GPU issues
 
@@ -200,13 +195,53 @@ def analyze():
         "physical_score": physical_score
     }), 200
     
-@app.route('/software')
+@app.route('/software', methods=['GET', 'POST'])
 def software():
 
-    sw_path = os.path.join(app.root_path, 'static/data/sw_cves.json')
-    with open(sw_path, 'r') as file:
-        cve_data = json.load(file)
-    return jsonify(cve_data)
+    output_path = os.path.join(app.root_path, 'static/data')
+    cves_path = os.path.join(output_path, 'extracted_cves.txt')
+    cve_prioritizer = os.path.join(app.root_path, 'functions/CVE_Prioritizer/cve_prioritizer.py')
+    cve_json = os.path.join(output_path, 'all_cves.json')
+    sw_json = os.path.join(output_path, 'sw_cves.json')
+    final_csv = os.path.join(output_path, 'final_cve.csv')
+
+    if request.method == 'POST':
+        data = request.get_json()  # Parse JSON from the request
+        cve_ids = data.get('cve_ids')  # Extract the array of CVE IDs
+        
+        if not cve_ids or not isinstance(cve_ids, list):
+            return jsonify({'error': 'CVE IDs not provided or incorrect format'}), 400
+
+        try:
+            # Read the contents of extracted_cves.txt
+            with open(cves_path, 'r') as file:
+                lines = file.readlines()
+
+            # Filter out the resolved CVE(s) from the file
+            with open(cves_path, 'w') as file:
+                for line in lines:
+                    # Keep the line only if none of the cve_ids are in the line
+                    if not any(cve_id in line for cve_id in cve_ids):
+                        file.write(line)
+
+            if os.path.exists(sw_json):
+                os.remove(sw_json)
+            
+            cve_scan(cve_prioritizer, cves_path, cve_json)
+            sw_score, hw_score = convert_to_json(output_path, cve_json, final_csv)
+
+            # Step 3: Return a success response after the CVEs have been removed
+            return jsonify({
+                'message': f'CVEs {cve_ids} removed successfully',
+                'software_score': sw_score
+            }), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    elif request.method == 'GET':
+        sw_path = os.path.join(output_path, 'sw_cves.json')
+        with open(sw_path, 'r') as file:
+            cve_data = json.load(file)
+        return jsonify(cve_data)
 
 @app.route('/apts', methods=['POST'])
 def apts():
@@ -214,22 +249,35 @@ def apts():
     data = request.get_json()
     checked_apts = data.get("checked_apts", [])
 
+    # Get the current scores sent from the frontend
+    current_overall = int(data.get("current_overall", 0))
+    current_sw_score = int(data.get("current_sw_score", 0))
+    current_hw_score = int(data.get("current_hw_score", 0))
+    current_phy_score = int(data.get("current_phy_score", 0))
+    print(current_overall, current_sw_score, current_hw_score, current_phy_score)
+
     hardware = 0
     physical = 0
     software = 0
-    checked_apts = []
+    #checked_apts = []
 
     apts_path = os.path.join(app.root_path, 'static/apts')
     for x in checked_apts:
-        tmp_directory = f"{apts_path}{x}-Profile.txt"
+        tmp_directory = f"{apts_path}/{x}-Profile.txt"
         hardware, software, physical = process_directory(tmp_directory)
 
     score_s, score_p, score_h = makeNewScore(hardware, software, physical)
+    # Add the new scores to the current scores
+    final_sw_score = current_sw_score + score_s
+    final_hw_score = current_hw_score + score_h
+    final_phy_score = current_phy_score + score_p
+    final_resiliency_score = (final_sw_score + final_hw_score + final_phy_score) / 3
 
     return jsonify({
-        "sw_score": score_s,
-        "hw_score": score_h,
-        "phy_score": score_p
+        "overall_score": int(final_resiliency_score),
+        "sw_score": final_sw_score,
+        "hw_score": final_hw_score,
+        "phy_score": final_phy_score
     }), 200
 
 if __name__ == '__main__':
