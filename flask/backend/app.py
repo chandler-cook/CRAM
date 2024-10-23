@@ -11,10 +11,13 @@ from functions.physical_line_indicator import *
 from functions.physical_model import *
 from functions.physical_suggestions import *
 from functions.apt_scorer import *
+from functions.new_apt import *
 
 import torch
 
 app = Flask(__name__)
+
+filename = None
 
 # Setup device and torch type based on CUDA availability
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -60,6 +63,7 @@ def analyze():
     delete_data_directory(output_path)
     
     # Saves PDF to app files
+    global filename
     filename = f"{project_name}_{pdf_file.filename}"
     pdf_path = os.path.join(output_path, filename)
     try:
@@ -82,41 +86,10 @@ def analyze():
     # CSV Section
     #
 
-    matched_files = []
-    processed_list = []
-    cve_files = []
-
-    initial_csv = os.path.join(output_path, 'initial_cve.csv')
-    generate_csv(initial_csv)
-
-    matched_files = check_criticality(output_path, matched_files)
-
-    processed_list = process_csvs(matched_files, processed_list)
-
-    cve_files = search_csvs(output_path)
-
-    for x in processed_list:
-        assign_criticality(x, initial_csv)
-
-    count = 0
-    final_cve_files = []
-    for x in cve_files:
-        modified_file = os.path.join(output_path, f"CVEModified{count}.csv")
-        final_file = os.path.join(output_path, f"CVEFinal{count}.csv")
-    
-        last_empty(x, modified_file)
-        first_empty(modified_file, final_file)
-    
-        # Append the final file path to cveFinalFiles
-        final_cve_files.append(final_file)
-    
-        count += 1
-
-    for x in final_cve_files:
-        append_matching(initial_csv, x)
-
-    final_csv = os.path.join(output_path, 'final_cve.csv')
-    process_csv2(initial_csv, final_csv)
+    static_path = os.path.join(app.root_path, 'static/')
+    csv_path = checkName(static_path, filename)
+    new_csv = os.path.join(output_path, 'updated_table.csv')
+    csv(csv_path, new_csv)
 
     #
     # SCORING SECTION
@@ -125,7 +98,7 @@ def analyze():
     cve_prioritizer = os.path.join(app.root_path, 'functions/CVE_Prioritizer/cve_prioritizer.py')
     cve_json = os.path.join(output_path, 'all_cves.json')
     cve_scan(cve_prioritizer, cves_path, cve_json)
-    sw_score, hw_score = convert_to_json(output_path, cve_json, final_csv)
+    sw_score, hw_score = convert_to_json(output_path, cve_json, new_csv)
 
     hw_db = os.path.join(app.root_path, 'static/hw_db.csv')
     year_list = find_matches(run_path, hw_db)
@@ -152,40 +125,16 @@ def analyze():
     torch.cuda.empty_cache() # Clearing cache
     model_name = "llama3" # Defining the name of the model being used
     #Defining the path to the file that contains all of the text extracted from the pdf
-    phy_txt_path = os.path.join(output_path, 'physical_output.txt') # Defining the path of the text file that contains the physical policy to be scored
-
-    physical_suggestions_rag = os.path.join(app.root_path, 'static/suggestions_vault.txt') # Path for the two code files: finding the physcial policy and the giving improvements
+    phy_txt_path = os.path.join(output_path, 'physical_output.txt')
     physical_vault_path = os.path.join(app.root_path, 'static/physical_vault.txt')
 
-    torch.cuda.empty_cache() # Clearing cache to avoid GPU issues
-
-    process_input_file(run_path, phy_txt_path, model_name) # This is the function that finds each line of text that is a physcial policy\
+    process_input_file(run_path, phy_txt_path, model_name) # This is the function that finds each line of text that is a physical policy
     time.sleep(5)
 
-    #remove_unwanted_lines(phy_txt_path) # Cleaning up the text to be scored next
-
     # This is the call that gets the physical score
-    time.sleep(2)  # Giving two seconds for the model to wait before reinitiating a connection
-    #physical_vault_path = os.path.join(output_path, 'physical_vault.txt')
     physical_score = localrag(phy_txt_path, physical_vault_path)
-
-    print(physical_score)
     
-
-    process_file(phy_txt_path, physical_suggestions_rag, model_name, physical_vault_path)
-
-
     resiliency_score = (sw_score + final_hw_score + physical_score) / 3
-    #time.sleep(2) # Giving two seconds for the model to wait before reinitiating a connection
-    #torch.cuda.empty_cache() # Clearing cache to avoid GPU issues
-
-    #physical_suggestions = os.path.join(output_path, "suggestions.txt")
-    # This is the function that calls the model and finds suggestions to physical policy
-    #process_file(phy_txt_path, physical_suggestions, model_name, physical_suggestions_rag)
-
-    # Functions to clean up the suggestions text.
-    #remove_lines(physical_suggestions)
-    #remove_double_asterisks(physical_suggestions)
 
     return jsonify({
         "project_name": project_name,
@@ -243,6 +192,30 @@ def software():
             cve_data = json.load(file)
         return jsonify(cve_data)
 
+@app.route('/physical', methods=['POST'])
+def physical():
+
+    data = request.get_json()
+
+    # Extract the policy text from the request
+    policy_text = data.get('policy', '')
+
+    if not policy_text:
+        return jsonify({"error": "No policy text provided"}), 400
+
+    # Here you can handle the policy text, e.g., save it to a file or database
+    # For example, saving it to a file called policies.txt:
+    try:
+        policy_file_path = os.path.join(app.root_path, 'static/data', 'policies.txt')
+        with open(policy_file_path, 'a') as f:
+            f.write(policy_text + '\n')  # Append the policy to the file
+        
+        # Respond with success
+        return jsonify({"message": "Policy added successfully"}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/apts', methods=['POST'])
 def apts():
 
@@ -259,7 +232,6 @@ def apts():
     hardware = 0
     physical = 0
     software = 0
-    #checked_apts = []
 
     apts_path = os.path.join(app.root_path, 'static/apts')
     for x in checked_apts:
@@ -267,6 +239,7 @@ def apts():
         hardware, software, physical = process_directory(tmp_directory)
 
     score_s, score_p, score_h = makeNewScore(hardware, software, physical)
+    
     # Add the new scores to the current scores
     final_sw_score = current_sw_score + score_s
     final_hw_score = current_hw_score + score_h
@@ -279,6 +252,63 @@ def apts():
         "hw_score": final_hw_score,
         "phy_score": final_phy_score
     }), 200
+
+@app.route('/new_apt', methods=['POST'])
+def new_apt():
+    
+    data = request.json
+    apt_name = data.get('apt_name')
+    apt_behavior = data.get('apt_behavior')
+    apt_db = os.path.join(app.root_path, 'static/apts')
+    apt_list = os.path.join(apt_db, 'APT-List.txt')
+    phys_vault = os.path.join(app.root_path, 'static/physical_vault.txt')
+
+    if not apt_name or not apt_behavior:
+        return jsonify({"error": "APT name and behavior are required"}), 400
+    
+    try:
+        # Call New_APT to save the APT behavior
+        New_APT(apt_db, apt_name, apt_behavior, phys_vault)
+
+        # Append the APT name to the APT-List.txt file
+        with open(apt_list, 'a') as file:
+            file.write(f"{apt_name}\n")
+        
+        # If everything was successful, return a success message
+        return jsonify({"message": "APT added successfully"}), 200
+
+    except Exception as e:
+        # If there's an error, return an error message and log the exception
+        print(f"Error processing APT: {e}")
+        return jsonify({"error": "Failed to process new APT"}), 500
+    
+@app.route('/change_criticality', methods=['POST'])
+def change_criticality():
+    
+    static_path = os.path.join(app.root_path, 'static')
+    csv_path = checkName(static_path, filename)
+    output_path = os.path.join(app.root_path, 'static/data')
+    copy_path = os.path.join(output_path, 'copied.csv')
+    changeCrit(csv_path, copy_path)
+
+    csv_output = os.path.join(output_path, 'copied2.csv')
+    csv(copy_path, csv_output)
+
+    sw_json = os.path.join(output_path, 'sw_cves.json')
+    if os.path.exists(sw_json):
+        os.remove(sw_json)
+    
+    cves_path = os.path.join(output_path, 'extracted_cves.txt')
+    cve_prioritizer = os.path.join(app.root_path, 'functions/CVE_Prioritizer/cve_prioritizer.py')
+    cve_json = os.path.join(output_path, 'all_cves.json')
+    sw_json = os.path.join(output_path, 'sw_cves.json')
+
+    cve_scan(cve_prioritizer, cves_path, cve_json)
+    sw_score, hw_score = convert_to_json(output_path, cve_json, csv_output)
+
+    # Return a success response
+    return jsonify({sw_score})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
