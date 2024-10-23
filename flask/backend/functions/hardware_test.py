@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import datetime
 from rapidfuzz import fuzz
 
-def find_matches(text_file_path, csv_file_path, similarity_threshold=75):
+def find_matches(text_file_path, csv_file_path, similarity_threshold=70):
     # Initialize an empty list to store the matches
     matching_values = []
     matching_string = []

@@ -98,6 +98,8 @@ def makeNewScore(hardware, software, physical):
     scoreP = round(scoreP)
     scoreH = round(scoreH)
     scoreS = round(scoreS)
+    for x in checkedAPTs:
+        print(x)
     print("Physical: " + str(scoreP) + "   Hardware: " + str(scoreH) + "   Software: " + str(scoreS))
     return int(scoreS),int(scoreP),int(scoreH)
 

@@ -259,11 +259,11 @@ def convert_to_json(output_path, json_file, crit_csv_file):
             sw_overall_resiliency_score = min(sw_overall_resiliency_score, 95)
             sw_data['overall_resiliency_score'] = sw_overall_resiliency_score
             # Write the updated data back to sw_cves.json
-            with open('sw_cves.json', 'w') as sw_f:
+            with open(sw_path, 'w') as sw_f:
                 json.dump(sw_data, sw_f, indent=4)
         else:
             sw_data['overall_resiliency_score'] = 100
-            with open('sw_cves.json', 'w') as sw_f:
+            with open(sw_path, 'w') as sw_f:
                 json.dump(sw_data, sw_f, indent=4)
         if hw_i > 0:
             if hw_i < 5:
@@ -281,11 +281,11 @@ def convert_to_json(output_path, json_file, crit_csv_file):
             hw_overall_resiliency_score = min(hw_overall_resiliency_score, 95)
             hw_data['overall_resiliency_score'] = hw_overall_resiliency_score
             # Write the updated data back to sw_cves.json
-            with open('hw_cves.json', 'w') as hw_f:
+            with open(hw_path, 'w') as hw_f:
                 json.dump(hw_data, hw_f, indent=4)
         else:
             hw_data['overall_resiliency_score'] = 100
-            with open('hw_cves.json', 'w') as hw_f:
+            with open(hw_path, 'w') as hw_f:
                 json.dump(hw_data, hw_f, indent=4)
     return round(sw_overall_resiliency_score), round(hw_overall_resiliency_score)
 
