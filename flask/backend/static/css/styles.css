@@ -1,0 +1,52 @@
+.big-circle {
+    width: 200px;
+    height: 200px;
+    background-color: #007bff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    margin: 0 auto;
+}
+
+.small-circle {
+    width: 80px;
+    height: 80px;
+    background-color: #6c757d;
+    border-radius: 50%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    margin: 0 auto;
+}
+
+.small-number, .big-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-button {
+    border: none;
+    background: none;
+    padding: 0;
+    text-align: center;
+    color: inherit;
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+}
+
+.circle-button:focus {
+    outline: none;
+}
+
+.sticky-back-button {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}

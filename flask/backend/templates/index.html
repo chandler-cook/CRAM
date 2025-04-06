@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Tennessee Technological University CRAM Team">
+    <!-- ADD FAVICON -->
+    <!-- CHANGE TITLE TO FINAL NAME OF APP -->
+    <title>Eagle's Eye</title>
+    <!-- Linking Bootstrap -->
+    <!--link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" -->
+    <link href="https://bootswatch.com/5/slate/bootstrap.min.css" rel="stylesheet">
+    <!-- Include app.min.css for spinner styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="bg-dark">
+    
+    <!-- Upload Card -->
+    <div class="card mt-5 col-12 col-md-8 offset-md-2 col-lg-4 offset-lg-4" id="divUpload">
+        <div class="card-body">
+            <h1 class="text-center">Eagle's Eye</h1>
+            <form enctype="multipart/form-data">
+                <!-- Field for naming output-->
+                <label for="txtName" class="form-label">Project Name</label>
+                <input id="txtName" type="text" class="form-control" placeholder="Name">
+
+                <!-- Field for inputting PDF -->
+                <label for="txtFile" class="form-label">Upload File</label>
+                <input id="txtFile" type="file" class="'form-control">
+                
+                <!-- Buttons -->
+                <div class="d-flex justify-content-center mt-3">
+                    <button type="button" id="btnReset" class="btn btn-warning flex-fill me-2">Reset</button>
+                    <button type="button" id="btnAnalyze" class="btn btn-primary flex-fill">Analyze</button>
+                </div>    
+            </form>        
+        </div>
+    </div>
+
+    <!-- Overview Card -->
+    <div class="card mt-5 col-12 col-md-8 offset-md-2 col-lg-4 offset-lg-4" id="divOverview" style="display: none;">
+        <div class="card-body text-center">
+            <div id="resultDisplay" class="mt-4"></div>
+            <h2>Score Overview</h2>
+            <!-- Large Circle -->
+            <div class="big-circle">
+                <span class="big-number">85</span>
+            </div>
+            <p class="mt-2">Overall</p>
+        
+            <!-- Smaller Circles -->
+            <div class="row mt-4">
+                <div class="col-4">
+                    <button type="button" id="btnSoftware" class="circle-button">
+                        <div class="small-circle">
+                            <span class="small-number">75</span>
+                        </div>
+                        <p class="mt-2">Software</p>
+                    </button>
+                </div>
+            <div class="col-4">
+                <button type="button" id="btnHardware" class="circle-button">
+                    <div class="small-circle">
+                        <span class="small-number">90</span>
+                    </div>
+                    <p class="mt-2">Hardware</p>
+                </button>
+            </div>
+            <div class="col-4">
+                <button type="button" id="btnPhysical" class="circle-button">
+                    <div class="small-circle">
+                        <span class="small-number">80</span>
+                    </div>
+                    <p class="mt-2">Physical</p>
+                </button>
+            </div>
+        </div>
+        <!-- Choose APTs Button -->
+        <button type="button" class="btn btn-secondary mt-4" id="btnChooseAPTs">Choose APTs</button>
+        <button type="button" class="btn btn-secondary" id="btnAddAPT">Add APT</button>
+        <!-- Dropdown for APTs Selection -->
+        <div id="aptDropdown" class="mt-3" style="display: none;">
+            <form id="aptForm">
+                <!-- This section will be populated by JavaScript with the list of APTs -->
+                <div id="aptList">
+                    <!-- Checkboxes will be added here -->
+                </div>
+                <button type="button" class="btn btn-primary mt-3" id="btnSubmitAPTs">Submit APTs</button>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- Software Score -->
+    <div class="card mt-5 col-10 offset-1" id="divSoftware" style="display:none">
+        <div class="card-body text-center">
+            <!-- Large Circle for the Software Score -->
+            <div class="big-circle">
+                <span class="big-number">0</span> <!-- Default score is 0 until it's updated -->
+            </div>
+            <p class="mt-2">Software Score</p>
+        </div>
+    </div>
+
+    <!-- Hardware Score -->
+    <div class="card mt-5 col-10 offset-1" id="divHardware" style="display:none">
+
+    </div>
+
+    <!-- Physical Score -->
+    <div class="card mt-5 col-10 offset-1" id="divPhysical" style="display:none">
+
+    </div>
+
+    <!-- Modal for Adding APT -->
+    <div class="modal fade" id="addAPTModal" tabindex="-1" aria-labelledby="addAPTModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAPTModalLabel">Add New APT</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAPTForm">
+                        <div class="mb-3">
+                            <label for="aptName" class="form-label">APT Name</label>
+                            <input type="text" class="form-control" id="aptName" placeholder="Enter APT name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="aptBehavior" class="form-label">APT Behavior</label>
+                            <textarea class="form-control" id="aptBehavior" rows="3" placeholder="Enter APT behavior"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnSubmitNewAPT">Save APT</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (Required for accordion) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Load local jQuery from static folder -->
+    <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+    <!-- Include app.min.js for spinner functionality -->
+    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
+    <!-- Link to the external JS files -->
+    <script src="{{ url_for('static', filename='js/analyze.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/software.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/hardware.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/physical.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/apts.js') }}"></script>
+    
+</body>
+</html>
